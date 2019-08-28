@@ -1,11 +1,11 @@
 package com.example.hp.chatapplication.Fragments;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,7 +17,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +24,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,7 +52,6 @@ import com.example.hp.chatapplication.Intefaces.OnBackPressedListener;
 import com.example.hp.chatapplication.Main2Activity;
 import com.example.hp.chatapplication.MapsActivity;
 import com.example.hp.chatapplication.MediaPlayerActivity;
-import com.example.hp.chatapplication.ModelClasses.BaseBackPressedListener;
 import com.example.hp.chatapplication.PhotoViewerActivity;
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.SharedPrefManager;
@@ -68,10 +65,8 @@ import com.example.hp.chatapplication.VideoCall.adapters.OpponentsAdapter;
 import com.example.hp.chatapplication.VideoCall.db.QbUsersDbManager;
 import com.example.hp.chatapplication.VideoCall.services.CallService;
 import com.example.hp.chatapplication.VideoCall.util.QBResRequestExecutor;
-import com.example.hp.chatapplication.VideoCall.utils.CollectionsUtils;
 import com.example.hp.chatapplication.VideoCall.utils.Consts;
 import com.example.hp.chatapplication.VideoCall.utils.PermissionsChecker;
-import com.example.hp.chatapplication.VideoCall.utils.PushNotificationSender;
 import com.example.hp.chatapplication.VideoCall.utils.SharedPrefsHelper;
 import com.example.hp.chatapplication.VideoCall.utils.WebRtcSessionManager;
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
@@ -98,11 +93,11 @@ import com.sendbird.android.Member;
 import com.sendbird.android.PreviousMessageListQuery;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
-import com.sendbird.android.User;
 import com.sendbird.android.UserMessage;
 import com.stfalcon.multiimageview.MultiImageView;
 
 import org.json.JSONException;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -117,9 +112,6 @@ import br.com.safety.audio_recorder.RecordingItem;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.content.Context.MODE_PRIVATE;
-import static com.example.hp.chatapplication.Utils.PreferenceUtils.getProfileUrl;
-import static org.webrtc.ContextUtils.getApplicationContext;
 
 public class GroupChatFragment extends Fragment {
     public static final String LOG_TAG = GroupChatFragment.class.getSimpleName();
@@ -133,6 +125,21 @@ public class GroupChatFragment extends Fragment {
     public static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 13;
     public static final String EXTRA_CHANNEL_URL = "EXTRA_CHANNEL_URL";
     private static final int CAMERA_PIC_REQUEST = 100;
+    private final static int FILE_REQUEST_CODE = 1;
+    //calling
+    private static final String TAG = "Call Fragment";
+    protected QBResRequestExecutor requestExecutor;
+    AudioRecordButton audio_record_button;
+    FrameLayout recordcontainer;
+    FrameLayout keyboard_container, attachment_container;
+    EditText chatsearchbar;
+    ArrayList<Integer> oppnentlist1;
+    EmoticonGIFKeyboardFragment emoticonGIFKeyboardFragment;
+    String[] text = {"Lots of Love", "Laugh out Louder"};
+    ImageView chat_backarrow;
+    List<Member> members;
+    Button call, video;
+    ImageView tv_onlinetime;
     private InputMethodManager mIMM;
     private HashMap<BaseChannel.SendFileMessageWithProgressHandler, FileMessage> mFileProgressHandlerMap;
     private RelativeLayout mRootLayout;
@@ -143,32 +150,21 @@ public class GroupChatFragment extends Fragment {
     private Button mMessageSendButton;
     private ImageButton mUploadFileButton;
     private View mCurrentEventLayout;
-    private TextView mCurrentEventText,tv_chatperson_name;
-    AudioRecordButton audio_record_button;
-    FrameLayout recordcontainer;
+    private TextView mCurrentEventText, tv_chatperson_name;
     private SharedPrefsHelper sharedPrefsHelper;
     private GroupChannel mChannel;
     private String mChannelUrl;
-    FrameLayout keyboard_container,attachment_container;
     private PreviousMessageListQuery mPrevMessageListQuery;
-    EditText chatsearchbar;
     private boolean mIsTyping;
-    ArrayList<Integer> oppnentlist1;
-    private ImageView emoj,iv_document,iv_camera,iv_gallery,iv_record,iv_audio,iv_location,iv_contact,iv_schedule,iv_chatcall;
-    EmoticonGIFKeyboardFragment emoticonGIFKeyboardFragment;
+    private ImageView emoj, iv_document, iv_camera, iv_gallery, iv_record, iv_audio, iv_location, iv_contact, iv_schedule, iv_chatcall;
     private int mCurrentState = STATE_NORMAL;
     private BaseMessage mEditingMessage = null;
-    String[] text = {"Lots of Love", "Laugh out Louder"};
-    private final static int FILE_REQUEST_CODE = 1;
     private FileListAdapter fileListAdapter;
     private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
     private AudioRecordButton mAudioRecordButton;
     private AudioRecording audioRecording;
-    ImageView chat_backarrow;
     private FrameLayout searchframe;
     private ImageView iv_chatsearch;
-    //calling
-    private static final String TAG = "Call Fragment";
     private OpponentsAdapter opponentsAdapter;
     private ListView opponentsListView;
     private QBUser currentUser;
@@ -176,11 +172,7 @@ public class GroupChatFragment extends Fragment {
     private QbUsersDbManager dbManager;
     private boolean isRunForCall;
     private WebRtcSessionManager webRtcSessionManager;
-    List<Member> members;
-    Button call ,video;
     private PermissionsChecker checker;
-    protected QBResRequestExecutor requestExecutor;
-    ImageView tv_onlinetime;
     private BaseChannel groupChannel;
     private MultiImageView chat_personimg;
 
@@ -206,33 +198,28 @@ public class GroupChatFragment extends Fragment {
     }
 
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mIMM = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        ((Main2Activity)getActivity()).setOnBackPressedListener(new OnBackPressedListener() {
+        ((Main2Activity) getActivity()).setOnBackPressedListener(new OnBackPressedListener() {
             @Override
             public void doBack() {
                 try {
-                     if( attachment_container.getVisibility() == View.VISIBLE) {
-                         attachment_container.setVisibility(View.GONE);
-                     }
-                   else  if(emoticonGIFKeyboardFragment.isAdded()) {
-                         if(emoticonGIFKeyboardFragment.isOpen()) {
-                             emoticonGIFKeyboardFragment.close();
-                         }
-                         else {
-                             getActivity().finish();
-                         }
-                     }
-                     else {
-                         getActivity().finish();
-                     }
+                    if (attachment_container.getVisibility() == View.VISIBLE) {
+                        attachment_container.setVisibility(View.GONE);
+                    } else if (emoticonGIFKeyboardFragment.isAdded()) {
+                        if (emoticonGIFKeyboardFragment.isOpen()) {
+                            emoticonGIFKeyboardFragment.close();
+                        } else {
+                            getActivity().finish();
+                        }
+                    } else {
+                        getActivity().finish();
+                    }
+                } catch (Exception e) {
                 }
-               catch(Exception e){}
 
             }
         });
@@ -276,7 +263,7 @@ public class GroupChatFragment extends Fragment {
         mCurrentEventText = (TextView) rootView.findViewById(R.id.text_group_chat_current_event);
         tv_chatperson_name = (TextView) rootView.findViewById(R.id.tv_chatperson_name);
 
-        mMessageEditText =  rootView.findViewById(R.id.edittext_group_chat_message);
+        mMessageEditText = rootView.findViewById(R.id.edittext_group_chat_message);
         mMessageSendButton = (Button) rootView.findViewById(R.id.button_group_chat_send);
         mUploadFileButton = (ImageButton) rootView.findViewById(R.id.button_group_chat_upload);
         attachment_container = (FrameLayout) rootView.findViewById(R.id.attachment_container);
@@ -294,30 +281,30 @@ public class GroupChatFragment extends Fragment {
         chat_backarrow = (ImageView) rootView.findViewById(R.id.chat_backarrow);
         tv_onlinetime = (ImageView) rootView.findViewById(R.id.tv_onlinetime);
         chat_personimg = (MultiImageView) rootView.findViewById(R.id.chat_personimg);
-        recordcontainer=(FrameLayout)rootView.findViewById(R.id.recordcontainer);
-        audio_record_button=(AudioRecordButton)rootView.findViewById(R.id.audio_record_button);
+        recordcontainer = (FrameLayout) rootView.findViewById(R.id.recordcontainer);
+        audio_record_button = (AudioRecordButton) rootView.findViewById(R.id.audio_record_button);
         searchframe = (FrameLayout) rootView.findViewById(R.id.searchframe);
-        chatsearchbar=(EditText)rootView.findViewById(R.id.searchbar);
+        chatsearchbar = (EditText) rootView.findViewById(R.id.searchbar);
         chat_personimg.setShape(MultiImageView.Shape.CIRCLE);
         Glide.with(getContext()).load(SendBird.getCurrentUser().getProfileUrl()).into(chat_personimg);
-       // Log.d("urlss",SendBird.getCurrentUser().getProfileUrl());
+        // Log.d("urlss",SendBird.getCurrentUser().getProfileUrl());
        /* if (SendBird.getCurrentUser().getConnectionStatus()==User.ConnectionStatus.ONLINE) {
             tv_onlinetime.setImageResource(R.drawable.graydot);
            // Glide.with(getContext()).load(SendBird.getCurrentUser().get).into(tv_onlinetime);
         }*/
-     //
-       // Glide.with(getContext()).load(currentOpponentsList.get(members).getProfileUrl()).into(chat_personimg);
+        //
+        // Glide.with(getContext()).load(currentOpponentsList.get(members).getProfileUrl()).into(chat_personimg);
 
         iv_chatcall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (isLoggedInChat()) {
-                    startCall(false  );
+                    startCall(false);
                 }
 //                if (checker.lacksPermissions(Consts.PERMISSIONS)) {
-          //          startPermissionsActivity(false);
-          //      }
+                //          startPermissionsActivity(false);
+                //      }
 
 
                /* if (isLoggedInChat()) {
@@ -353,7 +340,8 @@ public class GroupChatFragment extends Fragment {
                 getActivity().finish();
                /* Fragment fragment=new OpenChannelListFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_group_channel,fragment).addToBackStack(null).commit();
-*/}
+*/
+            }
         });
 
 
@@ -363,8 +351,8 @@ public class GroupChatFragment extends Fragment {
         mMessageEditText.setAdapter(adapter);//setting the adapter data into the
         audioRecording = new AudioRecording(getActivity());
         initView();
-        ActivityCompat.requestPermissions(getActivity(),new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO, READ_EXTERNAL_STORAGE},0);
-        ActivityCompat.requestPermissions(getActivity(),new String[]{WRITE_EXTERNAL_STORAGE}, 0);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO, READ_EXTERNAL_STORAGE}, 0);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{WRITE_EXTERNAL_STORAGE}, 0);
         this.mAudioRecordButton.setOnAudioListener(new AudioListener() {
             @Override
             public void onStop(RecordingItem recordingItem) {
@@ -377,15 +365,12 @@ public class GroupChatFragment extends Fragment {
                 recordcontainer.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Cancel", Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onError(Exception e) {
                 Log.d("MainActivity", "Error: " + e.getMessage());
             }
         });
-
-
-
-
 
 
         iv_document.setOnClickListener(new View.OnClickListener() {
@@ -404,30 +389,27 @@ public class GroupChatFragment extends Fragment {
                 startActivityForResult(intent, FILE_REQUEST_CODE);
             }
         });
-iv_audio.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        Intent intent = new Intent(getContext(), FilePickerActivity.class);
-        MediaFile file = null;
-        for (int i = 0; i < mediaFiles.size(); i++) {
-            if (mediaFiles.get(i).getMediaType() == MediaFile.TYPE_AUDIO) {
-                file = mediaFiles.get(i);
+        iv_audio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), FilePickerActivity.class);
+                MediaFile file = null;
+                for (int i = 0; i < mediaFiles.size(); i++) {
+                    if (mediaFiles.get(i).getMediaType() == MediaFile.TYPE_AUDIO) {
+                        file = mediaFiles.get(i);
+                    }
+                }
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setShowImages(false)
+                        .setShowVideos(false)
+                        .setShowAudios(true)
+                        .setSingleChoiceMode(true)
+                        .setSelectedMediaFile(file)
+                        .build());
+                startActivityForResult(intent, FILE_REQUEST_CODE);
             }
-        }
-        intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
-                .setCheckPermission(true)
-                .setShowImages(false)
-                .setShowVideos(false)
-                .setShowAudios(true)
-                .setSingleChoiceMode(true)
-                .setSelectedMediaFile(file)
-                .build());
-        startActivityForResult(intent, FILE_REQUEST_CODE);
-    }
-});
-
-
-
+        });
 
 
         // camera click
@@ -435,15 +417,15 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-             //   startActivity(cameraIntent);
-              startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
+                //   startActivity(cameraIntent);
+                startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
 
             }
         });
         iv_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent contactintent=new Intent(getContext(),AllContacts.class);
+                Intent contactintent = new Intent(getContext(), AllContacts.class);
                 startActivity(contactintent);
             }
         });
@@ -451,7 +433,7 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
         iv_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent locationintent=new Intent(getContext(),MapsActivity.class);
+                Intent locationintent = new Intent(getContext(), MapsActivity.class);
                 startActivity(locationintent);
             }
         });
@@ -466,16 +448,15 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
         });
 
 
-
-      //  mMessageEditText = (com.kevalpatel2106.emoticongifkeyboard.widget.EmoticonEditText) rootView.findViewById(R.id.edittext_chat_message);
+        //  mMessageEditText = (com.kevalpatel2106.emoticongifkeyboard.widget.EmoticonEditText) rootView.findViewById(R.id.edittext_chat_message);
         mMessageEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 try {
                     emoticonGIFKeyboardFragment.close();
+                } catch (Exception e) {
                 }
-                catch(Exception e){}
             }
         });
 
@@ -490,8 +471,8 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void afterTextChanged(Editable s) {
-           String   s1 =   s.toString().trim();
-                if (s1.length() > 0 && !s1.equals(""))  {
+                String s1 = s.toString().trim();
+                if (s1.length() > 0 && !s1.equals("")) {
                     mMessageSendButton.setEnabled(true);
                 } else {
                     mMessageSendButton.setEnabled(false);
@@ -527,7 +508,7 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 attachment_container.setVisibility(View.VISIBLE);
                 keyboard_container.setVisibility(View.GONE);
-               /* requestMedia();*/
+                /* requestMedia();*/
             }
         });
 
@@ -555,7 +536,6 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
         });
 
 
-
         setUpRecyclerView();
         setHasOptionsMenu(true);
         EmoticonGIFKeyboardFragment.EmoticonConfig emoticonConfig = new EmoticonGIFKeyboardFragment.EmoticonConfig()
@@ -573,7 +553,7 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
                         //   editText.append(emoticon.getUnicode(),
                         //         editText.getSelectionStart(),
                         //       editText.getSelectionEnd());
-                      //  sendUserMessage(emoticon.getUnicode());
+                        //  sendUserMessage(emoticon.getUnicode());
                         mMessageEditText.append(emoticon.getUnicode());
 
                     }
@@ -604,15 +584,15 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
                 });
         keyboard_container.setVisibility(View.VISIBLE);
         attachment_container.setVisibility(View.GONE);
-        emoticonGIFKeyboardFragment =  EmoticonGIFKeyboardFragment
+        emoticonGIFKeyboardFragment = EmoticonGIFKeyboardFragment
                 .getNewInstance(rootView.findViewById(R.id.keyboard_container), emoticonConfig, gifConfig);
-        emoj  = (ImageView)rootView.findViewById(R.id.emoji_open_close_btn);
+        emoj = (ImageView) rootView.findViewById(R.id.emoji_open_close_btn);
         emoj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 keyboard_container.setVisibility(View.VISIBLE);
-                 attachment_container.setVisibility(View.GONE);
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                keyboard_container.setVisibility(View.VISIBLE);
+                attachment_container.setVisibility(View.GONE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 //Adding the keyboard fragment to keyboard_container.
                 getFragmentManager()
@@ -634,20 +614,21 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
 
 
     }
+
     private void startPermissionsActivity(boolean checkOnlyAudio) {
         PermissionsActivity.startActivity(getActivity(), checkOnlyAudio, Consts.PERMISSIONS);
     }
 
 
-
     private boolean isLoggedInChat() {
         if (!QBChatService.getInstance().isLoggedIn()) {
-            Toast.makeText(getActivity(),R.string.dlg_signal_error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.dlg_signal_error, Toast.LENGTH_SHORT).show();
             tryReLoginToChat();
             return false;
         }
         return true;
     }
+
     private void tryReLoginToChat() {
         if (sharedPrefsHelper.hasQbUser()) {
             QBUser qbUser = sharedPrefsHelper.getQbUser();
@@ -662,56 +643,54 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
         }
 */
         Log.d(TAG, "startCall()");
-        oppnentlist1=new ArrayList<Integer>();
+        oppnentlist1 = new ArrayList<Integer>();
 
      /*   QBUser user=null;
         user.getId();*/
         // ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
         // ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
 
-       List<Member> member=mChannel.getMembers();
-       for (int i=0; i<member.size();i++){
-         if (!sharedPrefsHelper.getQbUser().getId().toString().equals(member.get(i).getUserId())) {
-             member.get(i).getProfileUrl();
-             Glide.with(getContext()).load(member.get(i).getProfileUrl()).into(chat_personimg);
+        List<Member> member = mChannel.getMembers();
+        for (int i = 0; i < member.size(); i++) {
+            if (!sharedPrefsHelper.getQbUser().getId().toString().equals(member.get(i).getUserId())) {
+                member.get(i).getProfileUrl();
+                Glide.with(getContext()).load(member.get(i).getProfileUrl()).into(chat_personimg);
 
-             oppnentlist1.add(Integer.valueOf(member.get(i).getUserId()));
+                oppnentlist1.add(Integer.valueOf(member.get(i).getUserId()));
 
-         }
+            }
            /*if (!member.get(i).getConnectionStatus().equals(User.ConnectionStatus.ONLINE))
            {
                tv_onlinetime.setImageResource(R.drawable.graydot);
            }*/
-       }
+        }
 
-     // User ms=null;
+        // User ms=null;
         // for (int i=0; i<member.size();i++){
         //    member.get(i);
 
 
-      //  String arrayList= ms.getUserId();
+        //  String arrayList= ms.getUserId();
 
-      //  if (qs.getFullName()==ms.getUserId()) {
+        //  if (qs.getFullName()==ms.getUserId()) {
 
-      //  }
-    //   ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
-    //    SharedPreferences sharedPreferences = getActivity().getPreferences(MODE_PRIVATE);
-     //   int savedPref = sharedPreferences.getInt("opponents_key", 0);
-      //  Toast.makeText(getContext(), ""+savedPref, Toast.LENGTH_SHORT).show();
-       // List<Member> members=mChannel.getMembers();
+        //  }
+        //   ArrayList<Integer> opponentsList = CollectionsUtils.getIdsSelectedOpponents(opponentsAdapter.getSelectedItems());
+        //    SharedPreferences sharedPreferences = getActivity().getPreferences(MODE_PRIVATE);
+        //   int savedPref = sharedPreferences.getInt("opponents_key", 0);
+        //  Toast.makeText(getContext(), ""+savedPref, Toast.LENGTH_SHORT).show();
+        // List<Member> members=mChannel.getMembers();
 
-      //  Toast.makeText(getActivity(), ""+members, Toast.LENGTH_SHORT).show();
-      //  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
+        //  Toast.makeText(getActivity(), ""+members, Toast.LENGTH_SHORT).show();
+        //  ArrayList<Integer> opponentsList = new ArrayList<Integer>();
         //opponentsList.add(savedPref);
         // opponentsList.add();
-
-
 
 
         QBRTCTypes.QBConferenceType conferenceType = isVideoCall
                 ? QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_VIDEO
                 : QBRTCTypes.QBConferenceType.QB_CONFERENCE_TYPE_AUDIO;
-       String ids= SharedPrefManager.getInstance(getActivity()).getUser().getUser_id();
+        String ids = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id();
 
 
         QBRTCClient qbrtcClient = QBRTCClient.getInstance(getActivity());
@@ -778,8 +757,8 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
                         Toast.makeText(getContext(), ""+mChannel.getName(), Toast.LENGTH_SHORT).show();
                         
 */
-                   // }
-                      updateActionBarTitle();
+                    // }
+                    updateActionBarTitle();
                 }
             });
         } else {
@@ -802,15 +781,15 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
                         // Set action bar title to name of channel
                         // ((Main3Activity) getActivity()).setActionBarTitle(mChannel.getName());
                         ((Main2Activity) getActivity()).setActionBarTitle(mChannel.getName());
-                       // mChannel.getMyMemberState().
+                        // mChannel.getMyMemberState().
 
 
-                       // ((Main2Activity) getActivity()).setActionBarTitle(mChannel.getName());
+                        // ((Main2Activity) getActivity()).setActionBarTitle(mChannel.getName());
                         //Toast.makeText(getContext(), ""+mChannel.getName(), Toast.LENGTH_SHORT).show();
                         tv_chatperson_name.setText(mChannel.getName());
 
                     }
-                  updateActionBarTitle();
+                    updateActionBarTitle();
                 }
             });
         }
@@ -874,9 +853,9 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
         });
     }
 
-  /*  @Override
-    public void onPause() {
-        *//*setTypingStatus(false);
+    /*  @Override
+      public void onPause() {
+          *//*setTypingStatus(false);
 
 
         SendBird.removeChannelHandler(CHANNEL_HANDLER_ID);
@@ -937,11 +916,9 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
             }
 
             sendFileWithThumbnail(data.getData());
-        }
-        else if (requestCode == CAMERA_PIC_REQUEST && resultCode == Activity.RESULT_OK){
-            Bundle bundle=data.getExtras();
-            final Bitmap bmpcamera=(Bitmap) bundle.get("data");
-
+        } else if (requestCode == CAMERA_PIC_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            final Bitmap bmpcamera = (Bitmap) bundle.get("data");
 
 
         }
@@ -1025,7 +1002,7 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
     }
 
     private void showMessageOptionsDialog(final BaseMessage message, final int position) {
-        String[] options = new String[] { "Edit message", "Delete message" };
+        String[] options = new String[]{"Edit message", "Delete message"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -1058,7 +1035,7 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
 
                 mUploadFileButton.setVisibility(View.GONE);
                 mMessageSendButton.setText("SAVE");
-                String messageString = ((UserMessage)editingMessage).getMessage();
+                String messageString = ((UserMessage) editingMessage).getMessage();
                 if (messageString == null) {
                     messageString = "";
                 }
@@ -1297,15 +1274,10 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
 
                 // Toast.makeText(getContext(), ""+title, Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
-
 
 
     private void sendUserMessageWithUrl(final String text, String url) {
@@ -1504,6 +1476,7 @@ iv_audio.setOnClickListener(new View.OnClickListener() {
             }
         });
     }
+
     private void initView() {
         this.mAudioRecordButton = audio_record_button;
     }

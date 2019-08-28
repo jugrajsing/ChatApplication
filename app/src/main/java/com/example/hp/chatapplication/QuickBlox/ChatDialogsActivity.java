@@ -2,15 +2,13 @@ package com.example.hp.chatapplication.QuickBlox;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.hp.chatapplication.Adapter.ChatDialogsAdapter;
 import com.example.hp.chatapplication.Common.Common;
@@ -35,27 +33,28 @@ public class ChatDialogsActivity extends AppCompatActivity {
 
     ListView list_chat_dialogs;
     FloatingActionButton chatdialog_adduser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_dialogs);
 
-        list_chat_dialogs=(ListView) findViewById(R.id.list_chat_dialogs);
+        list_chat_dialogs = (ListView) findViewById(R.id.list_chat_dialogs);
         list_chat_dialogs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                QBChatDialog qbChatDialog=(QBChatDialog)list_chat_dialogs.getAdapter().getItem(position);
-                Intent intent=new Intent(ChatDialogsActivity.this,ChatMesssageActivity.class);
-                intent.putExtra(Common.DIALOG_EXTRA,qbChatDialog);
+                QBChatDialog qbChatDialog = (QBChatDialog) list_chat_dialogs.getAdapter().getItem(position);
+                Intent intent = new Intent(ChatDialogsActivity.this, ChatMesssageActivity.class);
+                intent.putExtra(Common.DIALOG_EXTRA, qbChatDialog);
                 startActivity(intent);
 
             }
         });
-        chatdialog_adduser=(FloatingActionButton) findViewById(R.id.chatdialog_adduser);
+        chatdialog_adduser = (FloatingActionButton) findViewById(R.id.chatdialog_adduser);
         chatdialog_adduser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ChatDialogsActivity.this,ListUsersActivity.class);
+                Intent intent = new Intent(ChatDialogsActivity.this, ListUsersActivity.class);
                 startActivity(intent);
             }
         });
@@ -79,7 +78,7 @@ public class ChatDialogsActivity extends AppCompatActivity {
                 new QBEntityCallback<ArrayList<QBChatDialog>>() {
                     @Override
                     public void onSuccess(ArrayList<QBChatDialog> qbChatDialogs, Bundle params) {
-                        ChatDialogsAdapter adapter=new ChatDialogsAdapter(getBaseContext(),qbChatDialogs);
+                        ChatDialogsAdapter adapter = new ChatDialogsAdapter(getBaseContext(), qbChatDialogs);
                         list_chat_dialogs.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                     }
@@ -87,20 +86,20 @@ public class ChatDialogsActivity extends AppCompatActivity {
                     @Override
                     public void onError(QBResponseException e) {
 
-                        Log.e("Error",e.getMessage());
+                        Log.e("Error", e.getMessage());
                     }
                 });
     }
 
     private void createSessionForChat() {
-       final ProgressDialog progressDialog=new ProgressDialog(ChatDialogsActivity.this);
+        final ProgressDialog progressDialog = new ProgressDialog(ChatDialogsActivity.this);
         progressDialog.setMessage("Please Wait");
         progressDialog.setCanceledOnTouchOutside(true);
         progressDialog.show();
 
-        String user_name,password;
-        user_name=getIntent().getStringExtra("user");
-        password=getIntent().getStringExtra("password");
+        String user_name, password;
+        user_name = getIntent().getStringExtra("user");
+        password = getIntent().getStringExtra("password");
 
 
         QBUsers.getUsers(null).performAsync(new QBEntityCallback<ArrayList<QBUser>>() {
@@ -116,8 +115,7 @@ public class ChatDialogsActivity extends AppCompatActivity {
         });
 
 
-
-        final QBUser qbUser = new QBUser(user_name,password);
+        final QBUser qbUser = new QBUser(user_name, password);
         QBAuth.createSession(qbUser).performAsync(new QBEntityCallback<QBSession>() {
             @Override
             public void onSuccess(QBSession qbSession, Bundle bundle) {
@@ -136,7 +134,7 @@ public class ChatDialogsActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(QBResponseException e) {
-                        Log.e("ERROR", e .getMessage());
+                        Log.e("ERROR", e.getMessage());
                     }
                 });
             }

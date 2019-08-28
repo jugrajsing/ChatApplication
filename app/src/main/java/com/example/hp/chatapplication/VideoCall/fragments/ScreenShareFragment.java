@@ -27,6 +27,10 @@ public class ScreenShareFragment extends BaseToolBarFragment {
     public static final String TAG = ScreenShareFragment.class.getSimpleName();
     private OnSharingEvents onSharingEvents;
 
+    public static ScreenShareFragment newIntstance() {
+        return new ScreenShareFragment();
+    }
+
     @Override
     int getFragmentLayout() {
         return R.layout.fragment_pager;
@@ -35,7 +39,7 @@ public class ScreenShareFragment extends BaseToolBarFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view =  super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
         MyAdapter adapter = new MyAdapter(getChildFragmentManager());
 
@@ -78,12 +82,8 @@ public class ScreenShareFragment extends BaseToolBarFragment {
         onSharingEvents = null;
     }
 
-    public interface OnSharingEvents{
+    public interface OnSharingEvents {
         void onStopPreview();
-    }
-
-    public static ScreenShareFragment newIntstance() {
-        return new ScreenShareFragment();
     }
 
     public static class MyAdapter extends FragmentPagerAdapter {

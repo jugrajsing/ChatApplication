@@ -2,7 +2,6 @@ package com.example.hp.chatapplication.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -20,6 +19,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.Utils.DateUtils;
 import com.example.hp.chatapplication.Utils.FileUtils;
 import com.example.hp.chatapplication.Utils.TextUtils;
@@ -32,9 +32,7 @@ import com.sendbird.android.FileMessage;
 import com.sendbird.android.GroupChannel;
 import com.sendbird.android.Member;
 import com.sendbird.android.SendBird;
-import com.example.hp.chatapplication.R;
 import com.sendbird.android.UserMessage;
-
 import com.stfalcon.multiimageview.MultiImageView;
 
 import java.io.File;
@@ -46,7 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Displays a list of Group Channels within a SendBird application.
  */
-class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<GroupChannel> mChannelList;
     private Context mContext;
@@ -55,18 +53,11 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ConcurrentHashMap<String, Integer> mChannelImageNumMap;
     private ConcurrentHashMap<String, ImageView> mChannelImageViewMap;
     private ConcurrentHashMap<String, SparseArray<Bitmap>> mChannelBitmapMap;
-    private SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();;
+    private SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+    ;
 
     private OnItemClickListener mItemClickListener;
     private OnItemLongClickListener mItemLongClickListener;
-
-    interface OnItemClickListener {
-        void onItemClick(GroupChannel channel);
-    }
-
-    interface OnItemLongClickListener {
-        void onItemLongClick(GroupChannel channel);
-    }
 
     GroupChannelListAdapter(Context context) {
         mContext = context;
@@ -100,12 +91,12 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             // Reset channel list, then add cached data.
             mChannelList.clear();
-            for(int i = 0; i < dataArray.length; i++) {
+            for (int i = 0; i < dataArray.length; i++) {
                 mChannelList.add((GroupChannel) BaseChannel.buildFromSerializedData(Base64.decode(dataArray[i], Base64.DEFAULT | Base64.NO_WRAP)));
             }
 
             notifyDataSetChanged();
-        } catch(Exception e) {
+        } catch (Exception e) {
             // Nothing to load.
         }
     }
@@ -138,10 +129,10 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 try {
                     String content = FileUtils.loadFromFile(hashFile);
                     // If data has not been changed, do not save.
-                    if(md5.equals(content)) {
+                    if (md5.equals(content)) {
                         return;
                     }
-                } catch(IOException e) {
+                } catch (IOException e) {
                     // File not found. Save the data.
                 }
 
@@ -151,7 +142,7 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 FileUtils.deleteFile(dataFile);
                 FileUtils.deleteFile(hashFile);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -216,6 +207,14 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         mItemLongClickListener = listener;
     }
 
+    interface OnItemClickListener {
+        void onItemClick(GroupChannel channel);
+    }
+
+    interface OnItemLongClickListener {
+        void onItemLongClick(GroupChannel channel);
+    }
+
     /**
      * A ViewHolder that contains UI to display information about a GroupChannel.
      */
@@ -241,28 +240,27 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         /**
          * Binds views in the ViewHolder to information contained within the Group Channel.
+         *
          * @param context
          * @param channel
-         * @param clickListener A listener that handles simple clicks.
+         * @param clickListener     A listener that handles simple clicks.
          * @param longClickListener A listener that handles long clicks.
          */
         void bind(final Context context, final GroupChannel channel,
                   @Nullable final OnItemClickListener clickListener,
                   @Nullable final OnItemLongClickListener longClickListener) {
-           // topicText.setText(TextUtils.getGroupChannelTitle(channel));
+            // topicText.setText(TextUtils.getGroupChannelTitle(channel));
             topicText.setText(TextUtils.getGroupChannelTitle(channel));
 
 
             memberCountText.setText(String.valueOf(channel.getMemberCount()));
-            if(channel.getMemberCount() >2)
-            {
+            if (channel.getMemberCount() > 2) {
                 setChannelImage(context, channel, coverImage);
-            }
-            else if(channel.getMemberCount() ==2) {
+            } else if (channel.getMemberCount() == 2) {
 
-                List<Member> member=channel.getMembers();
-                for (int i=0; i<member.size();i++){
-                    if(sharedPrefsHelper!=null) {
+                List<Member> member = channel.getMembers();
+                for (int i = 0; i < member.size(); i++) {
+                    if (sharedPrefsHelper != null) {
                         if (!sharedPrefsHelper.getQbUser().getId().toString().equals(member.get(i).getUserId())) {
                             member.get(i).getProfileUrl();
                             Glide.with(mContext).load(member.get(i).getProfileUrl()).into(coverImage);
@@ -276,13 +274,12 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            }*/
                 }
 
-            }
-            else {
+            } else {
                 Glide.with(context).load(channel.getCoverUrl()).into(coverImage);
             }
 
 
-     //
+            //
 
             int unreadCount = channel.getUnreadMessageCount();
             // If there are no unread messages, hide the unread count badge.
@@ -290,7 +287,7 @@ class GroupChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 unreadCountText.setVisibility(View.GONE);
             } else {
                 unreadCountText.setVisibility(View.GONE);
-               // unreadCountText.setText(String.valueOf(channel.getUnreadMessageCount()));
+                // unreadCountText.setText(String.valueOf(channel.getUnreadMessageCount()));
             }
 
             BaseMessage lastMessage = channel.getLastMessage();

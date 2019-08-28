@@ -46,7 +46,7 @@ public class OpponentsAdapter extends BaseSelectableListAdapter<QBUser> {
         if (user != null) {
             holder.opponentName.setText(user.getFullName());
 
-            if (selectedItems.contains(user)){
+            if (selectedItems.contains(user)) {
                 convertView.setBackgroundResource(R.color.background_color_selected_user_item);
                 holder.opponentIcon.setBackgroundDrawable(
                         UiUtils.getColoredCircleDrawable(ResourceUtils.getColor(R.color.icon_background_color_selected_user)));
@@ -69,18 +69,18 @@ public class OpponentsAdapter extends BaseSelectableListAdapter<QBUser> {
         return convertView;
     }
 
-    public static class ViewHolder {
-        ImageView opponentIcon;
-        TextView opponentName;
-    }
-
-    public void setSelectedItemsCountsChangedListener(SelectedItemsCountsChangedListener selectedItemsCountsChanged){
+    public void setSelectedItemsCountsChangedListener(SelectedItemsCountsChangedListener selectedItemsCountsChanged) {
         if (selectedItemsCountsChanged != null) {
             this.selectedItemsCountChangedListener = selectedItemsCountsChanged;
         }
     }
 
-    public interface SelectedItemsCountsChangedListener{
+    public interface SelectedItemsCountsChangedListener {
         void onCountSelectedItemsChanged(int count);
+    }
+
+    public static class ViewHolder {
+        ImageView opponentIcon;
+        TextView opponentName;
     }
 }

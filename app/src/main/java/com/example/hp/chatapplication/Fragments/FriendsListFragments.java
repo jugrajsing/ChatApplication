@@ -22,17 +22,12 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.hp.chatapplication.Adapter.FriendListAdapter;
-import com.example.hp.chatapplication.Adapter.SearchAdapter;
-import com.example.hp.chatapplication.ForgotPasswordActivity;
 import com.example.hp.chatapplication.Intefaces.FriendListInterface;
-import com.example.hp.chatapplication.Intefaces.RecyclerViewAddFriendClickListener;
 import com.example.hp.chatapplication.Main2Activity;
 import com.example.hp.chatapplication.ModelClasses.FriendListModel;
-import com.example.hp.chatapplication.ModelClasses.SearchedUsersModel;
 import com.example.hp.chatapplication.MySingleTon;
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.SharedPrefManager;
-import com.example.hp.chatapplication.UserNavgation;
 import com.example.hp.chatapplication.Utils.BaseUrl_ConstantClass;
 import com.sendbird.android.GroupChannel;
 import com.sendbird.android.GroupChannelParams;
@@ -51,9 +46,9 @@ public class FriendsListFragments extends Fragment {
 
 
     String userId;
-    ArrayList<FriendListModel>friendListModelArrayList;
+    ArrayList<FriendListModel> friendListModelArrayList;
     FriendListAdapter friendListAdapter;
-    RecyclerView  rv_friendList;
+    RecyclerView rv_friendList;
 
     public FriendsListFragments() {
 
@@ -61,8 +56,8 @@ public class FriendsListFragments extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        userId  = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
-        View view= inflater.inflate(R.layout.fragment_friends_list_fragments, container, false);
+        userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
+        View view = inflater.inflate(R.layout.fragment_friends_list_fragments, container, false);
         loadAllFriends();
 
         rv_friendList = (RecyclerView) view.findViewById(R.id.rv_friendList);
@@ -78,8 +73,8 @@ public class FriendsListFragments extends Fragment {
 
     private void loadAllFriends() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        friendListModelArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        friendListModelArrayList = new ArrayList<>();
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
@@ -88,41 +83,40 @@ public class FriendsListFragments extends Fragment {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            JSONArray jsonArray= jsonObject.getJSONArray("search_result");
-                            for (int i=0;i<=jsonArray.length();i++) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
                                 String name = user_details.optString("name");
                                 String secrate_id = user_details.optString("secrate_id");
                                 String user_image = user_details.optString("user_img");
-                                String gender=user_details.optString("gender");
-                                String user_id=user_details.optString("userid");
+                                String gender = user_details.optString("gender");
+                                String user_id = user_details.optString("userid");
 
-                                FriendListModel friendListModel = new FriendListModel(name,user_image,gender,secrate_id,user_id);
+                                FriendListModel friendListModel = new FriendListModel(name, user_image, gender, secrate_id, user_id);
                                 //adding the hero to searchedlIst
                                 friendListModelArrayList.add(friendListModel);
 
-                                 friendListAdapter= new FriendListAdapter(friendListModelArrayList, getActivity(), new FriendListInterface() {
-                                     @Override
-                                     public void messageFriend(View view, int position) {
-                                         FriendListModel friendListModel =        friendListModelArrayList.get(position);
-                                         message(friendListModel);
+                                friendListAdapter = new FriendListAdapter(friendListModelArrayList, getActivity(), new FriendListInterface() {
+                                    @Override
+                                    public void messageFriend(View view, int position) {
+                                        FriendListModel friendListModel = friendListModelArrayList.get(position);
+                                        message(friendListModel);
 
-                                     }
+                                    }
 
-                                     @Override
-                                     public void unfriedFriends(View view, int position) {
+                                    @Override
+                                    public void unfriedFriends(View view, int position) {
 
 
-                                     }
+                                    }
 
-                                 });
-                                 rv_friendList.setAdapter(friendListAdapter);
+                                });
+                                rv_friendList.setAdapter(friendListAdapter);
                             }
 
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -133,28 +127,28 @@ public class FriendsListFragments extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                                  }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "getfriendlist");
                 logParams.put("userid", userId);
-                logParams.put("requesttype","accepted");
+                logParams.put("requesttype", "accepted");
 
                 return logParams;
             }
@@ -164,8 +158,7 @@ public class FriendsListFragments extends Fragment {
 
     }
 
-    public void message( FriendListModel friendListModel)
-    {
+    public void message(FriendListModel friendListModel) {
         List<String> users = new ArrayList<>();
         users.add(friendListModel.getSecret_id());
         users.add(userId);

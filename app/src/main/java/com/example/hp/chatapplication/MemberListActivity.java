@@ -1,8 +1,8 @@
 package com.example.hp.chatapplication;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,15 +19,14 @@ import com.sendbird.android.SendBirdException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberListActivity extends AppCompatActivity{
+public class MemberListActivity extends AppCompatActivity {
 
-    private static final String CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_MEMBER_LIST";
-   public  static final String EXTRA_CHANNEL_URL = "EXTRA_CHANNEL_URL";
-    public  static final String EXTRA_USER_ID = "EXTRA_USER_ID";
-    public  static final String EXTRA_USER_PROFILE_URL = "EXTRA_USER_PROFILE_URL";
+    public static final String EXTRA_CHANNEL_URL = "EXTRA_CHANNEL_URL";
+    public static final String EXTRA_USER_ID = "EXTRA_USER_ID";
+    public static final String EXTRA_USER_PROFILE_URL = "EXTRA_USER_PROFILE_URL";
     public static final String EXTRA_USER_NICKNAME = "EXTRA_USER_NICKNAME";
     public static final String EXTRA_USER_BLOCKED_BY_ME = "EXTRA_USER_BLOCKED_BY_ME";
-
+    private static final String CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_MEMBER_LIST";
     private UserListAdapter mListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -51,6 +50,7 @@ public class MemberListActivity extends AppCompatActivity{
         }
         setUpRecyclerView();
     }
+
     @Override
     protected void onResume() {
         super.onResume();

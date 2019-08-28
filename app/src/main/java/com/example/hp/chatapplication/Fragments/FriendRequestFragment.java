@@ -20,9 +20,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.hp.chatapplication.Adapter.FriendListAdapter;
 import com.example.hp.chatapplication.Adapter.FriendRequestAdapter;
-import com.example.hp.chatapplication.ForgotPasswordActivity;
 import com.example.hp.chatapplication.Intefaces.RecyclerViewAddFriendClickListener;
 import com.example.hp.chatapplication.ModelClasses.FriendListModel;
 import com.example.hp.chatapplication.MySingleTon;
@@ -57,8 +55,8 @@ public class FriendRequestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        userId  = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
-        View view= inflater.inflate(R.layout.fragment_friend_request, container, false);
+        userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
+        View view = inflater.inflate(R.layout.fragment_friend_request, container, false);
         loadAllFriends();
 
         rv_friend_request = (RecyclerView) view.findViewById(R.id.rv_friend_request);
@@ -74,8 +72,8 @@ public class FriendRequestFragment extends Fragment {
 
     private void loadAllFriends() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        friendRequestAdapterArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        friendRequestAdapterArrayList = new ArrayList<>();
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
@@ -84,20 +82,20 @@ public class FriendRequestFragment extends Fragment {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            JSONArray jsonArray= jsonObject.getJSONArray("search_result");
-                            for (int i=0;i<=jsonArray.length();i++) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
                                 String name = user_details.optString("name");
                                 String secrate_id = user_details.optString("secrate_id");
                                 String user_image = user_details.optString("user_img");
-                                String gender=user_details.optString("gender");
-                                String user_id=user_details.optString("userid");
-                                FriendListModel friendListModel = new FriendListModel(name,user_image,gender,secrate_id ,user_id);
+                                String gender = user_details.optString("gender");
+                                String user_id = user_details.optString("userid");
+                                FriendListModel friendListModel = new FriendListModel(name, user_image, gender, secrate_id, user_id);
                                 //adding the hero to searchedlIst
                                 friendRequestAdapterArrayList.add(friendListModel);
 
-                                friendRequestAdapter= new FriendRequestAdapter(friendRequestAdapterArrayList, getActivity(), new RecyclerViewAddFriendClickListener() {
+                                friendRequestAdapter = new FriendRequestAdapter(friendRequestAdapterArrayList, getActivity(), new RecyclerViewAddFriendClickListener() {
                                     @Override
                                     public void onAddFriend(View view, int position) {
                                         frnid_id = friendRequestAdapterArrayList.get(position).getUser_id();
@@ -119,8 +117,7 @@ public class FriendRequestFragment extends Fragment {
                                 rv_friend_request.setAdapter(friendRequestAdapter);
                             }
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -131,28 +128,28 @@ public class FriendRequestFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                                  }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "getfriendlist");
                 logParams.put("userid", userId);
-                logParams.put("requesttype","pending");
+                logParams.put("requesttype", "pending");
 
                 return logParams;
             }
@@ -164,8 +161,8 @@ public class FriendRequestFragment extends Fragment {
 
     private void cancleFriendRequest() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        friendRequestAdapterArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        friendRequestAdapterArrayList = new ArrayList<>();
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
@@ -177,10 +174,8 @@ public class FriendRequestFragment extends Fragment {
                             String status = jsonObject.getString("success");
                             String message = jsonObject.getString("message");
                             if (status.equals("true")) {
-                                Toast.makeText(getActivity(), "Success"+ message, Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
+                                Toast.makeText(getActivity(), "Success" + message, Toast.LENGTH_SHORT).show();
+                            } else {
                                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
 
@@ -197,22 +192,22 @@ public class FriendRequestFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                                  }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
@@ -227,10 +222,11 @@ public class FriendRequestFragment extends Fragment {
         MySingleTon.getInstance(getActivity()).addToRequestQue(stringRequestLogIn);
 
     }
+
     private void Accept() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        friendRequestAdapterArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        friendRequestAdapterArrayList = new ArrayList<>();
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
@@ -242,10 +238,8 @@ public class FriendRequestFragment extends Fragment {
                             String status = jsonObject.getString("success");
                             String message = jsonObject.getString("message");
                             if (status.equals("true")) {
-                                Toast.makeText(getActivity(), "Success"+ message, Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
+                                Toast.makeText(getActivity(), "Success" + message, Toast.LENGTH_SHORT).show();
+                            } else {
                                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
 
@@ -262,22 +256,22 @@ public class FriendRequestFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                                  }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();

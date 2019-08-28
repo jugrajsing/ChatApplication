@@ -80,7 +80,7 @@ public class IncomeCallFragment extends Fragment implements Serializable, View.O
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
 
         initFields();
-       // hideToolBar();
+        // hideToolBar();
 
         if (currentSession != null) {
             initUI(view);

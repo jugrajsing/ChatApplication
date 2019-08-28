@@ -27,7 +27,12 @@ public class ChatPingAlarmManager {
 
     private static final String TAG = ChatPingAlarmManager.class.getSimpleName();
     private static final String PING_ALARM_ACTION = "com.quickblox.chat.ping.ACTION";
-
+    private static Context sContext;
+    private static PendingIntent sPendingIntent;
+    private static AlarmManager sAlarmManager;
+    private static boolean enabled = true;
+    private static ChatPingAlarmManager instance;
+    private static PingFailedListener pingFailedListener;
     private static final BroadcastReceiver ALARM_BROADCAST_RECEIVER = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -57,23 +62,11 @@ public class ChatPingAlarmManager {
         }
     };
 
-
-    private static Context sContext;
-    private static PendingIntent sPendingIntent;
-    private static AlarmManager sAlarmManager;
-    private static boolean enabled = true;
-    private static ChatPingAlarmManager instance;
-    private static PingFailedListener pingFailedListener;
-
-    public static void setEnabled(boolean enabled) {
-        ChatPingAlarmManager.enabled = enabled;
-    }
-
     private ChatPingAlarmManager() {
     }
 
-    public void addPingListener(PingFailedListener pingFailedListener) {
-        this.pingFailedListener = pingFailedListener;
+    public static void setEnabled(boolean enabled) {
+        ChatPingAlarmManager.enabled = enabled;
     }
 
     public static synchronized ChatPingAlarmManager getInstanceFor() {
@@ -113,5 +106,9 @@ public class ChatPingAlarmManager {
         }
         pingFailedListener = null;
         instance = null;
+    }
+
+    public void addPingListener(PingFailedListener pingFailedListener) {
+        this.pingFailedListener = pingFailedListener;
     }
 }

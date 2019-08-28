@@ -6,20 +6,14 @@ import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Shader;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Parcelable;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.system.ErrnoException;
 import android.util.Base64;
 import android.view.View;
@@ -30,14 +24,11 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.hp.chatapplication.ModelClasses.User;
 import com.example.hp.chatapplication.Utils.BaseUrl_ConstantClass;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -53,35 +44,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
-
 public class ImageCroperActivty extends Activity {
 
-    private CropImageView mCropImageView;
-    private Uri mCropImageUri;
-    private String intent_data;
     Bitmap cropped;
     ProgressDialog progressDialog;
     String URL = BaseUrl_ConstantClass.BASE_URL;
-    String user_id,encoded;
+    String user_id, encoded;
     ByteArrayOutputStream baos;
+    private CropImageView mCropImageView;
+    private Uri mCropImageUri;
+    private String intent_data;
 
     @Override
-    protected void onCreate(Bundle  savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_croper_activty);
-        mCropImageView = (CropImageView)  findViewById(R.id.CropImageView);
+        mCropImageView = (CropImageView) findViewById(R.id.CropImageView);
 
-        user_id=SharedPrefManager.getInstance(ImageCroperActivty.this).getUser().getUser_id().toString();
+        user_id = SharedPrefManager.getInstance(ImageCroperActivty.this).getUser().getUser_id().toString();
 
-        intent_data= getIntent().getStringExtra("DATA");
+        intent_data = getIntent().getStringExtra("DATA");
 
-        if (intent_data.equals("One"))
-        {
+        if (intent_data.equals("One")) {
             startActivityForResult(getPickImageChooserIntent(), 200);
-        }
-        else if (intent_data.equals("Two"))
-        {
+        } else if (intent_data.equals("Two")) {
             startActivityForResult(getPickImageChooserIntent(), 200);
         }
 
@@ -91,30 +77,30 @@ public class ImageCroperActivty extends Activity {
      * On load image button click, start pick  image chooser activity.
      */
     public void onLoadImageClick(View view) {
-       startActivityForResult(getPickImageChooserIntent(), 200);
+        startActivityForResult(getPickImageChooserIntent(), 200);
     }
 
     /**
      * Crop the image and set it back to the  cropping view.
      */
     public void onCropImageClick(View view) {
-         cropped =  mCropImageView.getCroppedImage(500, 500);
+        cropped = mCropImageView.getCroppedImage(500, 500);
         if (cropped != null)
-          //  mCropImageView.setImageBitmap(cropped);
+            //  mCropImageView.setImageBitmap(cropped);
             baos = new ByteArrayOutputStream();
-            cropped.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
-            byte[] b = baos.toByteArray();
-            encoded = Base64.encodeToString(b, Base64.DEFAULT);
-            imageUpdate(encoded);
+        cropped.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+        byte[] b = baos.toByteArray();
+        encoded = Base64.encodeToString(b, Base64.DEFAULT);
+        imageUpdate(encoded);
 
 
     }
 
 
     @Override
-    protected void onActivityResult(int  requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            Uri imageUri =  getPickImageResultUri(data);
+            Uri imageUri = getPickImageResultUri(data);
             // For API >= 23 we need to check specifically that we have permissions to read external storage,
             // but we don't know if we need to for the URI so the simplest is to try open the stream and see if we get error.
             boolean requirePermissions = false;
@@ -149,15 +135,15 @@ public class ImageCroperActivty extends Activity {
     public Intent getPickImageChooserIntent() {
 
         // Determine Uri of camera image to  save.
-        Uri outputFileUri =  getCaptureImageOutputUri();
+        Uri outputFileUri = getCaptureImageOutputUri();
         List<Intent> allIntents = new ArrayList<>();
-        PackageManager packageManager =  getPackageManager();
+        PackageManager packageManager = getPackageManager();
 
         // collect all camera intents
-        Intent captureIntent = new  Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        List<ResolveInfo> listCam =  packageManager.queryIntentActivities(captureIntent, 0);
+        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
         for (ResolveInfo res : listCam) {
-            Intent intent = new  Intent(captureIntent);
+            Intent intent = new Intent(captureIntent);
             intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
             intent.setPackage(res.activityInfo.packageName);
             if (outputFileUri != null) {
@@ -167,32 +153,30 @@ public class ImageCroperActivty extends Activity {
         }
 
         // collect all gallery intents
-        Intent galleryIntent = new  Intent(Intent.ACTION_GET_CONTENT);
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");
 
-        List<ResolveInfo> listGallery =  packageManager.queryIntentActivities(galleryIntent, 0);
-        for (ResolveInfo res : listGallery)
-        {
-            Intent intent = new  Intent(galleryIntent);
-            intent.setComponent(new  ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new Intent(galleryIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
             intent.setPackage(res.activityInfo.packageName);
             allIntents.add(intent);
         }
 
         // the main intent is the last in the  list (fucking android) so pickup the useless one
-        Intent mainIntent =  allIntents.get(allIntents.size() - 1);
-        for (Intent intent : allIntents)
-        {
-            if  (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity"))  {
+        Intent mainIntent = allIntents.get(allIntents.size() - 1);
+        for (Intent intent : allIntents) {
+            if (intent.getComponent().getClassName().equals("com.android.documentsui.DocumentsActivity")) {
                 mainIntent = intent;
                 break;
             }
         }
         allIntents.remove(mainIntent);
         // Create a chooser from the main  intent
-        Intent chooserIntent =  Intent.createChooser(mainIntent, "Select source");
+        Intent chooserIntent = Intent.createChooser(mainIntent, "Select source");
         // Add all other intents
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,  allIntents.toArray(new Parcelable[allIntents.size()]));
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
         return chooserIntent;
     }
 
@@ -203,7 +187,7 @@ public class ImageCroperActivty extends Activity {
         Uri outputFileUri = null;
         File getImage = getExternalCacheDir();
         if (getImage != null) {
-            outputFileUri = Uri.fromFile(new  File(getImage.getPath(), "pickImageResult.jpeg"));
+            outputFileUri = Uri.fromFile(new File(getImage.getPath(), "pickImageResult.jpeg"));
         }
         return outputFileUri;
     }
@@ -214,13 +198,13 @@ public class ImageCroperActivty extends Activity {
      *
      * @param data the returned data of the  activity result
      */
-    public Uri getPickImageResultUri(Intent  data) {
+    public Uri getPickImageResultUri(Intent data) {
         boolean isCamera = true;
         if (data != null && data.getData() != null) {
             String action = data.getAction();
-            isCamera = action != null  && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
+            isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
         }
-        return isCamera ?  getCaptureImageOutputUri() : data.getData();
+        return isCamera ? getCaptureImageOutputUri() : data.getData();
     }
 
     /**
@@ -242,13 +226,14 @@ public class ImageCroperActivty extends Activity {
         }
         return false;
     }
-    private void imageUpdate(final String encoded){
 
-                progressDialog = new ProgressDialog(ImageCroperActivty.this);
-                progressDialog.setMessage("Uploading, please wait...");
-                progressDialog.show();
-                //sending image to server
-        StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>(){
+    private void imageUpdate(final String encoded) {
+
+        progressDialog = new ProgressDialog(ImageCroperActivty.this);
+        progressDialog.setMessage("Uploading, please wait...");
+        progressDialog.show();
+        //sending image to server
+        StringRequest request = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 progressDialog.dismiss();
@@ -258,14 +243,11 @@ public class ImageCroperActivty extends Activity {
                     String status = jsonObject.getString("success");
                     String message = jsonObject.getString("message");
                     if (status.equals("true")) {
-                        Toast.makeText(ImageCroperActivty.this, ""+message, Toast.LENGTH_SHORT).show();
-                       finish();
-                    }
-                    else
-                    {
+                        Toast.makeText(ImageCroperActivty.this, "" + message, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
                         Toast.makeText(ImageCroperActivty.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
-
 
 
                 } catch (JSONException e) {
@@ -273,35 +255,34 @@ public class ImageCroperActivty extends Activity {
                 }
 
             }
-        },new Response.ErrorListener(){
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-               progressDialog.dismiss();
+                progressDialog.dismiss();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(ImageCroperActivty.this, ""+getString(R.string.error_network_timeout),
+                    Toast.makeText(ImageCroperActivty.this, "" + getString(R.string.error_network_timeout),
                             Toast.LENGTH_LONG).show();
                 } else if (error instanceof AuthFailureError) {
                     //TODO
                 } else if (error instanceof ServerError) {
-                    Toast.makeText(ImageCroperActivty.this, ""+getString(R.string.error_server),
+                    Toast.makeText(ImageCroperActivty.this, "" + getString(R.string.error_server),
                             Toast.LENGTH_LONG).show();
                 } else if (error instanceof NetworkError) {
-                    Toast.makeText(ImageCroperActivty.this, ""+getString(R.string.error_network_timeout),
+                    Toast.makeText(ImageCroperActivty.this, "" + getString(R.string.error_network_timeout),
                             Toast.LENGTH_LONG).show();
                 } else if (error instanceof ParseError) {
                     //TODO
                 }
             }
-        })
-        {
+        }) {
             //adding parameters to send
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parameters = new HashMap<String, String>();
                 parameters.put("action", "upload_avtar");
                 parameters.put("userid", user_id);
-                parameters.put("img",encoded);
-               return parameters;
+                parameters.put("img", encoded);
+                return parameters;
             }
         };
         MySingleTon.getInstance(ImageCroperActivty.this).addToRequestQue(request);

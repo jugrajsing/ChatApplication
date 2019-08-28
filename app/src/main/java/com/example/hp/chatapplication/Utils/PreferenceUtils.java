@@ -31,13 +31,17 @@ public class PreferenceUtils {
         return mAppContext.getSharedPreferences("sendbird", Context.MODE_PRIVATE);
     }
 
+    public static String getUserId() {
+        return getSharedPreferences().getString(PREFERENCE_KEY_USER_ID, "");
+    }
+
     public static void setUserId(String userId) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putString(PREFERENCE_KEY_USER_ID, userId).apply();
     }
 
-    public static String getUserId() {
-        return getSharedPreferences().getString(PREFERENCE_KEY_USER_ID, "");
+    public static String getNickname() {
+        return getSharedPreferences().getString(PREFERENCE_KEY_NICKNAME, "");
     }
 
     public static void setNickname(String nickname) {
@@ -45,8 +49,8 @@ public class PreferenceUtils {
         editor.putString(PREFERENCE_KEY_NICKNAME, nickname).apply();
     }
 
-    public static String getNickname() {
-        return getSharedPreferences().getString(PREFERENCE_KEY_NICKNAME, "");
+    public static String getProfileUrl() {
+        return getSharedPreferences().getString(PREFERENCE_KEY_PROFILE_URL, "");
     }
 
     public static void setProfileUrl(String profileUrl) {
@@ -54,8 +58,8 @@ public class PreferenceUtils {
         editor.putString(PREFERENCE_KEY_PROFILE_URL, profileUrl).apply();
     }
 
-    public static String getProfileUrl() {
-        return getSharedPreferences().getString(PREFERENCE_KEY_PROFILE_URL, "");
+    public static boolean getConnected() {
+        return getSharedPreferences().getBoolean(PREFERENCE_KEY_CONNECTED, false);
     }
 
     public static void setConnected(boolean tf) {
@@ -63,13 +67,13 @@ public class PreferenceUtils {
         editor.putBoolean(PREFERENCE_KEY_CONNECTED, tf).apply();
     }
 
-    public static boolean getConnected() {
-        return getSharedPreferences().getBoolean(PREFERENCE_KEY_CONNECTED, false);
-    }
-
     public static void clearAll() {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.clear().apply();
+    }
+
+    public static boolean getNotifications() {
+        return getSharedPreferences().getBoolean(PREFERENCE_KEY_NOTIFICATIONS, true);
     }
 
     public static void setNotifications(boolean notifications) {
@@ -77,8 +81,8 @@ public class PreferenceUtils {
         editor.putBoolean(PREFERENCE_KEY_NOTIFICATIONS, notifications).apply();
     }
 
-    public static boolean getNotifications() {
-        return getSharedPreferences().getBoolean(PREFERENCE_KEY_NOTIFICATIONS, true);
+    public static boolean getNotificationsShowPreviews() {
+        return getSharedPreferences().getBoolean(PREFERENCE_KEY_NOTIFICATIONS_SHOW_PREVIEWS, true);
     }
 
     public static void setNotificationsShowPreviews(boolean notificationsShowPreviews) {
@@ -86,8 +90,8 @@ public class PreferenceUtils {
         editor.putBoolean(PREFERENCE_KEY_NOTIFICATIONS_SHOW_PREVIEWS, notificationsShowPreviews).apply();
     }
 
-    public static boolean getNotificationsShowPreviews() {
-        return getSharedPreferences().getBoolean(PREFERENCE_KEY_NOTIFICATIONS_SHOW_PREVIEWS, true);
+    public static boolean getNotificationsDoNotDisturb() {
+        return getSharedPreferences().getBoolean(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB, false);
     }
 
     public static void setNotificationsDoNotDisturb(boolean notificationsDoNotDisturb) {
@@ -95,8 +99,8 @@ public class PreferenceUtils {
         editor.putBoolean(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB, notificationsDoNotDisturb).apply();
     }
 
-    public static boolean getNotificationsDoNotDisturb() {
-        return getSharedPreferences().getBoolean(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB, false);
+    public static String getNotificationsDoNotDisturbFrom() {
+        return getSharedPreferences().getString(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB_FROM, "");
     }
 
     public static void setNotificationsDoNotDisturbFrom(String notificationsDoNotDisturbFrom) {
@@ -104,8 +108,8 @@ public class PreferenceUtils {
         editor.putString(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB_FROM, notificationsDoNotDisturbFrom).apply();
     }
 
-    public static String getNotificationsDoNotDisturbFrom() {
-        return getSharedPreferences().getString(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB_FROM, "");
+    public static String getNotificationsDoNotDisturbTo() {
+        return getSharedPreferences().getString(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB_TO, "");
     }
 
     public static void setNotificationsDoNotDisturbTo(String notificationsDoNotDisturbTo) {
@@ -113,15 +117,12 @@ public class PreferenceUtils {
         editor.putString(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB_TO, notificationsDoNotDisturbTo).apply();
     }
 
-    public static String getNotificationsDoNotDisturbTo() {
-        return getSharedPreferences().getString(PREFERENCE_KEY_NOTIFICATIONS_DO_NOT_DISTURB_TO, "");
+    public static boolean getGroupChannelDistinct() {
+        return getSharedPreferences().getBoolean(PREFERENCE_KEY_GROUP_CHANNEL_DISTINCT, true);
     }
+
     public static void setGroupChannelDistinct(boolean channelDistinct) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(PREFERENCE_KEY_GROUP_CHANNEL_DISTINCT, channelDistinct).apply();
-    }
-
-    public static boolean getGroupChannelDistinct() {
-        return getSharedPreferences().getBoolean(PREFERENCE_KEY_GROUP_CHANNEL_DISTINCT, true);
     }
 }

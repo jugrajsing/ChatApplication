@@ -9,15 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -28,19 +26,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -74,14 +68,15 @@ import com.sendbird.android.SendBirdException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class LoginRegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private final static String URL = BaseUrl_ConstantClass.BASE_URL;
+    static String deviceId = "NA";
+    protected QBResRequestExecutor requestExecutor;
     EditText current_user_id, current_user_passkey;
     Button sign_in, signIn_with_finger_print, sign_in_page_button;
     TextView sign_up_text;
@@ -95,7 +90,6 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
     Button sign_up_button;
     EditText secret_ID, mobile_no, email, passkey;
     Button button_sign_in;
-    private final static String URL = BaseUrl_ConstantClass.BASE_URL;
     //our URL
     String message;
     ImageView iv_view_passkey;
@@ -103,10 +97,8 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
     ImageView country_code_popup_iv;
     RelativeLayout relativeLayout_login;
     ImageView hide_password;
-    private Boolean isClicked = false;
     LinearLayout ll_secret_id, ll_Passkey;
     Button button_SignUp_regiter;
-    static String deviceId = "NA";
     TelephonyManager telephonyManager;
     View view;
     TextView Sign_in_SignUp_text;
@@ -117,9 +109,9 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
     String country_code;
     SessionManager sessionManager;
     boolean firstRun;
-    private QBUser userForSave;
-    protected QBResRequestExecutor requestExecutor;
     SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
+    private Boolean isClicked = false;
+    private QBUser userForSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -508,19 +500,20 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
 
                             pd.dismiss();
                             if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                                Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_network_timeout),
+                                Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_network_timeout),
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof AuthFailureError) {
                                 //TODO
                             } else if (error instanceof ServerError) {
-                                Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_server),
+                                Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_server),
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof NetworkError) {
-                                Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_network_timeout),
+                                Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_network_timeout),
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof ParseError) {
                                 //TODO
-                            }                        }
+                            }
+                        }
                     }
             ) {
                 @Override
@@ -603,15 +596,15 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
 
                         pd.dismiss();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_server),
+                            Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
@@ -939,15 +932,15 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
 
                             pd.dismiss();
                             if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                                Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_network_timeout),
+                                Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_network_timeout),
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof AuthFailureError) {
                                 //TODO
                             } else if (error instanceof ServerError) {
-                                Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_server),
+                                Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_server),
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof NetworkError) {
-                                Toast.makeText(LoginRegistrationActivity.this, ""+getString(R.string.error_network_timeout),
+                                Toast.makeText(LoginRegistrationActivity.this, "" + getString(R.string.error_network_timeout),
                                         Toast.LENGTH_LONG).show();
                             } else if (error instanceof ParseError) {
                                 //TODO

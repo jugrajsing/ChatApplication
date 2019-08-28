@@ -12,7 +12,7 @@ public class ConfigUtils {
         return gson.fromJson(configParser.getConfigsAsJsonString(fileName), QbConfigs.class);
     }
 
-    public static QbConfigs getCoreConfigsOrNull(String fileName){
+    public static QbConfigs getCoreConfigsOrNull(String fileName) {
         QbConfigs qbConfigs = null;
 
         try {

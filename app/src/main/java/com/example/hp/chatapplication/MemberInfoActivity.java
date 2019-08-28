@@ -1,8 +1,8 @@
 package com.example.hp.chatapplication;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -18,7 +18,7 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 
-public class MemberInfoActivity extends AppCompatActivity{
+public class MemberInfoActivity extends AppCompatActivity {
 
     private static final String CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_MEMBER_INFO";
 
@@ -108,7 +108,7 @@ public class MemberInfoActivity extends AppCompatActivity{
     protected void onPause() {
         super.onPause();
 
-      //  ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
+        //  ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
     }
 
     @Override

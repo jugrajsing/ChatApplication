@@ -1,6 +1,6 @@
 package com.example.hp.chatapplication.ModelClasses;
 
-public class BirthdayModel  {
+public class BirthdayModel {
     private String name;
     private String dob;
     private String img;

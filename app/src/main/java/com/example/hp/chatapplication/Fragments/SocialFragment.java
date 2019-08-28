@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,20 +45,16 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.example.hp.chatapplication.Adapter.GroupChannelListFragment;
-import com.example.hp.chatapplication.Adapter.GroupChatAdapter;
 import com.example.hp.chatapplication.Adapter.PostListAdapter;
 import com.example.hp.chatapplication.Adapter.Social_userlistAdapter;
 import com.example.hp.chatapplication.ImageCroperActivty;
 import com.example.hp.chatapplication.Intefaces.LikeInterface;
 import com.example.hp.chatapplication.Intefaces.OnBackPressedListener;
-import com.example.hp.chatapplication.Main2Activity;
 import com.example.hp.chatapplication.ModelClasses.PostListModel;
 import com.example.hp.chatapplication.ModelClasses.Social_user_name;
 import com.example.hp.chatapplication.MySingleTon;
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.SharedPrefManager;
-import com.example.hp.chatapplication.UserDetailsActivity;
 import com.example.hp.chatapplication.UserNavgation;
 import com.example.hp.chatapplication.Utils.BaseUrl_ConstantClass;
 import com.example.hp.chatapplication.openchannel.OpenChannelListFragment;
@@ -96,13 +91,13 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  */
 public class SocialFragment extends Fragment {
 
+    public static final int INTENT_REQUEST_CHOOSE_MEDIA = 301;
+    public static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 13;
+    private static final int CAMERA_PIC_REQUEST = 100;
     String userId;
     ArrayList<PostListModel> postListModelArrayList;
-    ArrayList<Social_user_name> social_user_names=new ArrayList<>();
+    ArrayList<Social_user_name> social_user_names = new ArrayList<>();
     PostListAdapter postListAdapter;
-    private EditText statusPost , statusTitle;
-    private Button statusSend;
-    private RecyclerView postRecycler,userlist_recycler;
     String content;
     boolean flag = true;
     ImageView imageview;
@@ -111,22 +106,21 @@ public class SocialFragment extends Fragment {
     String name;
     FrameLayout socialfragment;
     ProgressBar progress_social;
-    ImageView iv_gallery,iv_camera,iv_sticker,iv_import;
-    private static final int CAMERA_PIC_REQUEST = 100;
-    public static final int INTENT_REQUEST_CHOOSE_MEDIA = 301;
-    private RelativeLayout mRootLayout;
-
+    ImageView iv_gallery, iv_camera, iv_sticker, iv_import;
     PopupWindow popupWindow;
     LinearLayout poplinear;
     ImageView dialog_imageview;
-    private ImageView post_emoji_open_close_btn;
     FrameLayout post_keyboardcontainer;
     EmoticonGIFKeyboardFragment emoticonGIFKeyboardFragment;
-    private ImageButton mUploadFileButton;
     FrameLayout attachment_container;
-    public static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 13;
+    private EditText statusPost, statusTitle;
+    private Button statusSend;
+    private RecyclerView postRecycler, userlist_recycler;
+    private RelativeLayout mRootLayout;
+    private ImageView post_emoji_open_close_btn;
+    private ImageButton mUploadFileButton;
     /*ImageView iv_import;
-*/
+     */
 
     public SocialFragment() {
         // Required empty public constructor
@@ -151,44 +145,40 @@ public class SocialFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-      //  mIMM = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //  mIMM = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            ((UserNavgation)getActivity()).setOnBackPressedListener(new OnBackPressedListener() {
+            ((UserNavgation) getActivity()).setOnBackPressedListener(new OnBackPressedListener() {
                 @Override
                 public void doBack() {
                     try {
-                        if( attachment_container.getVisibility() == View.VISIBLE) {
+                        if (attachment_container.getVisibility() == View.VISIBLE) {
                             attachment_container.setVisibility(View.GONE);
-                        }
-                        else  if(emoticonGIFKeyboardFragment.isAdded()) {
-                            if(emoticonGIFKeyboardFragment.isOpen()) {
+                        } else if (emoticonGIFKeyboardFragment.isAdded()) {
+                            if (emoticonGIFKeyboardFragment.isOpen()) {
                                 emoticonGIFKeyboardFragment.close();
-                            }
-                            else {
-                           //    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            } else {
+                                //    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                                 //getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                                 // getActivity().finish();
-                             //  getActivity().onBackPressed();
-                              //  getFragmentManager().popBackStack(n,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                               // getActivity().
+                                // getActivity().finish();
+                                //  getActivity().onBackPressed();
+                                //  getFragmentManager().popBackStack(n,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                // getActivity().
 
-                               //((UserNavgation) getActivity()).setOnBackPressedListener(null);
+                                //((UserNavgation) getActivity()).setOnBackPressedListener(null);
                             }
-                        }
-                        else {
+                        } else {
 
-                         //  getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                           //getActivity().finish();
-                         // getActivity().finish();
-                   //getActivity().onBackPressed();
+                            //  getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            //getActivity().finish();
+                            // getActivity().finish();
                             //getActivity().onBackPressed();
-                           // getActivity().moveTaskToBack(true);
-                           // getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            //getActivity().onBackPressed();
+                            // getActivity().moveTaskToBack(true);
+                            // getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                             ((UserNavgation) getActivity()).setOnBackPressedListener(null);
                         }
-                    }
-                    catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -198,56 +188,53 @@ public class SocialFragment extends Fragment {
     }
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        userId  = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
-        name=SharedPrefManager.getInstance(getActivity()).getUser().getUser_name().toString();
+        userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
+        name = SharedPrefManager.getInstance(getActivity()).getUser().getUser_name().toString();
 
 
-
-        View view= inflater.inflate(R.layout.fragment_social, container, false);
+        View view = inflater.inflate(R.layout.fragment_social, container, false);
 
         loadPost();
         loadImage();
         loadUserlist();
-        post_keyboardcontainer=(FrameLayout)view.findViewById(R.id.postkeyboard_container);
-        profile_img=(CircleImageView)view.findViewById(R.id.profile_img);
+        post_keyboardcontainer = (FrameLayout) view.findViewById(R.id.postkeyboard_container);
+        profile_img = (CircleImageView) view.findViewById(R.id.profile_img);
         mUploadFileButton = (ImageButton) view.findViewById(R.id.button_group_chat_upload);
 
         // iv_more=(ImageView)view.findViewById(R.id.iv_more);
 
         //user_name=(TextView)view.findViewById(R.id.user_name);
 //        user_name.setText(name);
-        progress_social=(ProgressBar) view.findViewById(R.id.progress_social);
+        progress_social = (ProgressBar) view.findViewById(R.id.progress_social);
 
-        postRecycler=(RecyclerView) view.findViewById(R.id.postRecycler);
-        userlist_recycler=(RecyclerView) view.findViewById(R.id.userlist_recycler);
-        statusPost=(EditText) view.findViewById(R.id.statusPost);
-       // statusTitle=(EditText) view.findViewById(R.id.statusTitle);
-        statusSend=(Button) view.findViewById(R.id.statusSend);
-     //   imageview=(ImageView)view.findViewById(R.id.iv_like);
-        socialfragment=(FrameLayout)view.findViewById(R.id.socialfragment);
+        postRecycler = (RecyclerView) view.findViewById(R.id.postRecycler);
+        userlist_recycler = (RecyclerView) view.findViewById(R.id.userlist_recycler);
+        statusPost = (EditText) view.findViewById(R.id.statusPost);
+        // statusTitle=(EditText) view.findViewById(R.id.statusTitle);
+        statusSend = (Button) view.findViewById(R.id.statusSend);
+        //   imageview=(ImageView)view.findViewById(R.id.iv_like);
+        socialfragment = (FrameLayout) view.findViewById(R.id.socialfragment);
         iv_camera = (ImageView) view.findViewById(R.id.iv_camera);
         iv_gallery = (ImageView) view.findViewById(R.id.iv_gallery);
-        attachment_container=(FrameLayout)view.findViewById(R.id.attachment_container);
-       // iv_more=(ImageView)view.findViewById(R.id.iv_more);
+        attachment_container = (FrameLayout) view.findViewById(R.id.attachment_container);
+        // iv_more=(ImageView)view.findViewById(R.id.iv_more);
 
-       // iv_gallery=(ImageView)view.findViewById(R.id.iv_gallery);
-       // iv_camera=(ImageView)view.findViewById(R.id.iv_image);
+        // iv_gallery=(ImageView)view.findViewById(R.id.iv_gallery);
+        // iv_camera=(ImageView)view.findViewById(R.id.iv_image);
         //iv_sticker=(ImageView)view.findViewById(R.id.iv_sticker);
 
-       iv_import=(ImageView)view.findViewById(R.id.iv_import);
-        dialog_imageview=(ImageView)view.findViewById(R.id.dialog_imageview);
+        iv_import = (ImageView) view.findViewById(R.id.iv_import);
+        dialog_imageview = (ImageView) view.findViewById(R.id.dialog_imageview);
 
 
         iv_import.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-popupShow();
+                popupShow();
             }
         });
         statusPost.setOnClickListener(new View.OnClickListener() {
@@ -255,8 +242,7 @@ popupShow();
             public void onClick(View view) {
                 if (emoticonGIFKeyboardFragment.isAdded()) {
                     emoticonGIFKeyboardFragment.close();
-                }else if (attachment_container.getVisibility()==View.VISIBLE)
-                {
+                } else if (attachment_container.getVisibility() == View.VISIBLE) {
                     attachment_container.setVisibility(View.GONE);
                 }
             }
@@ -267,13 +253,13 @@ popupShow();
         social_user_namw.add(new Social_user_name(R.drawable.mukesh_ambani,"Mukesh Ambani"));
         social_user_namw.add(new Social_user_name(R.drawable.steve_jobs,"Steve Jobs"));
         social_user_namw.add(new Social_user_name(R.drawable.bill_gates,"Bill Gates"));*/
-       // social_user_namw.add(new Social_user_name(R.drawable.mark_zuckerberg,"Mark Zuckerberg"));
-       // userlist_recycler.setHasFixedSize(true);
+        // social_user_namw.add(new Social_user_name(R.drawable.mark_zuckerberg,"Mark Zuckerberg"));
+        // userlist_recycler.setHasFixedSize(true);
 
         final LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-      //  userlist_recycler.setLayoutManager(layoutManager1);
-      //  Social_userlistAdapter social_userlistAdapter=new Social_userlistAdapter(social_user_namw,getActivity());
-      //  userlist_recycler.setAdapter(social_userlistAdapter);
+        //  userlist_recycler.setLayoutManager(layoutManager1);
+        //  Social_userlistAdapter social_userlistAdapter=new Social_userlistAdapter(social_user_namw,getActivity());
+        //  userlist_recycler.setAdapter(social_userlistAdapter);
 
 
         postRecycler.setHasFixedSize(true);
@@ -285,7 +271,7 @@ popupShow();
             public void onClick(View v) {
                 attachment_container.setVisibility(View.VISIBLE);
                 post_keyboardcontainer.setVisibility(View.GONE);
-             //   keyboard_container.setVisibility(View.GONE);
+                //   keyboard_container.setVisibility(View.GONE);
                 /* requestMedia();*/
             }
         });
@@ -321,7 +307,7 @@ popupShow();
             public void onClick(View v) {
                /* Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(takePicture, 0);*/
-                Intent intent=new Intent(getContext(),ImageCroperActivty.class);
+                Intent intent = new Intent(getContext(), ImageCroperActivty.class);
                 intent.putExtra("DATA", "One");
                 startActivity(intent);
                 //   popupWindow.dismiss();
@@ -334,22 +320,18 @@ popupShow();
         statusSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                content=statusPost.getText().toString();
-                if(!content.isEmpty())
-                {
+                content = statusPost.getText().toString();
+                if (!content.isEmpty()) {
                     sendPost();
-                   // if (emoticonGIFKeyboardFragment.isOpen())
-                   // emoticonGIFKeyboardFragment.close();
+                    // if (emoticonGIFKeyboardFragment.isOpen())
+                    // emoticonGIFKeyboardFragment.close();
                 /*    if(!statusTitle.getText().toString().isEmpty()) {
                         sendPost();
                     }
                     else {
                         Toast.makeText(getActivity(), "Please Enter Title", Toast.LENGTH_SHORT).show();
                     }*/
-                }
-
-                else
-                {
+                } else {
                     Toast.makeText(getActivity(), "Please Enter status", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -396,29 +378,29 @@ popupShow();
                     public void onGifSelected(@NonNull Gif gif) {
                         //Do something with the selected GIF.
                         Log.d("GUF", "onGifSelected: " + gif.getGifUrl());
-                       // sendPost(gif.getGifUrl());
+                        // sendPost(gif.getGifUrl());
 
                     }
                 });
 
 
-        emoticonGIFKeyboardFragment =  EmoticonGIFKeyboardFragment
+        emoticonGIFKeyboardFragment = EmoticonGIFKeyboardFragment
                 .getNewInstance(post_keyboardcontainer, emoticonConfig, gifConfig);
-        post_emoji_open_close_btn  = (ImageView)view.findViewById(R.id.post_emoji_open_close_btn);
-    //    ke.setVisibility(View.VISIBLE);
+        post_emoji_open_close_btn = (ImageView) view.findViewById(R.id.post_emoji_open_close_btn);
+        //    ke.setVisibility(View.VISIBLE);
         post_keyboardcontainer.setVisibility(View.VISIBLE);
         attachment_container.setVisibility(View.GONE);
-      //  attachment_container.setVisibility(View.GONE);
+        //  attachment_container.setVisibility(View.GONE);
         post_emoji_open_close_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attachment_container.setVisibility(View.GONE);
-            post_keyboardcontainer.setVisibility(View.VISIBLE);
+                post_keyboardcontainer.setVisibility(View.VISIBLE);
               /*  getActivity().getWindow().setSoftInputMode(
                         SOFT_INPUT_ADJUST_PAN);*/
 
 
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
 //Adding the keyboard fragment to keyboard_container.
@@ -468,7 +450,7 @@ popupShow();
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // For example if the user has previously denied the permission.
-           Snackbar.make(mRootLayout, "Storage access permissions are required to upload/download files.",
+            Snackbar.make(mRootLayout, "Storage access permissions are required to upload/download files.",
                     Snackbar.LENGTH_LONG)
                     .setAction("Okay", new View.OnClickListener() {
                         @Override
@@ -484,9 +466,10 @@ popupShow();
                     PERMISSION_WRITE_EXTERNAL_STORAGE);
         }
     }
+
     private void loadUserlist() {
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-       // searchedUsersModelArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        // searchedUsersModelArrayList=new ArrayList<>();
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -494,26 +477,26 @@ popupShow();
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            JSONArray jsonArray= jsonObject.getJSONArray("search_result");
-                            for (int i=0;i<=jsonArray.length();i++) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
                                 String name = user_details.optString("name");
-                               // Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
-                                String user_img=user_details.optString("user_img");
+                                // Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                                String user_img = user_details.optString("user_img");
 
-                               // String mobileno = user_details.optString("mobileno");
-                               // String f_id=user_details.optString("frnid");
-                               // String gender = user_details.optString("gender");
-                            // String secret_id = user_details.optString("secrate_id");
-                             //   Toast.makeText(getContext(), ""+secret_id, Toast.LENGTH_SHORT).show();
-                             //   String friend_status=user_details.optString("frnstatus");
+                                // String mobileno = user_details.optString("mobileno");
+                                // String f_id=user_details.optString("frnid");
+                                // String gender = user_details.optString("gender");
+                                // String secret_id = user_details.optString("secrate_id");
+                                //   Toast.makeText(getContext(), ""+secret_id, Toast.LENGTH_SHORT).show();
+                                //   String friend_status=user_details.optString("frnstatus");
 
-                              //  social_user_names=new Social_user_name("","");
-                               // social_user_names=new Social_user_name()
-                                Social_user_name socialmodel=new Social_user_name(user_img,name);
+                                //  social_user_names=new Social_user_name("","");
+                                // social_user_names=new Social_user_name()
+                                Social_user_name socialmodel = new Social_user_name(user_img, name);
                                 social_user_names.add(socialmodel);
-                                Social_userlistAdapter social_userlistAdapter=new Social_userlistAdapter(social_user_names,getContext());
+                                Social_userlistAdapter social_userlistAdapter = new Social_userlistAdapter(social_user_names, getContext());
                                 final LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
                                 userlist_recycler.setLayoutManager(layoutManager1);
                                 //Social_userlistAdapter social_userlistAdapter=new Social_userlistAdapter(social_user_namw,getActivity());
@@ -524,8 +507,7 @@ popupShow();
 
                             }
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -536,28 +518,28 @@ popupShow();
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
-               logParams.put("action", "searchfriends");
-               logParams.put("searchkey", "");
-               logParams.put("userid",userId);
+                logParams.put("action", "searchfriends");
+                logParams.put("searchkey", "");
+                logParams.put("userid", userId);
                 return logParams;
             }
         };
@@ -583,9 +565,8 @@ popupShow();
     }*/
 
 
-    private void sendPost()
-    {
-        final String SENDPOST_URL=BaseUrl_ConstantClass.BASE_URL+"?";
+    private void sendPost() {
+        final String SENDPOST_URL = BaseUrl_ConstantClass.BASE_URL + "?";
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, SENDPOST_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -593,16 +574,14 @@ popupShow();
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            String status=jsonObject.getString("success");
+                            String status = jsonObject.getString("success");
 
-                            if(status.equals("true"))
-                            {
+                            if (status.equals("true")) {
 //                                statusTitle.setText("Enter Title");
                                 statusPost.setText("Enter Post");
                                 loadPost();
                             }
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -613,29 +592,29 @@ popupShow();
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "addpost");
                 logParams.put("userid", userId);
-                logParams.put("post_title","title");
-                logParams.put("content",content);
+                logParams.put("post_title", "title");
+                logParams.put("content", content);
 
                 return logParams;
             }
@@ -645,11 +624,10 @@ popupShow();
 
     }
 
-    private void loadPost()
-    {
+    private void loadPost() {
 
-        final String POST_URL=BaseUrl_ConstantClass.BASE_URL+"?action=getpost";
-        postListModelArrayList=new ArrayList<>();
+        final String POST_URL = BaseUrl_ConstantClass.BASE_URL + "?action=getpost";
+        postListModelArrayList = new ArrayList<>();
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, POST_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -658,23 +636,23 @@ popupShow();
                         try {
                             jsonObject = new JSONObject(response);
 
-                            JSONArray jsonArray= jsonObject.getJSONArray("post_result");
-                            for (int i=0;i<=jsonArray.length();i++) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("post_result");
+                            for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
                                 final String post_id = user_details.optString("post_id");
                                 String post_title = user_details.optString("post_title");
                                 String content = user_details.optString("content");
-                                String postedby=user_details.optString("postedby");
-                                String postedby_name=user_details.optString("postedby_name");
-                                String post_likes=user_details.optString("post_likes");
-                                String posted_date=user_details.optString("posted_date");
-                                String post_profileimg=user_details.optString("user_img");
-                                String  you_liked=user_details.optString("you_liked");
+                                String postedby = user_details.optString("postedby");
+                                String postedby_name = user_details.optString("postedby_name");
+                                String post_likes = user_details.optString("post_likes");
+                                String posted_date = user_details.optString("posted_date");
+                                String post_profileimg = user_details.optString("user_img");
+                                String you_liked = user_details.optString("you_liked");
                                 // getting user list
                                 //  List<Social_user_name> userlist=new ArrayList<>();
-                              //  Social_user_name social_user_name = new Social_user_name(postedby, post_profileimg);
-                              //  userlist.add(social_user_name);
+                                //  Social_user_name social_user_name = new Social_user_name(postedby, post_profileimg);
+                                //  userlist.add(social_user_name);
 
                                 // Glide.with(getActivity()).load(post_profileimg).into(profile_img);
 
@@ -684,7 +662,7 @@ popupShow();
                                 else {
                                     imageview.setBackgroundResource(R.mipmap.ic_heart_white);
                                 }*/
-                               // Toast.makeText(getContext(), post_likes.toString(), Toast.LENGTH_SHORT).show();
+                                // Toast.makeText(getContext(), post_likes.toString(), Toast.LENGTH_SHORT).show();
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                 Date date = null;
                                 try {
@@ -695,26 +673,24 @@ popupShow();
                                 long millis = date.getTime();
                                 String result = DateUtils.getRelativeTimeSpanString(millis, System.currentTimeMillis(), 0).toString();
 
-                                PostListModel postListModel = new PostListModel(post_id,post_title,content,postedby,postedby_name,post_likes,result,post_profileimg , you_liked);
+                                PostListModel postListModel = new PostListModel(post_id, post_title, content, postedby, postedby_name, post_likes, result, post_profileimg, you_liked);
                                 //adding the hero to searchedlIst
                                 postListModelArrayList.add(postListModel);
 
-                                postListAdapter= new PostListAdapter(postListModelArrayList, getActivity(), new LikeInterface() {
+                                postListAdapter = new PostListAdapter(postListModelArrayList, getActivity(), new LikeInterface() {
                                     @Override
                                     public void likePost(View view, int position) {
                                         PostListModel postListModel = postListModelArrayList.get(position);
                                         likeFragments(postListModel.getPost_id());
                                     }
-                                }) ;
+                                });
                                 postRecycler.setAdapter(postListAdapter);
-
 
 
                             }
 
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -725,26 +701,26 @@ popupShow();
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
-                logParams.put("userid",userId);
+                logParams.put("userid", userId);
                 return logParams;
             }
         };
@@ -753,9 +729,8 @@ popupShow();
 
     }
 
-    private void likeFragments(final String postId)
-    {
-        final String POST_URL=BaseUrl_ConstantClass.BASE_URL+"?";
+    private void likeFragments(final String postId) {
+        final String POST_URL = BaseUrl_ConstantClass.BASE_URL + "?";
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, POST_URL,
                 new Response.Listener<String>() {
@@ -766,8 +741,7 @@ popupShow();
                             jsonObject = new JSONObject(response);
                             loadPost();
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -778,27 +752,27 @@ popupShow();
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
-                logParams.put("action","likepost");
-                logParams.put("post_id",postId);
+                logParams.put("action", "likepost");
+                logParams.put("post_id", postId);
                 logParams.put("userid", userId);
 
 
@@ -813,8 +787,8 @@ popupShow();
 
     private void loadImage() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        final String user_id=SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        final String user_id = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
 
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
@@ -829,19 +803,14 @@ popupShow();
                             String user_image = jsonObject.optString("user_img");
                             if (status.equals("true")) {
                                 // Toast.makeText(UserNavgation.this, ""+message, Toast.LENGTH_SHORT).show();
-                                if (user_image!=null)
-                                {
+                                if (user_image != null) {
                                     Glide.with(getActivity()).load(user_image).into(profile_img);
-                                }
-                                else
-                                {
+                                } else {
                                     profile_img.setBackgroundResource(R.drawable.app_buzz_logo);
 
                                 }
 
-                            }
-                            else
-                            {
+                            } else {
                                 Toast.makeText(getActivity(), "Please enter your valid Secret ID or Passkey", Toast.LENGTH_SHORT).show();
                             }
 
@@ -857,27 +826,27 @@ popupShow();
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "getimg");
-                logParams.put("userid",user_id);
+                logParams.put("userid", user_id);
                 return logParams;
             }
         };
@@ -885,18 +854,18 @@ popupShow();
         MySingleTon.getInstance(getActivity()).addToRequestQue(stringRequestLogIn);
 
     }
-    private void  popupShow(){
-        if (checkPermission1())
-        {
+
+    private void popupShow() {
+        if (checkPermission1()) {
             //instantiate the popup.xml layout file
             LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View customView = layoutInflater.inflate(R.layout.social_pop_attached,null);
+            View customView = layoutInflater.inflate(R.layout.social_pop_attached, null);
 
-        //    pop_up_close = (ImageView) customView.findViewById(R.id.pop_up_close);
+            //    pop_up_close = (ImageView) customView.findViewById(R.id.pop_up_close);
             //instantiate popup window
             popupWindow = new PopupWindow(customView, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             //display the popup window
-            poplinear=(LinearLayout)customView.findViewById(R.id.poplinear);
+            poplinear = (LinearLayout) customView.findViewById(R.id.poplinear);
             popupWindow.showAtLocation(poplinear, Gravity.CENTER, 0, 0);
            /* popupWindow.setOutsideTouchable(true);
 
@@ -919,7 +888,7 @@ popupShow();
             });*/
 
             //close the popup window on button click
-            ImageView cancel_img=customView.findViewById(R.id.cancel_img);
+            ImageView cancel_img = customView.findViewById(R.id.cancel_img);
             cancel_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -929,27 +898,27 @@ popupShow();
             });
 
 
-          //  iv_camera=(ImageView)customView.findViewById(R.id.iv_image);
+            //  iv_camera=(ImageView)customView.findViewById(R.id.iv_image);
             iv_camera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                /* Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(takePicture, 0);*/
-                    Intent intent=new Intent(getContext(),ImageCroperActivty.class);
+                    Intent intent = new Intent(getContext(), ImageCroperActivty.class);
                     intent.putExtra("DATA", "One");
                     startActivity(intent);
-                 //   popupWindow.dismiss();
+                    //   popupWindow.dismiss();
 
 
                 }
             });
-            iv_gallery=(ImageView)customView.findViewById(R.id.iv_gallery);
+            iv_gallery = (ImageView) customView.findViewById(R.id.iv_gallery);
             iv_gallery.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                /* Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(pickPhoto , 1);*/
-                    Intent intent=new Intent(getContext(),ImageCroperActivty.class);
+                    Intent intent = new Intent(getContext(), ImageCroperActivty.class);
                     intent.putExtra("DATA", "Two");
                     startActivity(intent);
                     popupWindow.dismiss();
@@ -957,17 +926,15 @@ popupShow();
             });
 
 
-
-        }
-        else
-        {
+        } else {
             requestPermission1();
         }
 
 
     }
+
     private void requestPermission1() {
-        ActivityCompat.requestPermissions(getActivity(), new String[]{READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE,CAMERA}, 5);
+        ActivityCompat.requestPermissions(getActivity(), new String[]{READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, CAMERA}, 5);
 
 
     }
@@ -975,12 +942,12 @@ popupShow();
 
     public boolean checkPermission1() {
 
-        int result8 = ContextCompat.checkSelfPermission(getActivity(),READ_EXTERNAL_STORAGE);
-        int result9 = ContextCompat.checkSelfPermission(getActivity(),WRITE_EXTERNAL_STORAGE);
-        int result = ContextCompat.checkSelfPermission(getActivity(),CAMERA);
+        int result8 = ContextCompat.checkSelfPermission(getActivity(), READ_EXTERNAL_STORAGE);
+        int result9 = ContextCompat.checkSelfPermission(getActivity(), WRITE_EXTERNAL_STORAGE);
+        int result = ContextCompat.checkSelfPermission(getActivity(), CAMERA);
         return result8 == PackageManager.PERMISSION_GRANTED &&
-                result9 == PackageManager.PERMISSION_GRANTED&&
-                result == PackageManager.PERMISSION_GRANTED ;
+                result9 == PackageManager.PERMISSION_GRANTED &&
+                result == PackageManager.PERMISSION_GRANTED;
 //
     }
 

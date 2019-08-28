@@ -4,36 +4,20 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.example.hp.chatapplication.FingerPrintHandler.FingerprintHandler;
-import com.example.hp.chatapplication.ModelClasses.User;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -44,8 +28,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -55,15 +37,14 @@ import javax.crypto.SecretKey;
 public class SignInWithFingerPrint extends AppCompatActivity {
 
 
-    private KeyStore keyStore;
     // Variable used for storing the key in the Android Keystore container
     private static final String KEY_NAME = "buzz_key";
-    private Cipher cipher;
-    private TextView textView;
     ProgressDialog progressDialog;
     AlertDialog alertDialog;
     String deviceID;
-
+    private KeyStore keyStore;
+    private Cipher cipher;
+    private TextView textView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -85,7 +66,7 @@ public class SignInWithFingerPrint extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.errorText);
         // Check whether the device has a Fingerprint sensor.
-        if(!fingerprintManager.isHardwareDetected()){
+        if (!fingerprintManager.isHardwareDetected()) {
             /**
              * An error message will be displayed if the device does not contain the fingerprint hardware.
              * However if you plan to implement a default authentication method,
@@ -95,27 +76,25 @@ public class SignInWithFingerPrint extends AppCompatActivity {
              * startActivity(intent);
              */
             textView.setText("Your Device does not have a Fingerprint Sensor");
-        }
-        else
-        {
+        } else {
             // Checks whether fingerprint permission is set on manifest
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
                 textView.setText("Fingerprint authentication permission not enabled");
-            }else{
+            } else {
                 // Check whether at least one fingerprint is registered
                 if (!fingerprintManager.hasEnrolledFingerprints()) {
                     textView.setText("Register at least one fingerprint in Settings");
-                }else{
+                } else {
                     // Checks whether lock screen security is enabled or not
                     if (!keyguardManager.isKeyguardSecure()) {
                         textView.setText("Lock screen security not enabled in Settings");
-                    }else{
+                    } else {
                         generateKey();
 
 
                         if (cipherInit()) {
                             FingerprintManager.CryptoObject cryptoObject = new FingerprintManager.CryptoObject(cipher);
-                            FingerprintHandler helper = new FingerprintHandler(this ,deviceID);
+                            FingerprintHandler helper = new FingerprintHandler(this, deviceID);
                             helper.startAuth(fingerprintManager, cryptoObject);
                             //   FingerprintHandler fingerprintHandler=new FingerprintHandler(SignInWithFingerPrint.this , deviceID);
                             // fingerprintHandler.signInWithFingerPrintApi(deviceID,SignInWithFingerPrint.this);
@@ -165,12 +144,9 @@ public class SignInWithFingerPrint extends AppCompatActivity {
 
     @TargetApi(Build.VERSION_CODES.M)
     public boolean cipherInit() {
-        try
-        {
+        try {
             cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-        }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException e)
-        {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             throw new RuntimeException("Failed to get Cipher", e);
         }
 
@@ -186,8 +162,6 @@ public class SignInWithFingerPrint extends AppCompatActivity {
             throw new RuntimeException("Failed to init Cipher", e);
         }
     }
-
-
 
 
 }

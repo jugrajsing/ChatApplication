@@ -5,7 +5,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IntRange;
 
-
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.VideoCall.App;
 
@@ -19,7 +18,8 @@ public class UiUtils {
     private static final Random random = new Random();
     private static int previousColor;
 
-    private UiUtils() {}
+    private UiUtils() {
+    }
 
     public static Drawable getGreyCircleDrawable() {
         return getColoredCircleDrawable(ResourceUtils.getColor(R.color.color_grey));
@@ -55,7 +55,7 @@ public class UiUtils {
     }
 
     public static int getCircleColor(@IntRange(from = RANDOM_COLOR_START_RANGE, to = RANDOM_COLOR_END_RANGE)
-                                     int colorPosition) {
+                                             int colorPosition) {
         String colorIdName = String.format("random_color_%d", colorPosition + 1);
         int colorId = App.getInstance().getResources()
                 .getIdentifier(colorIdName, "color", App.getInstance().getPackageName());

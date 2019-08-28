@@ -16,10 +16,10 @@
     </ListView>
 
     <Button
-        android:layout_alignParentBottom="true"
         android:id="@+id/btn_create_chat"
-        android:text="create chat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="create chat" />
 
 </RelativeLayout>

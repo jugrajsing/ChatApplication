@@ -3,25 +3,24 @@ package com.example.hp.chatapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.view.KeyEvent;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -33,12 +32,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.bumptech.glide.Glide;
-import com.example.hp.chatapplication.Adapter.GroupChannelListFragment;
 import com.example.hp.chatapplication.Fragments.CallFragment;
 import com.example.hp.chatapplication.Fragments.ChatFragment;
 import com.example.hp.chatapplication.Fragments.EventsFragment;
-import com.example.hp.chatapplication.Fragments.FriendsListFragments;
-import com.example.hp.chatapplication.Fragments.GroupChatFragment;
 import com.example.hp.chatapplication.Fragments.ScheduleFragment;
 import com.example.hp.chatapplication.Fragments.SearchFragments;
 import com.example.hp.chatapplication.Fragments.SocialFragment;
@@ -49,26 +45,23 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
-import com.sendbird.android.User;
-import org.json.JSONArray;
+
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class UserNavgation extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener {
+public class UserNavgation extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
     protected OnBackPressedListener onBackPressedListener;
     CircleImageView user_imageView_nav;
     TabLayout tabLayout;
     ImageButton search_button_chat;
     TextView user_name_id_nav, user_email_nav, user_resident;
     private SharedPrefsHelper sharedPrefsHelper;
-
 
 
     @Override
@@ -194,11 +187,6 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
 
         });
     }
-
-
-
-
-
 
 
     /**
@@ -412,7 +400,7 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
 
     private void loadImage() {
 
-        final String LOGIN_URL =  BaseUrl_ConstantClass.BASE_URL;
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
         final String user_id = SharedPrefManager.getInstance(UserNavgation.this).getUser().getUser_id().toString();
 
 
@@ -450,19 +438,20 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(UserNavgation.this, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(UserNavgation.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(UserNavgation.this, ""+getString(R.string.error_server),
+                            Toast.makeText(UserNavgation.this, "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(UserNavgation.this, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(UserNavgation.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
         ) {
             @Override
@@ -530,15 +519,13 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
             // }else
 
             //this.moveTaskToBack(true);
-        }
-
-       else if (onBackPressedListener != null) {
+        } else if (onBackPressedListener != null) {
             onBackPressedListener.doBack();
 
         } else {
             super.onBackPressed();
             //this.moveTaskToBack(true);
-             //getFragmentManager().popBackStack();
+            //getFragmentManager().popBackStack();
             //onBackPressedListener.doBack();
         }
 

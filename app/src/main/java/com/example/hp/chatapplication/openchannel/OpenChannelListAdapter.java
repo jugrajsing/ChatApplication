@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.example.hp.chatapplication.R;
 import com.sendbird.android.OpenChannel;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +25,6 @@ class OpenChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context mContext;
     private OnItemClickListener mItemClickListener;
     private OnItemLongClickListener mItemLongClickListener;
-
-    interface OnItemClickListener {
-        void onItemClick(OpenChannel channel);
-    }
-
-    interface OnItemLongClickListener {
-        void onItemLongPress(OpenChannel channel);
-    }
 
     OpenChannelListAdapter(Context context) {
         mContext = context;
@@ -49,7 +40,7 @@ class OpenChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ChannelHolder)holder).bind(mContext, mChannelList.get(position), position, mItemClickListener, mItemLongClickListener);
+        ((ChannelHolder) holder).bind(mContext, mChannelList.get(position), position, mItemClickListener, mItemLongClickListener);
     }
 
     @Override
@@ -75,12 +66,19 @@ class OpenChannelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mItemClickListener = listener;
     }
 
-    private class ChannelHolder extends RecyclerView.ViewHolder {
-        // A list of colors for decorating each list item.
-        private String[] colorList = { "#ff2de3e1", "#ff35a3fb", "#ff805aff", "#ffcf47fb", "#ffe248c3" };
+    interface OnItemClickListener {
+        void onItemClick(OpenChannel channel);
+    }
 
+    interface OnItemLongClickListener {
+        void onItemLongPress(OpenChannel channel);
+    }
+
+    private class ChannelHolder extends RecyclerView.ViewHolder {
         TextView nameText, participantCountText;
         ImageView coloredDecorator;
+        // A list of colors for decorating each list item.
+        private String[] colorList = {"#ff2de3e1", "#ff35a3fb", "#ff805aff", "#ffcf47fb", "#ffe248c3"};
 
         ChannelHolder(View itemView) {
             super(itemView);

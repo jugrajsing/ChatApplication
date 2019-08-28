@@ -1,4 +1,5 @@
 package com.example.hp.chatapplication.Fragments;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,10 +9,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -33,6 +34,7 @@ import com.example.hp.chatapplication.Utils.BaseUrl_ConstantClass;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,12 +49,13 @@ public class NormalSearchFragment extends Fragment {
     SearchAdapter searchingDetailsAdapter;
     ArrayList<SearchedUsersModel> searchedUsersModelArrayList;
     EditText et_search_friends;
-    String friend_id,user_id;
+    String friend_id, user_id;
     LinearLayout linear_search_list;
 
     public NormalSearchFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_normal_search, container, false);
@@ -86,8 +89,8 @@ public class NormalSearchFragment extends Fragment {
 
     private void loadSearchedDetails(final String keyWord) {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        searchedUsersModelArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        searchedUsersModelArrayList = new ArrayList<>();
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -95,23 +98,23 @@ public class NormalSearchFragment extends Fragment {
                         JSONObject jsonObject = null;
                         try {
                             jsonObject = new JSONObject(response);
-                            JSONArray jsonArray= jsonObject.getJSONArray("search_result");
-                            for (int i=0;i<=jsonArray.length();i++) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
                                 String name = user_details.optString("name");
-                              //  Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
-                                String user_img=user_details.optString("user_img");
+                                //  Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+                                String user_img = user_details.optString("user_img");
                                 String mobileno = user_details.optString("mobileno");
-                                String f_id=user_details.optString("frnid");
+                                String f_id = user_details.optString("frnid");
                                 String gender = user_details.optString("gender");
                                 String secret_id = user_details.optString("secrate_id");
-                                String friend_status=user_details.optString("frnstatus");
+                                String friend_status = user_details.optString("frnstatus");
 
-                                SearchedUsersModel searchedDetails = new SearchedUsersModel(name,user_img,mobileno,gender,secret_id,friend_status,f_id);
+                                SearchedUsersModel searchedDetails = new SearchedUsersModel(name, user_img, mobileno, gender, secret_id, friend_status, f_id);
                                 //adding the hero to searchedlIst
                                 searchedUsersModelArrayList.add(searchedDetails);
-                                searchingDetailsAdapter= new SearchAdapter(searchedUsersModelArrayList, getContext(), new RecyclerViewAddFriendClickListener() {
+                                searchingDetailsAdapter = new SearchAdapter(searchedUsersModelArrayList, getContext(), new RecyclerViewAddFriendClickListener() {
                                     @Override
                                     public void onAddFriend(View view, int position) {
                                         if (!searchedUsersModelArrayList.isEmpty()) {
@@ -119,6 +122,7 @@ public class NormalSearchFragment extends Fragment {
                                             sendFriendRequest();
                                         }
                                     }
+
                                     @Override
                                     public void onCancleFriendRequest(View view, int position) {
                                         cancleFriendRequest();
@@ -128,8 +132,7 @@ public class NormalSearchFragment extends Fragment {
 
                             }
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -140,28 +143,28 @@ public class NormalSearchFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "searchfriends");
                 logParams.put("searchkey", keyWord);
-                logParams.put("userid",user_id);
+                logParams.put("userid", user_id);
 
                 return logParams;
             }
@@ -173,8 +176,8 @@ public class NormalSearchFragment extends Fragment {
 
     private void sendFriendRequest() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        searchedUsersModelArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        searchedUsersModelArrayList = new ArrayList<>();
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
@@ -186,10 +189,8 @@ public class NormalSearchFragment extends Fragment {
                             String status = jsonObject.getString("success");
                             String message = jsonObject.getString("message");
                             if (status.equals("true")) {
-                                Toast.makeText(getActivity(), "Success"+ message, Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
+                                Toast.makeText(getActivity(), "Success" + message, Toast.LENGTH_SHORT).show();
+                            } else {
                                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
 
@@ -206,22 +207,22 @@ public class NormalSearchFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
@@ -239,8 +240,8 @@ public class NormalSearchFragment extends Fragment {
 
     private void cancleFriendRequest() {
 
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
-        searchedUsersModelArrayList=new ArrayList<>();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        searchedUsersModelArrayList = new ArrayList<>();
 
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
@@ -252,10 +253,8 @@ public class NormalSearchFragment extends Fragment {
                             String status = jsonObject.getString("success");
                             String message = jsonObject.getString("message");
                             if (status.equals("true")) {
-                                Toast.makeText(getActivity(), "Success"+ message, Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                            {
+                                Toast.makeText(getActivity(), "Success" + message, Toast.LENGTH_SHORT).show();
+                            } else {
                                 Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
 
@@ -271,27 +270,27 @@ public class NormalSearchFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
-                logParams.put("action","removefriend");
-                logParams.put("userid",user_id);
+                logParams.put("action", "removefriend");
+                logParams.put("userid", user_id);
                 logParams.put("frnid", friend_id);
                 return logParams;
             }

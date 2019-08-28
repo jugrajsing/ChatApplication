@@ -1,12 +1,11 @@
 package com.example.hp.chatapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
-
 
 
     @Override
@@ -24,8 +23,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        switch (v.getId())
-        {
+        switch (v.getId()) {
 
         }
 

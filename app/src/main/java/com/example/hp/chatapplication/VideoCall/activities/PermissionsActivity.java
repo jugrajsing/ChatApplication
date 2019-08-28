@@ -3,10 +3,9 @@ package com.example.hp.chatapplication.VideoCall.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.example.hp.chatapplication.R;
@@ -17,12 +16,6 @@ public class PermissionsActivity extends BaseActivity {
     private static final int PERMISSION_REQUEST_CODE = 0;
     private static final String EXTRA_PERMISSIONS = "extraPermissions";
     private static final String CHECK_ONLY_AUDIO = "checkAudio";
-
-    private enum permissionFeatures {
-        CAMERA,
-        MICROPHONE
-    }
-
     private PermissionsChecker checker;
     private boolean requiresCheck;
 
@@ -135,5 +128,10 @@ public class PermissionsActivity extends BaseActivity {
             }
         }
         return true;
+    }
+
+    private enum permissionFeatures {
+        CAMERA,
+        MICROPHONE
     }
 }

@@ -2,7 +2,6 @@ package com.example.hp.chatapplication.VideoCall.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -13,7 +12,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.hp.chatapplication.R;
-import com.example.hp.chatapplication.Utils.PreferenceUtils;
 import com.example.hp.chatapplication.VideoCall.adapters.OpponentsAdapter;
 import com.example.hp.chatapplication.VideoCall.db.QbUsersDbManager;
 import com.example.hp.chatapplication.VideoCall.services.CallService;
@@ -37,7 +35,7 @@ import java.util.ArrayList;
 
 public class OpponentsActivity extends BaseActivity {
     private static final String TAG = OpponentsActivity.class.getSimpleName();
-
+    Button call, video;
     private OpponentsAdapter opponentsAdapter;
     private ListView opponentsListView;
     private QBUser currentUser;
@@ -45,8 +43,8 @@ public class OpponentsActivity extends BaseActivity {
     private QbUsersDbManager dbManager;
     private boolean isRunForCall;
     private WebRtcSessionManager webRtcSessionManager;
-    Button call ,video;
     private PermissionsChecker checker;
+
     public static void start(Context context, boolean isRunForCall) {
         Intent intent = new Intent(context, OpponentsActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -143,7 +141,7 @@ public class OpponentsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (isLoggedInChat()) {
-                    startCall(false  );
+                    startCall(false);
                 }
                 if (checker.lacksPermissions(Consts.PERMISSIONS)) {
                     startPermissionsActivity(false);
@@ -180,6 +178,7 @@ public class OpponentsActivity extends BaseActivity {
         }
         proceedInitUsersList();
     }
+
     private void proceedInitUsersList() {
         currentOpponentsList = dbManager.getAllUsers();
         Log.d(TAG, "proceedInitUsersList currentOpponentsList= " + currentOpponentsList);
@@ -248,7 +247,7 @@ public class OpponentsActivity extends BaseActivity {
 
     private boolean isLoggedInChat() {
         if (!QBChatService.getInstance().isLoggedIn()) {
-            Toast.makeText(mContext,R.string.dlg_signal_error,Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, R.string.dlg_signal_error, Toast.LENGTH_SHORT).show();
             tryReLoginToChat();
             return false;
         }
@@ -268,7 +267,7 @@ public class OpponentsActivity extends BaseActivity {
 
     private void startCall(boolean isVideoCall) {
         if (opponentsAdapter.getSelectedItems().size() > Consts.MAX_OPPONENTS_COUNT) {
-            Toast.makeText(mContext,getString(R.string.error_max_opponents_count)+Consts.MAX_OPPONENTS_COUNT,Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getString(R.string.error_max_opponents_count) + Consts.MAX_OPPONENTS_COUNT, Toast.LENGTH_SHORT).show();
             return;
         }
 

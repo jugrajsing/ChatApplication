@@ -53,7 +53,7 @@ public abstract class BaseToolBarFragment extends Fragment {
 
         private WeakReference<Fragment> fragmentRef;
 
-        FragmentLifeCycleHandler(Fragment fragment){
+        FragmentLifeCycleHandler(Fragment fragment) {
 
             this.fragmentRef = new WeakReference<>(fragment);
         }
@@ -61,7 +61,7 @@ public abstract class BaseToolBarFragment extends Fragment {
         @Override
         public void dispatchMessage(Message msg) {
             Fragment fragment = fragmentRef.get();
-            if (fragment == null){
+            if (fragment == null) {
                 return;
             }
             if (fragment.isAdded() && (fragment.getActivity() != null)) {

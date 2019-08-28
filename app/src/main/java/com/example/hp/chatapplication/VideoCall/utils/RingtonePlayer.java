@@ -15,12 +15,12 @@ public class RingtonePlayer {
     private MediaPlayer mediaPlayer;
     private Context context;
 
-    public RingtonePlayer(Context context, int resource){
+    public RingtonePlayer(Context context, int resource) {
         this.context = context;
         mediaPlayer = MediaPlayer.create(context, resource);
     }
 
-    public RingtonePlayer(Context context){
+    public RingtonePlayer(Context context) {
         this.context = context;
         Uri notification = getNotification();
         if (notification != null) {

@@ -11,6 +11,7 @@ public class BaseBackPressedListener implements OnBackPressedListener {
     public BaseBackPressedListener(FragmentActivity activity) {
         this.activity = activity;
     }
+
     @Override
     public void doBack() {
         activity.getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

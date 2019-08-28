@@ -3,7 +3,6 @@ package com.example.hp.chatapplication.VideoCall.activities;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -39,6 +38,7 @@ public class LoginActivity extends BaseActivity {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,13 +107,14 @@ public class LoginActivity extends BaseActivity {
                     public void onSuccess(QBUser result, Bundle params) {
                         loginToChat(result);
                     }
+
                     @Override
                     public void onError(QBResponseException e) {
                         if (e.getHttpStatusCode() == Consts.ERR_LOGIN_ALREADY_TAKEN_HTTP_STATUS) {
                             signInCreatedUser(newUser, true);
                         } else {
                             hideProgressDialog();
-                            Toast.makeText(mContext,R.string.sign_up_error,Toast.LENGTH_LONG);
+                            Toast.makeText(mContext, R.string.sign_up_error, Toast.LENGTH_LONG);
                         }
                     }
                 }
@@ -171,7 +172,7 @@ public class LoginActivity extends BaseActivity {
 
                 signInCreatedUser(userForSave, false);
             } else {
-                Toast.makeText(mContext,getString(R.string.login_chat_login_error) + errorMessage,Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, getString(R.string.login_chat_login_error) + errorMessage, Toast.LENGTH_LONG).show();
                 userNameEditText.setText(userForSave.getFullName());
                 chatRoomNameEditText.setText(userForSave.getTags().get(0));
             }
@@ -195,10 +196,11 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(QBResponseException responseException) {
                 hideProgressDialog();
-                Toast.makeText(mContext,R.string.sign_up_error,Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.sign_up_error, Toast.LENGTH_LONG).show();
             }
         });
     }
+
     private void removeAllUserData(final QBUser user) {
         requestExecutor.deleteCurrentUser(user.getId(), new QBEntityCallback<Void>() {
             @Override
@@ -210,7 +212,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(QBResponseException e) {
                 hideProgressDialog();
-                Toast.makeText(mContext,R.string.sign_up_error,Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.sign_up_error, Toast.LENGTH_LONG).show();
             }
         });
     }

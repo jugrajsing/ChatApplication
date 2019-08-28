@@ -1,7 +1,6 @@
 package com.example.hp.chatapplication.Adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,30 +19,28 @@ import com.example.hp.chatapplication.R;
 
 import java.util.ArrayList;
 
-public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHolder>
-{
+public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHolder> {
     ArrayList<PostListModel> friendListModelArrayList;
+    LikeInterface likeInterface;
     private Context context;
 
-    LikeInterface likeInterface;
-
-    public PostListAdapter(ArrayList<PostListModel> friendListModelArrayList, Context context,LikeInterface likeInterface) {
+    public PostListAdapter(ArrayList<PostListModel> friendListModelArrayList, Context context, LikeInterface likeInterface) {
         this.friendListModelArrayList = friendListModelArrayList;
         this.context = context;
-        this.likeInterface=likeInterface;
+        this.likeInterface = likeInterface;
     }
 
 
     @NonNull
     @Override
     public PostListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.postlist1 , parent, false);
-        return new PostListAdapter.ViewHolder(v,likeInterface);    }
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.postlist1, parent, false);
+        return new PostListAdapter.ViewHolder(v, likeInterface);
+    }
 
     @Override
-    public void onBindViewHolder(@NonNull final PostListAdapter.ViewHolder holder, int position)
-    {
-        PostListModel postListModel=friendListModelArrayList.get(position);
+    public void onBindViewHolder(@NonNull final PostListAdapter.ViewHolder holder, int position) {
+        PostListModel postListModel = friendListModelArrayList.get(position);
 //        holder.postTitle.setText(postListModel.getPost_title());
         holder.postContent.setText(postListModel.getContent());
         holder.postBy.setText(postListModel.getPostedby());
@@ -90,12 +87,10 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
             }
         });
 
-        if (postListModel.getYou_liked().contains("Yes")){
+        if (postListModel.getYou_liked().contains("Yes")) {
             holder.iv_like.setImageResource(R.mipmap.ic_heart_red);
-        }
-        else
-            {
-                holder.iv_like.setImageResource(R.mipmap.ic_heart_white);
+        } else {
+            holder.iv_like.setImageResource(R.mipmap.ic_heart_white);
 
         }
 
@@ -109,22 +104,11 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         }
 */
 
-        Glide.with(context).load(postListModel.getPost_profileimg()).into( holder.profile_img);
+        Glide.with(context).load(postListModel.getPost_profileimg()).into(holder.profile_img);
        /* holder.videoView.setVideoURI(Uri.parse("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
         holder.videoView.start();*/
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -132,39 +116,38 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         return friendListModelArrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView postContent,postBy , tv_date, tv_postlike;
-        private ImageView iv_like,profile_img,iv_more,iv_deslike;
         LikeInterface likeInterface;
         VideoView videoView;
+        private TextView postContent, postBy, tv_date, tv_postlike;
+        private ImageView iv_like, profile_img, iv_more, iv_deslike;
 
 
         public ViewHolder(final View itemView, final LikeInterface likeInterface) {
             super(itemView);
-            this.likeInterface=likeInterface;
+            this.likeInterface = likeInterface;
 
-  //          postTitle=(TextView) itemView.findViewById(R.id.postTitle);
-              postContent=(TextView) itemView.findViewById(R.id.postContent);
-              postBy=(TextView) itemView.findViewById(R.id.postBy);
-              tv_date=(TextView) itemView.findViewById(R.id.date);
-              tv_postlike=(TextView)itemView.findViewById(R.id.tv_likes);
-              profile_img=(ImageView)itemView.findViewById(R.id.post_profile_img);
-              iv_like=(ImageView)itemView.findViewById(R.id.iv_likes);
-              iv_deslike=(ImageView)itemView.findViewById(R.id.iv_deslike);
-              iv_more=(ImageView)itemView.findViewById(R.id.iv_more);
-            videoView=(VideoView)itemView.findViewById(R.id.videoView);
+            //          postTitle=(TextView) itemView.findViewById(R.id.postTitle);
+            postContent = (TextView) itemView.findViewById(R.id.postContent);
+            postBy = (TextView) itemView.findViewById(R.id.postBy);
+            tv_date = (TextView) itemView.findViewById(R.id.date);
+            tv_postlike = (TextView) itemView.findViewById(R.id.tv_likes);
+            profile_img = (ImageView) itemView.findViewById(R.id.post_profile_img);
+            iv_like = (ImageView) itemView.findViewById(R.id.iv_likes);
+            iv_deslike = (ImageView) itemView.findViewById(R.id.iv_deslike);
+            iv_more = (ImageView) itemView.findViewById(R.id.iv_more);
+            videoView = (VideoView) itemView.findViewById(R.id.videoView);
 
 
             iv_like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    likeInterface.likePost(itemView ,getAdapterPosition());
+                    likeInterface.likePost(itemView, getAdapterPosition());
                 }
             });
         }
     }
 
 
-    }
+}

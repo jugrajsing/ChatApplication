@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.EditText;
 
-
 import com.example.hp.chatapplication.R;
 
 import java.util.regex.Matcher;

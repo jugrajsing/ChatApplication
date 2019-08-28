@@ -33,21 +33,20 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
     private static final String TAG = BaseConversationFragment.class.getSimpleName();
     protected QbUsersDbManager dbManager;
     protected WebRtcSessionManager sessionManager;
-    private boolean isIncomingCall;
     protected QBRTCSession currentSession;
     protected ArrayList<QBUser> opponents;
-    private QBRTCTypes.QBConferenceType qbConferenceType;
-
-    private ToggleButton micToggleVideoCall;
-    private ImageButton handUpVideoCall;
     protected ConversationFragmentCallbackListener conversationFragmentCallbackListener;
     protected Chronometer timerChronometer;
-    private boolean isMessageProcessed;
     protected boolean isStarted;
     protected View outgoingOpponentsRelativeLayout;
     protected TextView allOpponentsTextView;
     protected TextView ringingTextView;
     protected QBUser currentUser;
+    private boolean isIncomingCall;
+    private QBRTCTypes.QBConferenceType qbConferenceType;
+    private ToggleButton micToggleVideoCall;
+    private ImageButton handUpVideoCall;
+    private boolean isMessageProcessed;
 
     public static BaseConversationFragment newInstance(BaseConversationFragment baseConversationFragment, boolean isIncomingCall) {
         Log.d(TAG, "isIncomingCall =  " + isIncomingCall);
@@ -180,12 +179,12 @@ public abstract class BaseConversationFragment extends BaseToolBarFragment imple
         handUpVideoCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    actionButtonsEnabled(false);
-                    handUpVideoCall.setEnabled(false);
-                    handUpVideoCall.setActivated(false);
+                actionButtonsEnabled(false);
+                handUpVideoCall.setEnabled(false);
+                handUpVideoCall.setActivated(false);
 
-                    conversationFragmentCallbackListener.onHangUpCurrentSession();
-                    Log.d(TAG, "Call is stopped");
+                conversationFragmentCallbackListener.onHangUpCurrentSession();
+                Log.d(TAG, "Call is stopped");
             }
         });
     }

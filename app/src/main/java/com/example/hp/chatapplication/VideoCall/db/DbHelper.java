@@ -10,10 +10,6 @@ import android.util.Log;
  */
 public class DbHelper extends SQLiteOpenHelper {
 
-    private String TAG = DbHelper.class.getSimpleName();
-
-    private static final String DB_NAME = "groupchatwebrtcDB";
-
     public static final String DB_TABLE_NAME = "users";
     public static final String DB_COLUMN_ID = "ID";
     public static final String DB_COLUMN_USER_FULL_NAME = "userFullName";
@@ -21,6 +17,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String DB_COLUMN_USER_ID = "userID";
     public static final String DB_COLUMN_USER_PASSWORD = "userPass";
     public static final String DB_COLUMN_USER_TAG = "userTag";
+    private static final String DB_NAME = "groupchatwebrtcDB";
+    private String TAG = DbHelper.class.getSimpleName();
 
 
     public DbHelper(Context context) {

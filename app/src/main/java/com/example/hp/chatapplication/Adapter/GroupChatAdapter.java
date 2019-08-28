@@ -17,7 +17,6 @@ import com.example.hp.chatapplication.Utils.DateUtils;
 import com.example.hp.chatapplication.Utils.FileUtils;
 import com.example.hp.chatapplication.Utils.ImageUtils;
 import com.example.hp.chatapplication.Utils.TextUtils;
-import com.example.hp.chatapplication.Utils.UrlPreviewInfo;
 import com.sendbird.android.AdminMessage;
 import com.sendbird.android.BaseChannel;
 import com.sendbird.android.BaseMessage;
@@ -28,8 +27,6 @@ import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sendbird.android.UserMessage;
 
-import org.json.JSONException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,7 +35,7 @@ import java.util.Hashtable;
 import java.util.List;
 
 
- public class GroupChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class GroupChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final String URL_PREVIEW_CUSTOM_TYPE = "url_preview";
 
     private static final int VIEW_TYPE_USER_MESSAGE_ME = 10;
@@ -50,35 +47,17 @@ import java.util.List;
     private static final int VIEW_TYPE_FILE_MESSAGE_VIDEO_ME = 24;
     private static final int VIEW_TYPE_FILE_MESSAGE_VIDEO_OTHER = 25;
     private static final int VIEW_TYPE_ADMIN_MESSAGE = 30;
-
+    public OnItemClickListener mItemClickListener;
+    public OnItemLongClickListener mItemLongClickListener;
     private Context mContext;
     private HashMap<FileMessage, CircleProgressBar> mFileMessageMap;
     private GroupChannel mChannel;
     private List<BaseMessage> mMessageList;
-
-    public OnItemClickListener mItemClickListener;
-    public OnItemLongClickListener mItemLongClickListener;
-
     private ArrayList<String> mFailedMessageIdList = new ArrayList<>();
     private Hashtable<String, Uri> mTempFileMessageUriTable = new Hashtable<>();
     private boolean mIsMessageListLoading;
 
-  public   interface OnItemLongClickListener {
-        void onUserMessageItemLongClick(UserMessage message, int position);
-
-        void onFileMessageItemLongClick(FileMessage message);
-
-        void onAdminMessageItemLongClick(AdminMessage message);
-    }
-
-   public interface OnItemClickListener {
-        void onUserMessageItemClick(UserMessage message);
-
-        void onFileMessageItemClick(FileMessage message);
-    }
-
-
-  public   GroupChatAdapter(Context context) {
+    public GroupChatAdapter(Context context) {
         mContext = context;
         mFileMessageMap = new HashMap<>();
         mMessageList = new ArrayList<>();
@@ -102,20 +81,17 @@ import java.util.List;
 
             // Reset message list, then add cached messages.
             mMessageList.clear();
-            for(int i = 1; i < dataArray.length; i++) {
+            for (int i = 1; i < dataArray.length; i++) {
                 mMessageList.add(BaseMessage.buildFromSerializedData(Base64.decode(dataArray[i], Base64.DEFAULT | Base64.NO_WRAP)));
             }
 
             notifyDataSetChanged();
-        } catch(Exception e) {
+        } catch (Exception e) {
             // Nothing to load.
         }
     }
 
-
-
-
-     public void save() {
+    public void save() {
         try {
             StringBuilder sb = new StringBuilder();
             if (mChannel != null) {
@@ -143,17 +119,17 @@ import java.util.List;
                 try {
                     String content = FileUtils.loadFromFile(hashFile);
                     // If data has not been changed, do not save.
-                    if(md5.equals(content)) {
+                    if (md5.equals(content)) {
                         return;
                     }
-                } catch(IOException e) {
+                } catch (IOException e) {
                     // File not found. Save the data.
                 }
 
                 FileUtils.saveToFile(dataFile, data);
                 FileUtils.saveToFile(hashFile, md5);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -368,7 +344,6 @@ import java.util.List;
         return false;
     }
 
-
     public Uri getTempFileMessageUri(BaseMessage message) {
         if (!isTempMessage(message)) {
             return null;
@@ -404,7 +379,7 @@ import java.util.List;
         for (int i = mMessageList.size() - 1; i >= 0; i--) {
             msg = mMessageList.get(i);
             if (msg instanceof FileMessage) {
-                if (message.getRequestId().equals(((FileMessage)msg).getRequestId())) {
+                if (message.getRequestId().equals(((FileMessage) msg).getRequestId())) {
                     CircleProgressBar circleProgressBar = mFileMessageMap.get(message);
                     if (circleProgressBar != null) {
                         circleProgressBar.setProgress(percent);
@@ -445,9 +420,9 @@ import java.util.List;
         notifyDataSetChanged();
     }
 
-   public void delete(long msgId) {
-        for(BaseMessage msg : mMessageList) {
-            if(msg.getMessageId() == msgId) {
+    public void delete(long msgId) {
+        for (BaseMessage msg : mMessageList) {
+            if (msg.getMessageId() == msgId) {
                 mMessageList.remove(msg);
                 notifyDataSetChanged();
                 break;
@@ -459,7 +434,7 @@ import java.util.List;
         BaseMessage baseMessage;
         for (int index = 0; index < mMessageList.size(); index++) {
             baseMessage = mMessageList.get(index);
-            if(message.getMessageId() == baseMessage.getMessageId()) {
+            if (message.getMessageId() == baseMessage.getMessageId()) {
                 mMessageList.remove(index);
                 mMessageList.add(index, message);
                 notifyDataSetChanged();
@@ -488,18 +463,19 @@ import java.util.List;
         notifyDataSetChanged();
     }
 
-     /**
+    /**
      * Load old message list.
+     *
      * @param limit
      * @param handler
      */
     public void loadPreviousMessages(int limit, final BaseChannel.GetMessagesHandler handler) {
-        if(isMessageListLoading()) {
+        if (isMessageListLoading()) {
             return;
         }
 
         long oldestMessageCreatedAt = Long.MAX_VALUE;
-        if(mMessageList.size() > 0) {
+        if (mMessageList.size() > 0) {
             oldestMessageCreatedAt = mMessageList.get(mMessageList.size() - 1).getCreatedAt();
         }
 
@@ -507,17 +483,17 @@ import java.util.List;
         mChannel.getPreviousMessagesByTimestamp(oldestMessageCreatedAt, false, limit, true, BaseChannel.MessageTypeFilter.ALL, null, new BaseChannel.GetMessagesHandler() {
             @Override
             public void onResult(List<BaseMessage> list, SendBirdException e) {
-                if(handler != null) {
+                if (handler != null) {
                     handler.onResult(list, e);
                 }
 
                 setMessageListLoading(false);
-                if(e != null) {
+                if (e != null) {
                     e.printStackTrace();
                     return;
                 }
 
-                for(BaseMessage message : list) {
+                for (BaseMessage message : list) {
                     mMessageList.add(message);
                 }
 
@@ -531,42 +507,42 @@ import java.util.List;
      * Should be used only on initial load or refresh.
      */
     public void loadLatestMessages(int limit, final BaseChannel.GetMessagesHandler handler) {
-        if(isMessageListLoading()) {
+        if (isMessageListLoading()) {
             return;
         }
 
         setMessageListLoading(true);
         mChannel.getPreviousMessagesByTimestamp(Long.MAX_VALUE, true, limit, true, BaseChannel.MessageTypeFilter.ALL, null, new BaseChannel.GetMessagesHandler() {
-           @Override
-           public void onResult(List<BaseMessage> list, SendBirdException e) {
-               if(handler != null) {
-                   handler.onResult(list, e);
-               }
+            @Override
+            public void onResult(List<BaseMessage> list, SendBirdException e) {
+                if (handler != null) {
+                    handler.onResult(list, e);
+                }
 
-               setMessageListLoading(false);
-               if(e != null) {
-                   e.printStackTrace();
-                   return;
-               }
+                setMessageListLoading(false);
+                if (e != null) {
+                    e.printStackTrace();
+                    return;
+                }
 
-               if(list.size() <= 0) {
-                   return;
-               }
+                if (list.size() <= 0) {
+                    return;
+                }
 
-               for (BaseMessage message : mMessageList) {
-                   if (isTempMessage(message) || isFailedMessage(message)) {
-                       list.add(0, message);
-                   }
-               }
+                for (BaseMessage message : mMessageList) {
+                    if (isTempMessage(message) || isFailedMessage(message)) {
+                        list.add(0, message);
+                    }
+                }
 
-               mMessageList.clear();
+                mMessageList.clear();
 
-               for(BaseMessage message : list) {
-                   mMessageList.add(message);
-               }
+                for (BaseMessage message : list) {
+                    mMessageList.add(message);
+                }
 
-               notifyDataSetChanged();
-           }
+                notifyDataSetChanged();
+            }
         });
     }
 
@@ -615,6 +591,19 @@ import java.util.List;
 
     }
 
+    public interface OnItemLongClickListener {
+        void onUserMessageItemLongClick(UserMessage message, int position);
+
+        void onFileMessageItemLongClick(FileMessage message);
+
+        void onAdminMessageItemLongClick(AdminMessage message);
+    }
+
+    public interface OnItemClickListener {
+        void onUserMessageItemClick(UserMessage message);
+
+        void onFileMessageItemClick(FileMessage message);
+    }
 
     private class AdminMessageHolder extends RecyclerView.ViewHolder {
         private TextView messageText, dateText;
@@ -642,7 +631,7 @@ import java.util.List;
         TextView messageText, editedText, timeText, readReceiptText, dateText;
         ViewGroup urlPreviewContainer;
         TextView urlPreviewSiteNameText, urlPreviewTitleText, urlPreviewDescriptionText;
-        ImageView urlPreviewMainImageView ,img_gif,status_img;
+        ImageView urlPreviewMainImageView, img_gif, status_img;
         View padding;
 
         MyUserMessageHolder(View itemView) {
@@ -653,7 +642,7 @@ import java.util.List;
             timeText = (TextView) itemView.findViewById(R.id.text_group_chat_time);
             readReceiptText = (TextView) itemView.findViewById(R.id.text_group_chat_read_receipt);
             dateText = (TextView) itemView.findViewById(R.id.text_group_chat_date);
-            img_gif = (ImageView)itemView.findViewById(R.id.image_open_chat_file_thumbnail);
+            img_gif = (ImageView) itemView.findViewById(R.id.image_open_chat_file_thumbnail);
             urlPreviewContainer = (ViewGroup) itemView.findViewById(R.id.url_preview_container);
             urlPreviewSiteNameText = (TextView) itemView.findViewById(R.id.text_url_preview_site_name);
             urlPreviewTitleText = (TextView) itemView.findViewById(R.id.text_url_preview_title);
@@ -666,13 +655,11 @@ import java.util.List;
         }
 
         void bind(Context context, final UserMessage message, GroupChannel channel, boolean isContinuous, boolean isNewDay, boolean isTempMessage, boolean isFailedMessage, final OnItemClickListener clickListener, final OnItemLongClickListener longClickListener, final int position) {
-            if(message.getMessage().contains("giphy.com"))
-            {
+            if (message.getMessage().contains("giphy.com")) {
                 img_gif.setVisibility(View.VISIBLE);
                 Glide.with(context).load(message.getMessage()).into(img_gif);
                 messageText.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 img_gif.setVisibility(View.GONE);
                 messageText.setVisibility(View.VISIBLE);
                 messageText.setText(message.getMessage());
@@ -763,7 +750,7 @@ import java.util.List;
 
         ViewGroup urlPreviewContainer;
         TextView urlPreviewSiteNameText, urlPreviewTitleText, urlPreviewDescriptionText;
-        ImageView urlPreviewMainImageView , img_gif;
+        ImageView urlPreviewMainImageView, img_gif;
 
         public OtherUserMessageHolder(View itemView) {
             super(itemView);
@@ -775,7 +762,7 @@ import java.util.List;
             profileImage = (ImageView) itemView.findViewById(R.id.image_group_chat_profile);
             readReceiptText = (TextView) itemView.findViewById(R.id.text_group_chat_read_receipt);
             dateText = (TextView) itemView.findViewById(R.id.text_group_chat_date);
-            img_gif = (ImageView)itemView.findViewById(R.id.image_open_chat_file_thumbnail);
+            img_gif = (ImageView) itemView.findViewById(R.id.image_open_chat_file_thumbnail);
             urlPreviewContainer = (ViewGroup) itemView.findViewById(R.id.url_preview_container);
             urlPreviewSiteNameText = (TextView) itemView.findViewById(R.id.text_url_preview_site_name);
             urlPreviewTitleText = (TextView) itemView.findViewById(R.id.text_url_preview_title);
@@ -817,13 +804,11 @@ import java.util.List;
                 nicknameText.setText(message.getSender().getNickname());
             }
 
-            if(message.getMessage().contains("giphy.com"))
-            {
+            if (message.getMessage().contains("giphy.com")) {
                 img_gif.setVisibility(View.VISIBLE);
                 Glide.with(context).load(message.getMessage()).into(img_gif);
                 messageText.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 img_gif.setVisibility(View.GONE);
                 messageText.setVisibility(View.VISIBLE);
                 messageText.setText(message.getMessage());

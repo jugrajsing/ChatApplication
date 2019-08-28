@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,43 +9,42 @@
     />
 
     <ScrollView
-        android:padding="5dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="5dp">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:orientation="vertical"
-                android:background="@drawable/chat_list_shape"
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+                android:background="@drawable/chat_list_shape"
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/ll_user_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:id="@+id/ll_user_content"
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <android.support.v7.widget.CardView
-                        app:cardBackgroundColor="@color/color_white"
                         android:layout_width="match_parent"
-                        app:contentPadding="3dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/color_white"
+                        app:contentPadding="3dp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:layout_width="10dp"
-                            android:layout_gravity="right"
                             android:layout_height="10dp"
-                            android:backgroundTint="@color/color_yellow"
-                            android:background="@mipmap/ic_launcher_round">
+                            android:layout_gravity="right"
+                            android:background="@mipmap/ic_launcher_round"
+                            android:backgroundTint="@color/color_yellow">
 
                         </de.hdodenhof.circleimageview.CircleImageView>
 
@@ -57,21 +55,21 @@
                         android:layout_width="85dp"
                         android:layout_height="85dp"
                         android:layout_margin="5dp"
-                        android:src="@drawable/emma"/>
+                        android:src="@drawable/emma" />
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/ll_user_content"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/ll_user"
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textViewName"
@@ -79,31 +77,31 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:text="Emma Wattson "
-                            android:textSize="18dp"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@color/app_color_pink"
-                            android:textAppearance="?android:attr/textAppearanceLarge"/>
+                            android:textSize="18dp" />
 
                         <TextView
-                            android:text="Hello sdasjdbsadgsjdghsdghdashdghgashdgh"
                             android:id="@+id/textViewVersion"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingRight="10dp"
-                            android:textColor="@color/color_white"
-                            android:textAppearance="?android:attr/textAppearanceMedium"/>
+                            android:text="Hello sdasjdbsadgsjdghsdghdashdghgashdgh"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="@color/color_white" />
 
                     </LinearLayout>
                 </RelativeLayout>
 
                 <TextView
-                    android:paddingBottom="5dp"
-                    android:paddingRight="10dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:text="10:21 AM"
-                    android:textColor="@color/app_color_pink"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="10:21 AM"
+                    android:textColor="@color/app_color_pink" />
 
             </RelativeLayout>
         </LinearLayout>

@@ -10,14 +10,14 @@ public class ActivityLifecycle implements Application.ActivityLifecycleCallbacks
 
     private boolean foreground = false;
 
+    private ActivityLifecycle() {
+    }
+
     public static void init(Application app) {
         if (instance == null) {
             instance = new ActivityLifecycle();
             app.registerActivityLifecycleCallbacks(instance);
         }
-    }
-
-    private ActivityLifecycle() {
     }
 
     public static synchronized ActivityLifecycle getInstance() {

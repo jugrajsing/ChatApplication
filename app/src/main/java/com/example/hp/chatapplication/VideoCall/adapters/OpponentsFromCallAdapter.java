@@ -142,16 +142,16 @@ public class OpponentsFromCallAdapter extends RecyclerView.Adapter<OpponentsFrom
             connectionStatus.setText(status);
         }
 
-        public void setUserName(String userName){
+        public void setUserName(String userName) {
             opponentsName.setText(userName);
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
         }
 
         public int getUserId() {
             return userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
         }
 
         public ProgressBar getProgressBar() {

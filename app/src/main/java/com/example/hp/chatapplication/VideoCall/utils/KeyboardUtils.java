@@ -7,7 +7,6 @@ import android.widget.EditText;
 import com.example.hp.chatapplication.VideoCall.App;
 
 
-
 public class KeyboardUtils {
 
     public static void showKeyboard(EditText editText) {

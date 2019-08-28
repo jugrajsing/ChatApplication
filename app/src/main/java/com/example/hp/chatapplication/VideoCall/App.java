@@ -15,12 +15,10 @@ import com.quickblox.core.ServiceZone;
 import com.sendbird.android.SendBird;
 
 public class App extends Application {
+    public static final String TAG = App.class.getSimpleName();
+    private static final String QB_CONFIG_DEFAULT_FILE_NAME = "qb_config_template.json";
     private static App instance;
     private QBResRequestExecutor qbResRequestExecutor;
-
-    public static final String TAG = App.class.getSimpleName();
-
-    private static final String QB_CONFIG_DEFAULT_FILE_NAME = "qb_config_template.json";
     private QbConfigs qbConfigs;
 
     public static App getInstance() {
@@ -38,7 +36,7 @@ public class App extends Application {
         SendBird.init("4FA24612-59FE-48F5-A78C-1405504CAE51", getApplicationContext());
     }
 
-    private void initApplication(){
+    private void initApplication() {
         instance = this;
     }
 
@@ -56,7 +54,7 @@ public class App extends Application {
     }
 
 
-    public void initCredentials(){
+    public void initCredentials() {
         if (qbConfigs != null) {
             QBSettings.getInstance().init(getApplicationContext(), qbConfigs.getAppId(), qbConfigs.getAuthKey(), qbConfigs.getAuthSecret());
             QBSettings.getInstance().setAccountKey(qbConfigs.getAccountKey());
@@ -68,11 +66,11 @@ public class App extends Application {
         }
     }
 
-    public QbConfigs getQbConfigs(){
+    public QbConfigs getQbConfigs() {
         return qbConfigs;
     }
 
-    protected String getQbConfigFileName(){
+    protected String getQbConfigFileName() {
         return QB_CONFIG_DEFAULT_FILE_NAME;
     }
 

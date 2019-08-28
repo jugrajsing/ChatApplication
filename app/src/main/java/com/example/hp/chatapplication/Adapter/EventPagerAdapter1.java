@@ -6,12 +6,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.hp.chatapplication.Fragments.AnniversaryFragment;
 import com.example.hp.chatapplication.Fragments.BirthdayFragment;
-import com.example.hp.chatapplication.Fragments.FriendsListFragments;
 import com.example.hp.chatapplication.Fragments.HolidaysFragment;
-import com.example.hp.chatapplication.R;
 
 public class EventPagerAdapter1 extends FragmentStatePagerAdapter {
     int mNumOfTabs;
+
     public EventPagerAdapter1(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
@@ -28,7 +27,7 @@ public class EventPagerAdapter1 extends FragmentStatePagerAdapter {
                 AnniversaryFragment tab2 = new AnniversaryFragment();
                 return tab2;
             case 2:
-               HolidaysFragment tab3 = new HolidaysFragment();
+                HolidaysFragment tab3 = new HolidaysFragment();
                 return tab3;
             default:
                 return null;

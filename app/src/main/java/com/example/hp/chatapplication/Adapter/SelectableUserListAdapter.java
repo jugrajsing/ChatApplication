@@ -26,9 +26,9 @@ import java.util.List;
 
 public class SelectableUserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static List<String> mSelectedUserIds;
     private List<User> mUsers;
     private Context mContext;
-    private static List<String> mSelectedUserIds;
     private boolean mIsBlockedList;
     private boolean mShowCheckBox;
 
@@ -36,10 +36,6 @@ public class SelectableUserListAdapter extends RecyclerView.Adapter<RecyclerView
 
     // For the adapter to track which users have been selected
     private OnItemCheckedChangeListener mCheckedChangeListener;
-
-    public interface OnItemCheckedChangeListener {
-        void OnItemChecked(User user, boolean checked);
-    }
 
     public SelectableUserListAdapter(Context context, boolean isBlockedList, boolean showCheckBox) {
         mContext = context;
@@ -84,7 +80,7 @@ public class SelectableUserListAdapter extends RecyclerView.Adapter<RecyclerView
                         }
                     }
 
-                    ((BlockedMembersListActivity)mContext).blockedMemberCount(mUsers.size());
+                    ((BlockedMembersListActivity) mContext).blockedMemberCount(mUsers.size());
 
                     notifyDataSetChanged();
                 }
@@ -120,6 +116,10 @@ public class SelectableUserListAdapter extends RecyclerView.Adapter<RecyclerView
     public void addLast(User user) {
         mUsers.add(user);
         notifyDataSetChanged();
+    }
+
+    public interface OnItemCheckedChangeListener {
+        void OnItemChecked(User user, boolean checked);
     }
 
     private class SelectableUserHolder extends RecyclerView.ViewHolder {

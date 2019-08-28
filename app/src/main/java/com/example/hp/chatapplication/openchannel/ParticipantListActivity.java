@@ -27,7 +27,7 @@ public class ParticipantListActivity extends AppCompatActivity {
 
     private static final String CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_PARTICIPANT_LIST";
 
- //   private UserListAdapter mListAdapter;
+    //   private UserListAdapter mListAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private String mChannelUrl;
@@ -41,7 +41,7 @@ public class ParticipantListActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_participant_list);
 
         mChannelUrl = getIntent().getStringExtra(OpenChatFragment.EXTRA_CHANNEL_URL);
-      //  mListAdapter = new UserListAdapter(this, mChannelUrl, false);
+        //  mListAdapter = new UserListAdapter(this, mChannelUrl, false);
 
         Toolbar toolbar = findViewById(R.id.toolbar_participant_list);
         setSupportActionBar(toolbar);
@@ -68,7 +68,7 @@ public class ParticipantListActivity extends AppCompatActivity {
     public void onPause() {
         super.onPause();
 
-      //  ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
+        //  ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
     }
 
     @Override
@@ -86,7 +86,7 @@ public class ParticipantListActivity extends AppCompatActivity {
     private void setUpRecyclerView() {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-     //   mRecyclerView.setAdapter(mListAdapter);
+        //   mRecyclerView.setAdapter(mListAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
@@ -136,6 +136,6 @@ public class ParticipantListActivity extends AppCompatActivity {
             sortedUserList.add(other);
         }
 
-    //    mListAdapter.setUserList(sortedUserList);
+        //    mListAdapter.setUserList(sortedUserList);
     }
 }

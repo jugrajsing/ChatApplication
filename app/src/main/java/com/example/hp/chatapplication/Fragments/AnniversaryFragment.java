@@ -1,7 +1,5 @@
 package com.example.hp.chatapplication.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,9 +21,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.hp.chatapplication.Adapter.AnniversaryAdapter;
-import com.example.hp.chatapplication.Adapter.BirthdayAdapter;
 import com.example.hp.chatapplication.ModelClasses.AnniversaryModel;
-import com.example.hp.chatapplication.ModelClasses.BirthdayModel;
 import com.example.hp.chatapplication.MySingleTon;
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.SharedPrefManager;
@@ -53,10 +49,10 @@ public class AnniversaryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_anniversary, container, false);
-        userId  = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
-        anniversary_Recycler=(RecyclerView) view.findViewById(R.id.anniversary_Recycler);
-        anniversary_progress=(ProgressBar) view.findViewById(R.id.anniversary_progress);
+        View view = inflater.inflate(R.layout.fragment_anniversary, container, false);
+        userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
+        anniversary_Recycler = (RecyclerView) view.findViewById(R.id.anniversary_Recycler);
+        anniversary_progress = (ProgressBar) view.findViewById(R.id.anniversary_progress);
         loadAnniverSary();
         anniversary_Recycler.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -64,11 +60,10 @@ public class AnniversaryFragment extends Fragment {
         return view;
     }
 
-    private void loadAnniverSary()
-    {
+    private void loadAnniverSary() {
         anniversary_progress.setVisibility(View.VISIBLE);
-        final String POST_URL= BaseUrl_ConstantClass.BASE_URL+"?";
-        anniversaryModelArrayList=new ArrayList<>();
+        final String POST_URL = BaseUrl_ConstantClass.BASE_URL + "?";
+        anniversaryModelArrayList = new ArrayList<>();
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, POST_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -77,24 +72,23 @@ public class AnniversaryFragment extends Fragment {
                         try {
                             jsonObject = new JSONObject(response);
                             anniversary_progress.setVisibility(View.INVISIBLE);
-                            JSONArray jsonArray= jsonObject.getJSONArray("search_result");
-                            for (int i=0;i<=jsonArray.length();i++) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
                                 String name = user_details.optString("name");
                                 String anniversary = user_details.optString("anniversary");
                                 String user_image = user_details.optString("user_img");
 
-                                AnniversaryModel anniversaryModel = new AnniversaryModel(name,anniversary,user_image);
+                                AnniversaryModel anniversaryModel = new AnniversaryModel(name, anniversary, user_image);
                                 //adding the hero to searchedlIst
                                 anniversaryModelArrayList.add(anniversaryModel);
-                                anniversaryAdapter= new AnniversaryAdapter(getActivity(),anniversaryModelArrayList);
+                                anniversaryAdapter = new AnniversaryAdapter(getActivity(), anniversaryModelArrayList);
                                 anniversary_Recycler.setAdapter(anniversaryAdapter);
                             }
 
 
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -105,27 +99,27 @@ public class AnniversaryFragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_server),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(getActivity(), ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                              }
+                        }
+                    }
                 }
-        )
-        {
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
-                logParams.put("action","getfriendaniversary");
-                logParams.put("userid",userId);
+                logParams.put("action", "getfriendaniversary");
+                logParams.put("userid", userId);
 
                 return logParams;
             }

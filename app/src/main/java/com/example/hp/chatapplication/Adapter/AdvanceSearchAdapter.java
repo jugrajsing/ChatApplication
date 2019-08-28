@@ -26,17 +26,19 @@ public class AdvanceSearchAdapter extends RecyclerView.Adapter<AdvanceSearchAdap
         this.context = context;
     }
 
-    @Override public AdvanceSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list , parent, false);
+    @Override
+    public AdvanceSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.friend_list, parent, false);
         return new AdvanceSearchAdapter.ViewHolder(v);
     }
 
-    @Override public void onBindViewHolder(final AdvanceSearchAdapter.ViewHolder holder, final int position) {
+    @Override
+    public void onBindViewHolder(final AdvanceSearchAdapter.ViewHolder holder, final int position) {
         final FriendListModel item = friendListModelArrayList.get(position);
-        String user_name=item.getName();
-        String sex=item.getGender();
-        String secret_id=item.getSecret_id();
-        String user_image=item.getImage();
+        String user_name = item.getName();
+        String sex = item.getGender();
+        String secret_id = item.getSecret_id();
+        String user_image = item.getImage();
 
         holder.searched_user_name.setText(user_name);
         holder.searched_user_gender.setText(sex);
@@ -46,27 +48,28 @@ public class AdvanceSearchAdapter extends RecyclerView.Adapter<AdvanceSearchAdap
 
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return friendListModelArrayList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public CircleImageView searched_user_image;
-        public TextView searched_user_secretKey,searched_user_name,searched_user_gender;
-        public Button send_friend_request,cancle_friend_request;
+        public TextView searched_user_secretKey, searched_user_name, searched_user_gender;
+        public Button send_friend_request, cancle_friend_request;
 
 
         public ViewHolder(final View itemView) {
             super(itemView);
 
-            searched_user_secretKey= (TextView) itemView.findViewById(R.id.searched_user_secretKey);
-            searched_user_gender= (TextView) itemView.findViewById(R.id.searched_user_gender);
+            searched_user_secretKey = (TextView) itemView.findViewById(R.id.searched_user_secretKey);
+            searched_user_gender = (TextView) itemView.findViewById(R.id.searched_user_gender);
 
             searched_user_image = (CircleImageView) itemView.findViewById(R.id.searched_user_image);
             searched_user_name = (TextView) itemView.findViewById(R.id.searched_user_name);
-            send_friend_request=(Button) itemView.findViewById(R.id.send_friend_request);
-            cancle_friend_request=(Button) itemView.findViewById(R.id.cancle_friend_request);
+            send_friend_request = (Button) itemView.findViewById(R.id.send_friend_request);
+            cancle_friend_request = (Button) itemView.findViewById(R.id.cancle_friend_request);
             // searched_user_mobile = (TextView) itemView.findViewById(R.id.searched_user_mobile);
 
         }

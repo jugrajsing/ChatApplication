@@ -1,8 +1,8 @@
 package com.example.hp.chatapplication;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ import com.sendbird.android.UserListQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InviteMemberActivity extends AppCompatActivity{
+public class InviteMemberActivity extends AppCompatActivity {
 
     private LinearLayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
@@ -166,7 +166,7 @@ public class InviteMemberActivity extends AppCompatActivity{
 
     /**
      * Loads users and adds them to current user list.
-     *
+     * <p>
      * A PreviousMessageListQuery must have been already initialized through {@link #loadInitialUserList(int)}
      */
     private void loadNextUserList(int size) {

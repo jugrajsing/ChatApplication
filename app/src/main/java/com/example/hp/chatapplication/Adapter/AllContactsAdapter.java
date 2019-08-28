@@ -45,7 +45,7 @@ public class AllContactsAdapter extends RecyclerView.Adapter<AllContactsAdapter.
 
         }
 
-      //  Glide.with(mContext).load(contactVO.getContactImage()).into(holder.ivContactImage);
+        //  Glide.with(mContext).load(contactVO.getContactImage()).into(holder.ivContactImage);
     }
 
     @Override

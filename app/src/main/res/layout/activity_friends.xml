@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
 
@@ -15,12 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0dp"
+        android:background="@color/app_color_voilet"
+        android:contentInsetStart="10dp"
         android:contentInsetLeft="10dp"
         android:contentInsetRight="10dp"
-        android:contentInsetStart="10dp"
         android:minHeight="?attr/actionBarSize"
         android:padding="0dp"
-        android:background="@color/app_color_voilet"
         app:contentInsetLeft="10dp"
         app:contentInsetRight="10dp"
         app:contentInsetStart="10dp">
@@ -42,26 +42,24 @@
                     android:background="@mipmap/ic_back_arrow" />
 
                 <TextView
-                    android:layout_centerHorizontal="true"
-                    android:textSize="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:text="Buzz"
-                    android:gravity="center_horizontal"
-                    android:textColor="@android:color/white"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            <!--    <ImageButton
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Buzz"
+                    android:textColor="@android:color/white"
+                    android:textSize="20dp" />
+                <!--    <ImageButton
 
-                    android:id="@+id/search_button_chat"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="12dp"
-                    android:layout_alignParentRight="true"
-                    android:background="@mipmap/ic_search"/>-->
+                        android:id="@+id/search_button_chat"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="12dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@mipmap/ic_search"/>-->
             </RelativeLayout>
-
-
 
 
         </LinearLayout>
@@ -70,27 +68,23 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
-        app:tabGravity="fill"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/tab_col"
-        android:layout_alignParentBottom="true"
-        app:tabPaddingStart="-1dp"
-        app:tabPaddingEnd="-1dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:tabTextAppearance="@style/MyCustomTextAppearance"
-        >
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/tab_col"
+        app:tabGravity="fill"
+        app:tabPaddingEnd="-1dp"
+        app:tabPaddingStart="-1dp"
+        app:tabTextAppearance="@style/MyCustomTextAppearance">
 
     </android.support.design.widget.TabLayout>
 
     <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_container">
-    </FrameLayout>
-
-
+        android:layout_height="match_parent"></FrameLayout>
 
 
 </LinearLayout>

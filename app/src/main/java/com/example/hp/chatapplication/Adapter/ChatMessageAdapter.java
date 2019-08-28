@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.hp.chatapplication.Holder.QBChatMessageHolder;
 import com.example.hp.chatapplication.Holder.QBUsersHolder;
 import com.example.hp.chatapplication.R;
 import com.github.library.bubbleview.BubbleTextView;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 public class ChatMessageAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<QBChatMessage>qbChatMessages;
+    private ArrayList<QBChatMessage> qbChatMessages;
 
     public ChatMessageAdapter(Context context, ArrayList<QBChatMessage> qbChatMessages) {
         this.context = context;
@@ -43,23 +42,22 @@ public class ChatMessageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view=convertView;
-        if (convertView==null){
+        View view = convertView;
+        if (convertView == null) {
 
-            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            if (qbChatMessages.get(position).getSenderId().equals(QBChatService.getInstance().getUser().getId())){
-                view=inflater.inflate(R.layout.list_send_message,null);
-                BubbleTextView bubbleTextView=(BubbleTextView)view.findViewById(R.id.message_content);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if (qbChatMessages.get(position).getSenderId().equals(QBChatService.getInstance().getUser().getId())) {
+                view = inflater.inflate(R.layout.list_send_message, null);
+                BubbleTextView bubbleTextView = (BubbleTextView) view.findViewById(R.id.message_content);
                 bubbleTextView.setText(qbChatMessages.get(position).getBody());
 
-            }
-            else {
-                view=inflater.inflate(R.layout.list_recv_messages,null);
-                BubbleTextView bubbleTextView=(BubbleTextView)view.findViewById(R.id.message_content);
+            } else {
+                view = inflater.inflate(R.layout.list_recv_messages, null);
+                BubbleTextView bubbleTextView = (BubbleTextView) view.findViewById(R.id.message_content);
                 bubbleTextView.setText(qbChatMessages.get(position).getBody());
-                TextView textView=(TextView) view.findViewById(R.id.message_user);
+                TextView textView = (TextView) view.findViewById(R.id.message_user);
                 textView.setText(QBUsersHolder.getInstance().getUsersByIds(qbChatMessages.get(position).getSenderId()).getFullName());
-                }
+            }
 
         }
         return view;

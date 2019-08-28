@@ -20,17 +20,17 @@ public class SharedPrefsHelper {
 
     private SharedPreferences sharedPreferences;
 
+    private SharedPrefsHelper() {
+        instance = this;
+        sharedPreferences = App.getInstance().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
     public static synchronized SharedPrefsHelper getInstance() {
         if (instance == null) {
             instance = new SharedPrefsHelper();
         }
 
         return instance;
-    }
-
-    private SharedPrefsHelper() {
-        instance = this;
-        sharedPreferences = App.getInstance().getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
     }
 
     public void delete(String key) {
@@ -122,7 +122,7 @@ public class SharedPrefsHelper {
         return has(QB_USER_LOGIN) && has(QB_USER_PASSWORD);
     }
 
-    public void clearAllData(){
+    public void clearAllData() {
         SharedPreferences.Editor editor = getEditor();
         editor.clear().commit();
     }

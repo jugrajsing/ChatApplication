@@ -1,9 +1,7 @@
 package com.example.hp.chatapplication.ModelClasses;
 
-public class  PostListModel
-{
- private String post_id;
-
+public class PostListModel {
+    private String post_id;
 
 
     private String you_liked;
@@ -16,7 +14,7 @@ public class  PostListModel
     private String post_profileimg;
 
 
-    public PostListModel(String post_id, String post_title, String content, String postedby, String postedby_name, String post_likes, String posted_date, String post_profileimg ,String you_liked) {
+    public PostListModel(String post_id, String post_title, String content, String postedby, String postedby_name, String post_likes, String posted_date, String post_profileimg, String you_liked) {
         this.post_id = post_id;
         this.post_title = post_title;
         this.content = content;

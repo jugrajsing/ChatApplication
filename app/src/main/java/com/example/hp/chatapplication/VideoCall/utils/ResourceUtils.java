@@ -10,7 +10,6 @@ import android.support.annotation.StringRes;
 import com.example.hp.chatapplication.VideoCall.App;
 
 
-
 public class ResourceUtils {
 
     public static String getString(@StringRes int stringId) {

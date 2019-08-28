@@ -46,7 +46,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((UserHolder) holder).bind(mContext, (UserHolder)holder, mUsers.get(position));
+        ((UserHolder) holder).bind(mContext, (UserHolder) holder, mUsers.get(position));
     }
 
     @Override
@@ -104,7 +104,7 @@ public class UserListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             intent.putExtra(MemberListActivity.EXTRA_USER_ID, user.getUserId());
                             intent.putExtra(MemberListActivity.EXTRA_USER_PROFILE_URL, user.getProfileUrl());
                             intent.putExtra(MemberListActivity.EXTRA_USER_NICKNAME, user.getNickname());
-                            intent.putExtra(MemberListActivity.EXTRA_USER_BLOCKED_BY_ME, ((Member)user).isBlockedByMe());
+                            intent.putExtra(MemberListActivity.EXTRA_USER_BLOCKED_BY_ME, ((Member) user).isBlockedByMe());
                             context.startActivity(intent);
                         }
                     });

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
+    android:orientation="vertical"
     tools:context=".ImageCroperActivty">
 
 
@@ -14,8 +13,8 @@
         android:id="@+id/CropImageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cropFixAspectRatio="true"
         android:layout_weight="1"
+        app:cropFixAspectRatio="true"
 
         />
 
@@ -24,28 +23,27 @@
         android:layout_height="wrap_content">
 
 
-
         <Button
-            android:layout_weight="1"
-            android:textSize="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/color_white"
-            android:text="Choose or Capture Image"
+            android:layout_weight="1"
             android:background="@drawable/signin_shape"
             android:onClick="onLoadImageClick"
+            android:text="Choose or Capture Image"
+            android:textColor="@color/color_white"
+            android:textSize="10dp"
 
             />
 
         <Button
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SAVE"
-            android:textSize="10dp"
+            android:layout_weight="1"
             android:background="@drawable/signin_shape"
-            android:textColor="@color/color_white"
             android:onClick="onCropImageClick"
+            android:text="SAVE"
+            android:textColor="@color/color_white"
+            android:textSize="10dp"
 
             />
 
@@ -53,15 +51,10 @@
     </LinearLayout>
 
 
-
-
     <ImageView
         android:id="@+id/croped_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
-
-
 
 
 </LinearLayout>

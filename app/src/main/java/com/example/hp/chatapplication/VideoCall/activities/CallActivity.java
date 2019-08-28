@@ -6,12 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,10 +65,8 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
         OnCallEventsController, IncomeCallFragmentCallbackListener, ConversationFragmentCallbackListener, NetworkConnectionChecker.OnConnectivityChangedListener,
         ScreenShareFragment.OnSharingEvents {
 
-    private static final String TAG = CallActivity.class.getSimpleName();
-
     public static final String INCOME_CALL_FRAGMENT = "income_call_fragment";
-
+    private static final String TAG = CallActivity.class.getSimpleName();
     private QBRTCSession currentSession;
     private Runnable showIncomingCallWindowTask;
     private Handler showIncomingCallWindowTaskHandler;
@@ -103,6 +100,7 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
 
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +119,7 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
         initFields();
         initCurrentSession(currentSession);
 
-      //  PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        //  PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         initQBRTCClient();
         initAudioManager();
@@ -135,7 +133,7 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
     }
 
 
-    private void startScreenSharing(final Intent data){
+    private void startScreenSharing(final Intent data) {
         ScreenShareFragment screenShareFragment = ScreenShareFragment.newIntstance();
         FragmentExecuotr.addFragmentWithBackStack(getSupportFragmentManager(), R.id.fragment_container, screenShareFragment, ScreenShareFragment.TAG);
         currentSession.getMediaStreamManager().setVideoCapturer(new QBRTCScreenCapturer(data, null));
@@ -150,14 +148,13 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,final Intent data) {
-        Log.i(TAG, "onActivityResult requestCode="+requestCode +", resultCode= " + resultCode);
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+        Log.i(TAG, "onActivityResult requestCode=" + requestCode + ", resultCode= " + resultCode);
         if (requestCode == QBRTCScreenCapturer.REQUEST_MEDIA_PROJECTION) {
             if (resultCode == Activity.RESULT_OK) {
                 startScreenSharing(data);
                 Log.i(TAG, "Starting screen capture");
-            }
-            else {
+            } else {
 
             }
         }
@@ -711,7 +708,7 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
 
     @Override
     public void onSwitchCamera(CameraVideoCapturer.CameraSwitchHandler cameraSwitchHandler) {
-        ((QBRTCCameraVideoCapturer)(currentSession.getMediaStreamManager().getVideoCapturer()))
+        ((QBRTCCameraVideoCapturer) (currentSession.getMediaStreamManager().getVideoCapturer()))
                 .switchCamera(cameraSwitchHandler);
     }
 
@@ -768,6 +765,36 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
         onBackPressed();
     }
 
+    private void notifyCallStateListenersCallStarted() {
+        for (CurrentCallStateCallback callback : currentCallStateCallbackList) {
+            callback.onCallStarted();
+        }
+    }
+
+    private void notifyCallStateListenersCallStopped() {
+        for (CurrentCallStateCallback callback : currentCallStateCallbackList) {
+            callback.onCallStopped();
+        }
+    }
+
+    private void notifyCallStateListenersNeedUpdateOpponentsList(final ArrayList<QBUser> newUsers) {
+        for (CurrentCallStateCallback callback : currentCallStateCallbackList) {
+            callback.onOpponentsListUpdated(newUsers);
+        }
+    }
+
+    public interface OnChangeDynamicToggle {
+        void enableDynamicToggle(boolean plugged, boolean wasEarpiece);
+    }
+
+    public interface CurrentCallStateCallback {
+        void onCallStarted();
+
+        void onCallStopped();
+
+        void onOpponentsListUpdated(ArrayList<QBUser> newUsers);
+    }
+
     //////////////////////////////////////////   end   /////////////////////////////////////////////
     private class ConnectionListener extends AbstractConnectionListener {
         @Override
@@ -787,37 +814,6 @@ public class CallActivity extends BaseActivity implements QBRTCClientSessionCall
             if (!callStarted) {
                 hangUpAfterLongReconnection();
             }
-        }
-    }
-
-    public interface OnChangeDynamicToggle {
-        void enableDynamicToggle(boolean plugged, boolean wasEarpiece);
-    }
-
-
-    public interface CurrentCallStateCallback {
-        void onCallStarted();
-
-        void onCallStopped();
-
-        void onOpponentsListUpdated(ArrayList<QBUser> newUsers);
-    }
-
-    private void notifyCallStateListenersCallStarted() {
-        for (CurrentCallStateCallback callback : currentCallStateCallbackList) {
-            callback.onCallStarted();
-        }
-    }
-
-    private void notifyCallStateListenersCallStopped() {
-        for (CurrentCallStateCallback callback : currentCallStateCallbackList) {
-            callback.onCallStopped();
-        }
-    }
-
-    private void notifyCallStateListenersNeedUpdateOpponentsList(final ArrayList<QBUser> newUsers) {
-        for (CurrentCallStateCallback callback : currentCallStateCallbackList) {
-            callback.onOpponentsListUpdated(newUsers);
         }
     }
 

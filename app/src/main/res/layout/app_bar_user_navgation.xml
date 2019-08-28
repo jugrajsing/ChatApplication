@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,9 +7,9 @@
     tools:context=".UserNavgation">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -25,9 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
+                android:contentInsetStart="10dp"
                 android:contentInsetLeft="10dp"
                 android:contentInsetRight="10dp"
-                android:contentInsetStart="10dp"
                 android:minHeight="?attr/actionBarSize"
                 android:padding="0dp"
                 app:contentInsetLeft="10dp"
@@ -45,25 +44,24 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_centerHorizontal="true"
-                            android:textSize="20dp"
-                            android:text="Buzz"
-                            android:gravity="center_horizontal"
-                            android:textColor="@android:color/white"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center_horizontal"
+                            android:text="Buzz"
+                            android:textColor="@android:color/white"
+                            android:textSize="20dp" />
+
                         <ImageButton
 
                             android:id="@+id/search_button_chat"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
+                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="12dp"
-                            android:layout_alignParentRight="true"
-                            android:background="@mipmap/ic_search"/>
+                            android:background="@mipmap/ic_search" />
                     </RelativeLayout>
-
-
 
 
                 </LinearLayout>
@@ -72,8 +70,7 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <include
-            layout="@layout/content_user_navgation" />
+        <include layout="@layout/content_user_navgation" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

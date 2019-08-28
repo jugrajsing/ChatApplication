@@ -16,6 +16,7 @@
 
 
 package com.example.hp.chatapplication;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,10 +31,8 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.hp.chatapplication.Main2Activity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,6 +40,43 @@ import org.json.JSONObject;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+
+    /**
+     * Create and show a simple notification containing the received FCM message.
+     *
+     * @param messageBody FCM message body received.
+     */
+    public static void sendNotification(Context context, String messageBody, String channelUrl) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        final String CHANNEL_ID = "CHANNEL_ID";
+        if (Build.VERSION.SDK_INT >= 26) {  // Build.VERSION_CODES.O
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, "CHANNEL_NAME", NotificationManager.IMPORTANCE_HIGH);
+            notificationManager.createNotificationChannel(mChannel);
+        }
+
+        Intent intent = new Intent(context, Main2Activity.class);
+        intent.putExtra("URL", channelUrl);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.app_buzz_logo)
+                .setColor(Color.parseColor("#7469C4"))  // small icon background color
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.app_buzz_logo))
+                .setContentTitle(messageBody)
+
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentIntent(pendingIntent);
+
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+    // [END receive_message]
 
     /**
      * Called when message is received.
@@ -85,43 +121,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         sendNotification(this, remoteMessage.getData().get("message"), channelUrl);
-    }
-    // [END receive_message]
-
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
-    public static void sendNotification(Context context, String messageBody, String channelUrl) {
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-        final String CHANNEL_ID = "CHANNEL_ID";
-        if (Build.VERSION.SDK_INT >= 26) {  // Build.VERSION_CODES.O
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, "CHANNEL_NAME", NotificationManager.IMPORTANCE_HIGH);
-            notificationManager.createNotificationChannel(mChannel);
-        }
-
-        Intent intent = new Intent(context, Main2Activity.class);
-        intent.putExtra("URL", channelUrl);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 /* Request code */, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.app_buzz_logo)
-                .setColor(Color.parseColor("#7469C4"))  // small icon background color
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.app_buzz_logo))
-                .setContentTitle(messageBody)
-
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setContentIntent(pendingIntent);
-
-
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }

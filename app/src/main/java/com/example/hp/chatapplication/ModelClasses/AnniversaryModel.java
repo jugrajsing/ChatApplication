@@ -2,18 +2,22 @@ package com.example.hp.chatapplication.ModelClasses;
 
 public class AnniversaryModel {
 
+    private String name;
+    private String anniversary;
+    private String image;
+
+    public AnniversaryModel(String name, String anniversary, String image) {
+        this.name = name;
+        this.anniversary = anniversary;
+        this.image = image;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AnniversaryModel(String name, String anniversary, String image) {
-        this.name = name;
-        this.anniversary = anniversary;
-        this.image = image;
     }
 
     public String getAnniversary() {
@@ -31,10 +35,6 @@ public class AnniversaryModel {
     public void setImage(String image) {
         this.image = image;
     }
-
-    private String name;
-    private String anniversary;
-    private String image;
 
 
 }

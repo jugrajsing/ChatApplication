@@ -13,13 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.hp.chatapplication.Main2Activity;
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.Utils.Main3Activity;
 import com.sendbird.android.OpenChannel;
 import com.sendbird.android.OpenChannelListQuery;
 import com.sendbird.android.SendBirdException;
-
 
 import java.util.List;
 
@@ -55,7 +53,7 @@ public class OpenChannelListFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-     //   ((OpenChannelActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.all_open_channels));
+        //   ((OpenChannelActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.all_open_channels));
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_open_channel_list);
         mChannelListAdapter = new OpenChannelListAdapter(getContext());
@@ -102,7 +100,7 @@ public class OpenChannelListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-       // ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
+        // ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
     }
 
     @Override
@@ -164,7 +162,7 @@ public class OpenChannelListFragment extends Fragment {
      * Creates a new query to get the list of the user's Open Channels,
      * then replaces the existing dataset.
      *
-     * @param numChannels   The number of channels to load.
+     * @param numChannels The number of channels to load.
      */
     void refreshChannelList(int numChannels) {
         mChannelListQuery = OpenChannel.createOpenChannelListQuery();

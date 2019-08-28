@@ -7,7 +7,6 @@ import com.example.hp.chatapplication.VideoCall.services.CallService;
 import com.example.hp.chatapplication.VideoCall.utils.SharedPrefsHelper;
 import com.example.hp.chatapplication.VideoCall.utils.constant.GcmConsts;
 import com.google.android.gms.gcm.GcmListenerService;
-
 import com.quickblox.users.model.QBUser;
 
 /**
@@ -30,7 +29,7 @@ public class GcmPushListenerService extends GcmListenerService {
         }
     }
 
-    private void startLoginService(QBUser qbUser){
+    private void startLoginService(QBUser qbUser) {
         CallService.start(this, qbUser);
     }
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:orientation="vertical"
-    android:background="@drawable/background"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
     tools:context=".LoginRegistrationActivity">
 
     <ScrollView
@@ -13,112 +12,111 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_marginTop="35dp"
-                android:layout_gravity="center"
-                android:background="@drawable/app_buzz_logo"
                 android:layout_width="70dp"
-                android:layout_height="70dp" />
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/app_buzz_logo" />
 
             <TextView
-                android:layout_marginTop="30dp"
-                android:textColor="@android:color/white"
-                android:textAlignment="center"
-                android:text="@string/signInText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/signInText"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
 
             <FrameLayout
 
-                android:layout_marginTop="20dp"
-                android:layout_gravity="center"
-                android:background="@drawable/toggle_bacground_shape"
                 android:layout_width="300dp"
-                android:layout_height="35dp">
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/toggle_bacground_shape">
 
                 <LinearLayout
 
-                    android:background="@drawable/toggle_bacground_shape"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@drawable/toggle_bacground_shape">
 
 
                     <Button
                         android:id="@+id/button_sign_in"
-                        android:textAllCaps="false"
-                        android:layout_weight="1"
-                        android:layout_margin="2dp"
-                        android:background="@drawable/signin_button_voilet"
-                        android:layout_centerVertical="true"
-                        android:textColor="@android:color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Sign in" />
+                        android:layout_centerVertical="true"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/signin_button_voilet"
+                        android:text="Sign in"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
 
                     <Button
 
-                        android:layout_weight="1"
-                        android:background="@drawable/signin_button"
-                        android:textAllCaps="false"
-
-                        android:layout_centerVertical="true"
                         android:id="@+id/sign_up_button"
-                        android:textColor="@android:color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="Sign up" />
+
+                        android:layout_centerVertical="true"
+                        android:layout_weight="1"
+                        android:background="@drawable/signin_button"
+                        android:text="Sign up"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black" />
                 </LinearLayout>
             </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/user_registration_layout"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginLeft="40dp"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="40dp"
+                    android:orientation="horizontal">
 
-                    <RelativeLayout
-                        xmlns:android="http://schemas.android.com/apk/res/android"
+                    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity" >
+                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
                         <ImageView
                             android:id="@+id/user_logo_"
-                            android:layout_marginLeft="3dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/user_id_logo"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/user_id_logo" />
 
 
                         <EditText
-                            android:layout_toRightOf="@+id/user_logo_"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="30dp"
                             android:id="@+id/secret_id"
-                            android:textColor="@android:color/white"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:ems="10"
-                            android:textSize="16sp"
-                            android:textColorHint="@android:color/white"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_toRightOf="@+id/user_logo_"
                             android:background="@null"
-                            android:hint="Secret ID">
+                            android:ems="10"
+                            android:hint="Secret ID"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="16sp">
 
                         </EditText>
 
@@ -134,53 +132,52 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="40dp"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="40dp"
+                    android:orientation="horizontal">
 
-                    <RelativeLayout
-                        xmlns:android="http://schemas.android.com/apk/res/android"
+                    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity" >
+                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
                         <ImageView
                             android:id="@+id/phone_iv"
-                            android:layout_marginLeft="3dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/ic_phone"
                             android:layout_width="20dp"
-                            android:layout_height="25dp" />
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="3dp"
+                            android:background="@drawable/ic_phone" />
 
                         <TextView
                             android:id="@+id/tv_std_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@+id/phone_iv"
                             android:text="+91"
-                            android:textSize="16sp"
-                            android:layout_marginLeft="10dp"
                             android:textColor="@color/color_white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="16sp" />
 
 
                         <EditText
-                            android:layout_toRightOf="@+id/tv_std_code"
-                            android:layout_marginRight="30dp"
                             android:id="@+id/user_mobile"
-                            android:layout_marginLeft="15dp"
-                            android:textColor="@android:color/white"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ems="10"
-                            android:textSize="16sp"
-                            android:textColorHint="@android:color/white"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_toRightOf="@+id/tv_std_code"
                             android:background="@null"
-                            android:hint="Mobile no">
+                            android:ems="10"
+                            android:hint="Mobile no"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="16sp">
 
                         </EditText>
 
@@ -198,47 +195,46 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginRight="40dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="40dp"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="40dp"
+                    android:orientation="horizontal">
 
-                    <RelativeLayout
-                        xmlns:android="http://schemas.android.com/apk/res/android"
+                    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity" >
+                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
                         <TextView
                             android:id="@+id/text_at"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="3dp"
                             android:text="@string/at"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
                             android:textColor="@color/color_white"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
 
                         <EditText
-                            android:layout_toRightOf="@+id/text_at"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="30dp"
                             android:id="@+id/user_email"
-                            android:textColor="@android:color/white"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_centerVertical="true"
-                            android:ems="10"
-                            android:textSize="16sp"
-                            android:textColorHint="@android:color/white"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_toRightOf="@+id/text_at"
                             android:background="@null"
-                            android:hint="Email address">
+                            android:ems="10"
+                            android:hint="Email address"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="16sp">
 
                         </EditText>
 
@@ -254,51 +250,50 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginRight="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="38dp"
                     android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_marginRight="40dp">
 
 
-                    <RelativeLayout
-                        xmlns:android="http://schemas.android.com/apk/res/android"
+                    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:tools="http://schemas.android.com/tools"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity" >
+                        tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
                         <ImageView
                             android:id="@+id/lock_view"
-                            android:background="@drawable/lock"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/lock" />
 
                         <EditText
-                            android:layout_marginLeft="10dp"
-                            android:layout_toRightOf="@+id/lock_view"
-                            android:textColor="@android:color/white"
-                            android:layout_marginRight="30dp"
                             android:id="@+id/user_passkey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:ems="10"
-                            android:textSize="16sp"
-                            android:inputType="textPassword"
-                            android:textColorHint="@android:color/white"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="30dp"
+                            android:layout_toRightOf="@+id/lock_view"
                             android:background="@null"
-                            android:hint="Passkey">
+                            android:ems="10"
+                            android:hint="Passkey"
+                            android:inputType="textPassword"
+                            android:textColor="@android:color/white"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="16sp">
 
                         </EditText>
 
                         <ImageView
 
-                            android:layout_alignParentRight="true"
-                            android:background="@drawable/view_eye"
                             android:layout_width="30dp"
-                            android:layout_height="28dp" />
+                            android:layout_height="28dp"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/view_eye" />
 
                         <View
 
@@ -315,39 +310,38 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="30dp"
-                    android:orientation="horizontal"
                     android:layout_marginRight="35dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal">
 
                     <Button
-                        android:layout_marginLeft="30dp"
-                        android:minHeight="30dp"
-                        android:background="@drawable/signin_shape"
-                        android:textAllCaps="false"
-                        android:layout_centerVertical="true"
                         android:id="@+id/button_SignUp"
-                        android:textColor="@android:color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sign up" />
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="30dp"
+                        android:background="@drawable/signin_shape"
+                        android:minHeight="30dp"
+                        android:text="Sign up"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
 
                 </RelativeLayout>
 
                 <TextView
-                    android:layout_marginTop="30dp"
-                    android:textColor="@color/color_white"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginLeft="35dp"
-                    android:textSize="10sp"
-                    android:text="@string/sign_uptext"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/sign_uptext"
+                    android:textColor="@color/color_white"
+                    android:textSize="10sp" />
 
             </LinearLayout>
-
 
 
         </LinearLayout>

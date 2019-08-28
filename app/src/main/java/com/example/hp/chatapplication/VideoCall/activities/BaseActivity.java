@@ -12,28 +12,29 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
+
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.SharedPrefManager;
 import com.example.hp.chatapplication.VideoCall.gcm.GooglePlayServicesHelper;
 import com.example.hp.chatapplication.VideoCall.util.QBResRequestExecutor;
-import com.example.hp.chatapplication.VideoCall.utils.Consts;
 import com.example.hp.chatapplication.VideoCall.utils.ErrorUtils;
 import com.example.hp.chatapplication.VideoCall.utils.SharedPrefsHelper;
+
 import java.lang.reflect.Field;
-public abstract class  BaseActivity extends AppCompatActivity {
+
+public abstract class BaseActivity extends AppCompatActivity {
     protected ActionBar actionBar;
+    protected GooglePlayServicesHelper googlePlayServicesHelper;
+    protected QBResRequestExecutor requestExecutor;
     Context mContext;
     SharedPrefsHelper sharedPrefsHelper;
     SharedPrefManager sharedPrefManager;
     private ProgressDialog progressDialog;
-    protected GooglePlayServicesHelper googlePlayServicesHelper;
-    protected QBResRequestExecutor requestExecutor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext=this;
+        mContext = this;
         actionBar = getSupportActionBar();
 
         // Hack. Forcing overflow button on actionbar on devices with hardware menu button
@@ -47,8 +48,8 @@ public abstract class  BaseActivity extends AppCompatActivity {
         } catch (Exception ex) {
             // Ignore
         }
-       // requestExecutor = App.getInstance().getQbResRequestExecutor();
-       requestExecutor =  new QBResRequestExecutor();
+        // requestExecutor = App.getInstance().getQbResRequestExecutor();
+        requestExecutor = new QBResRequestExecutor();
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         sharedPrefManager = SharedPrefManager.getInstance(this);
         googlePlayServicesHelper = new GooglePlayServicesHelper();
@@ -56,7 +57,7 @@ public abstract class  BaseActivity extends AppCompatActivity {
 
     public void initDefaultActionBar() {
         String currentUserFullName = "";
-      //  String currentRoomName = sharedPrefsHelper.get(Consts.PREF_CURREN_ROOM_NAME, "");
+        //  String currentRoomName = sharedPrefsHelper.get(Consts.PREF_CURREN_ROOM_NAME, "");
         String currentRoomName = "chat";
 
        /* if (sharedPrefsHelper.getQbUser() != null) {
@@ -95,11 +96,13 @@ public abstract class  BaseActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(messageId));
         //    progressDialog.show();
     }
+
     void hideProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
     }
+
     protected void showErrorSnackbar(@StringRes int resId, Exception e,
                                      View.OnClickListener clickListener) {
         if (getSnackbarAnchorView() != null) {
@@ -107,17 +110,21 @@ public abstract class  BaseActivity extends AppCompatActivity {
                     R.string.dlg_retry, clickListener);
         }
     }
+
     protected abstract View getSnackbarAnchorView();
+
     public void setActionBarTitle(int title) {
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
     }
+
     public void setActionBarTitle(CharSequence title) {
         if (actionBar != null) {
             actionBar.setTitle(title);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -127,19 +134,21 @@ public abstract class  BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void longToast(String message){
-        Toast.makeText(mContext,message,Toast.LENGTH_LONG).show();
-    }
-    public void longToast(int resId){
-        Toast.makeText(mContext,resId,Toast.LENGTH_LONG).show();
+
+    public void longToast(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
     }
 
-    public void shortToast(String message){
-        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+    public void longToast(int resId) {
+        Toast.makeText(mContext, resId, Toast.LENGTH_LONG).show();
     }
 
-    public void shortToast(int resId){
-        Toast.makeText(mContext,resId,Toast.LENGTH_SHORT).show();
+    public void shortToast(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void shortToast(int resId) {
+        Toast.makeText(mContext, resId, Toast.LENGTH_SHORT).show();
     }
 }
 

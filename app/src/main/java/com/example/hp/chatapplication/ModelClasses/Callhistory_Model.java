@@ -2,16 +2,16 @@ package com.example.hp.chatapplication.ModelClasses;
 
 public class Callhistory_Model {
     private String callername;
-  //  private int caller_profile;
+    //  private int caller_profile;
     private String calling_time;
-    private String  calling_status_text;
+    private String calling_status_text;
 
     public Callhistory_Model() {
     }
 
     public Callhistory_Model(String callername, String calling_time, String calling_status_text) {
         this.callername = callername;
-       // this.caller_profile = caller_profile;
+        // this.caller_profile = caller_profile;
         this.calling_time = calling_time;
         this.calling_status_text = calling_status_text;
     }

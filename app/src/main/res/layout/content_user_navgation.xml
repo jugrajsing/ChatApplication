@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
-        app:tabGravity="fill"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/tab_col"
-        android:layout_alignParentBottom="true"
-        app:tabPaddingStart="-1dp"
-        app:tabPaddingEnd="-1dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:tabTextAppearance="@style/MyCustomTextAppearance"
-        >
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="@color/tab_col"
+        app:tabGravity="fill"
+        app:tabPaddingEnd="-1dp"
+        app:tabPaddingStart="-1dp"
+        app:tabTextAppearance="@style/MyCustomTextAppearance">
 
     </android.support.design.widget.TabLayout>
 
     <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_container">
-    </FrameLayout>
-
-
+        android:layout_height="match_parent"></FrameLayout>
 
 
 </LinearLayout>

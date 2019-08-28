@@ -3,38 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view_login_activity"
     style="@style/MatchParent"
-    android:orientation="vertical"
     android:layout_marginLeft="@dimen/padding_start"
+    android:orientation="vertical"
     tools:context=".VideoCall.activities.LoginActivity">
 
-<TextView
-    style="@style/MatchWidth"
-    android:paddingTop="@dimen/padding_actionbar"
-    android:text="@string/text_welcoming_message"
-    />
+    <TextView
+        style="@style/MatchWidth"
+        android:paddingTop="@dimen/padding_actionbar"
+        android:text="@string/text_welcoming_message" />
 
-<EditText
-    android:id="@+id/user_name"
-    style="@style/MatchWidth"
-    android:paddingTop="@dimen/padding_top"
-    android:hint="@string/hint_user_name"
-    android:textSize="16sp"
-    android:singleLine="true"
-    />
+    <EditText
+        android:id="@+id/user_name"
+        style="@style/MatchWidth"
+        android:hint="@string/hint_user_name"
+        android:paddingTop="@dimen/padding_top"
+        android:singleLine="true"
+        android:textSize="16sp" />
 
-<EditText
-    android:id="@+id/chat_room_name"
-    style="@style/MatchWidth"
-    android:paddingTop="@dimen/padding_top"
-    android:hint="@string/hint_chat_room_name"
-    android:textSize="16sp"
-    android:singleLine="true"
-    />
+    <EditText
+        android:id="@+id/chat_room_name"
+        style="@style/MatchWidth"
+        android:hint="@string/hint_chat_room_name"
+        android:paddingTop="@dimen/padding_top"
+        android:singleLine="true"
+        android:textSize="16sp" />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="login"
-    android:id="@+id/log"/>
+    <Button
+        android:id="@+id/log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="login" />
 
 </LinearLayout>

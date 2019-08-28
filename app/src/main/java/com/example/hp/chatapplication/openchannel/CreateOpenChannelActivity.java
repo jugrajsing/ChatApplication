@@ -26,15 +26,14 @@ import com.sendbird.android.SendBirdException;
  * Allows a user to create an Open Channel.
  * Dialog instead of activity?
  */
-public class CreateOpenChannelActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class CreateOpenChannelActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    String[] bankNames = {"Companies", "Fun", "Advertise", "Cricket SA", "Circket India"};
     private InputMethodManager mIMM;
-
     private TextInputEditText mNameEditText;
     private boolean enableCreate = false;
     private Button mCreateButton;
     private String selcted_group;
-    String[] bankNames={"Companies","Fun","Advertise","Cricket SA","Circket India"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class CreateOpenChannelActivity extends AppCompatActivity implements Adap
 
 
 //Creating the ArrayAdapter instance having the bank name list
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,bankNames);
+        ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bankNames);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
@@ -67,7 +66,7 @@ public class CreateOpenChannelActivity extends AppCompatActivity implements Adap
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createOpenChannel(mNameEditText.getText().toString(),selcted_group);
+                createOpenChannel(mNameEditText.getText().toString(), selcted_group);
             }
         });
 
@@ -112,7 +111,7 @@ public class CreateOpenChannelActivity extends AppCompatActivity implements Adap
     }
 
     private void createOpenChannel(String name, String data) {
-        OpenChannel.createChannelWithOperatorUserIds(name, null, data,null, new OpenChannel.OpenChannelCreateHandler() {
+        OpenChannel.createChannelWithOperatorUserIds(name, null, data, null, new OpenChannel.OpenChannelCreateHandler() {
             @Override
             public void onResult(OpenChannel openChannel, SendBirdException e) {
                 if (e != null) {
@@ -135,7 +134,7 @@ public class CreateOpenChannelActivity extends AppCompatActivity implements Adap
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-         selcted_group=bankNames[i];
+        selcted_group = bankNames[i];
         Toast.makeText(getApplicationContext(), bankNames[i], Toast.LENGTH_LONG).show();
     }
 

@@ -5,10 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.example.hp.chatapplication.VideoCall.services.CallService;
 import com.example.hp.chatapplication.VideoCall.utils.SharedPrefsHelper;
@@ -24,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
 
-        if(!isConnected(SplashScreen.this)) buildDialog(SplashScreen.this).show();
+        if (!isConnected(SplashScreen.this)) buildDialog(SplashScreen.this).show();
         else {
             //Toast.makeText(SplashScreen.this,"Welcome", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_splash_screen);
@@ -39,17 +39,16 @@ public class SplashScreen extends AppCompatActivity {
                         startActivity(new Intent(SplashScreen.this, LoginRegistrationActivity.class));
                         finish();
                         return;
-                    }
-                    else {
+                    } else {
                         startActivity(new Intent(SplashScreen.this, LoginRegistrationActivity.class));
                         finish();
                     }
 
 
                 }
-            },4000);
+            }, 4000);
 
-            }
+        }
 
     }
 
@@ -63,12 +62,11 @@ public class SplashScreen extends AppCompatActivity {
         NetworkInfo netinfo = cm.getActiveNetworkInfo();
 
 
-        if (netinfo != null && netinfo.isConnectedOrConnecting())
-        {
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
             android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
+            if ((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting()))
                 return true;
             else
                 return false;

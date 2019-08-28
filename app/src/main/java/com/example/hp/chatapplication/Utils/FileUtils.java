@@ -52,7 +52,7 @@ public class FileUtils {
                 if ("primary".equalsIgnoreCase(type)) {
                     Hashtable<String, Object> value = new Hashtable<String, Object>();
                     value.put("path", Environment.getExternalStorageDirectory() + "/" + split[1]);
-                    value.put("size", (int)new File((String)value.get("path")).length());
+                    value.put("size", (int) new File((String) value.get("path")).length());
                     value.put("mime", "application/octet-stream");
 
                     return value;
@@ -83,7 +83,7 @@ public class FileUtils {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -101,7 +101,7 @@ public class FileUtils {
                     File file = File.createTempFile("sendbird", ".jpg");
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 80, new BufferedOutputStream(new FileOutputStream(file)));
                     value.put("path", file.getAbsolutePath());
-                    value.put("size", (int)file.length());
+                    value.put("size", (int) file.length());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -114,7 +114,7 @@ public class FileUtils {
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
             Hashtable<String, Object> value = new Hashtable<String, Object>();
             value.put("path", uri.getPath());
-            value.put("size", (int)new File((String)value.get("path")).length());
+            value.put("size", (int) new File((String) value.get("path")).length());
             value.put("mime", "application/octet-stream");
 
             return value;
@@ -141,7 +141,7 @@ public class FileUtils {
             try {
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
                         null);
-            } catch(IllegalArgumentException e) {
+            } catch (IllegalArgumentException e) {
                 COLUMN_MIME = "mimetype"; // DownloadProvider.sAppReadableColumnsArray.COLUMN_MIME_TYPE
                 projection[1] = COLUMN_MIME;
                 cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
@@ -159,8 +159,8 @@ public class FileUtils {
                 int size = cursor.getInt(column_index);
 
                 Hashtable<String, Object> value = new Hashtable<String, Object>();
-                if(path == null) path = "";
-                if(mime == null) mime = "application/octet-stream";
+                if (path == null) path = "";
+                if (mime == null) mime = "application/octet-stream";
 
                 value.put("path", path);
                 value.put("mime", mime);
@@ -169,7 +169,7 @@ public class FileUtils {
                 return value;
             }
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (cursor != null)
@@ -181,12 +181,15 @@ public class FileUtils {
     private static boolean isExternalStorageDocument(Uri uri) {
         return "com.android.externalstorage.documents".equals(uri.getAuthority());
     }
+
     private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
+
     private static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
     private static boolean isNewGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.contentprovider".equals(uri.getAuthority());
     }
@@ -227,7 +230,7 @@ public class FileUtils {
         fos.write(data.getBytes());
         fos.close();
 
-        if(!tempFile.renameTo(file)) {
+        if (!tempFile.renameTo(file)) {
             throw new IOException("Error to rename file to " + file.getAbsolutePath());
         }
     }

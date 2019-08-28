@@ -14,6 +14,8 @@ import com.example.hp.chatapplication.R;
 
 public class OpenChannelActivity extends AppCompatActivity {
 
+    private onBackPressedListener mOnBackPressedListener;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +40,6 @@ public class OpenChannelActivity extends AppCompatActivity {
                     .commit();
         }
     }
-
-    interface onBackPressedListener {
-        boolean onBack();
-    }
-    private onBackPressedListener mOnBackPressedListener;
 
     public void setOnBackPressedListener(onBackPressedListener listener) {
         mOnBackPressedListener = listener;
@@ -72,5 +69,9 @@ public class OpenChannelActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
+    }
+
+    interface onBackPressedListener {
+        boolean onBack();
     }
 }

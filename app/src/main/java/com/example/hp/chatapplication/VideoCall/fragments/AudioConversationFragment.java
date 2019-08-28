@@ -1,10 +1,7 @@
 package com.example.hp.chatapplication.VideoCall.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,55 +20,55 @@ import com.quickblox.users.model.QBUser;
 import java.util.ArrayList;
 
 
-public class AudioConversationFragment  extends BaseConversationFragment implements CallActivity.OnChangeDynamicToggle {
-private static final String TAG = AudioConversationFragment.class.getSimpleName();
+public class AudioConversationFragment extends BaseConversationFragment implements CallActivity.OnChangeDynamicToggle {
+    private static final String TAG = AudioConversationFragment.class.getSimpleName();
 
-private ToggleButton audioSwitchToggleButton;
-private TextView alsoOnCallText;
-private TextView firstOpponentNameTextView;
-private TextView otherOpponentsTextView;
-private boolean headsetPlugged;
+    private ToggleButton audioSwitchToggleButton;
+    private TextView alsoOnCallText;
+    private TextView firstOpponentNameTextView;
+    private TextView otherOpponentsTextView;
+    private boolean headsetPlugged;
 
-@Override
-public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        }
+    }
 
-@Override
-public void onStart() {
+    @Override
+    public void onStart() {
         super.onStart();
         conversationFragmentCallbackListener.addOnChangeDynamicToggle(this);
-        }
+    }
 
-@Nullable
-@Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
-        }
+    }
 
-@Override
-protected void configureOutgoingScreen() {
+    @Override
+    protected void configureOutgoingScreen() {
         outgoingOpponentsRelativeLayout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
         allOpponentsTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_color_outgoing_opponents_names_audio_call));
         ringingTextView.setTextColor(ContextCompat.getColor(getActivity(), R.color.text_color_call_type));
-        }
+    }
 
-@Override
-protected void configureToolbar() {
+    @Override
+    protected void configureToolbar() {
         toolbar.setVisibility(View.VISIBLE);
         toolbar.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
         toolbar.setTitleTextColor(ContextCompat.getColor(getActivity(), R.color.toolbar_title_color));
         toolbar.setSubtitleTextColor(ContextCompat.getColor(getActivity(), R.color.toolbar_subtitle_color));
-        }
+    }
 
-@Override
-protected void configureActionBar() {
+    @Override
+    protected void configureActionBar() {
         actionBar.setTitle(currentUser.getTags().get(0));
         actionBar.setSubtitle(String.format(getString(R.string.subtitle_text_logged_in_as), currentUser.getFullName()));
-        }
+    }
 
-@Override
-protected void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         super.initViews(view);
         timerChronometer = (Chronometer) view.findViewById(R.id.chronometer_timer_audio_call);
 
@@ -91,75 +88,75 @@ protected void initViews(View view) {
         audioSwitchToggleButton.setVisibility(View.VISIBLE);
 
         actionButtonsEnabled(false);
-        }
+    }
 
-private void setVisibilityAlsoOnCallTextView() {
+    private void setVisibilityAlsoOnCallTextView() {
         if (opponents.size() < 2) {
-        alsoOnCallText.setVisibility(View.INVISIBLE);
+            alsoOnCallText.setVisibility(View.INVISIBLE);
         }
-        }
+    }
 
-private String getOtherOpponentsNames() {
+    private String getOtherOpponentsNames() {
         ArrayList<QBUser> otherOpponents = new ArrayList<>();
         otherOpponents.addAll(opponents);
         otherOpponents.remove(0);
 
         return CollectionsUtils.makeStringFromUsersFullNames(otherOpponents);
-        }
+    }
 
-@Override
-public void onStop() {
+    @Override
+    public void onStop() {
         super.onStop();
         conversationFragmentCallbackListener.removeOnChangeDynamicToggle(this);
-        }
+    }
 
-@Override
-protected void initButtonsListener() {
+    @Override
+    protected void initButtonsListener() {
         super.initButtonsListener();
 
         audioSwitchToggleButton.setOnClickListener(new View.OnClickListener() {
-@Override
-public void onClick(View v) {
-        conversationFragmentCallbackListener.onSwitchAudio();
-        }
+            @Override
+            public void onClick(View v) {
+                conversationFragmentCallbackListener.onSwitchAudio();
+            }
         });
-        }
+    }
 
-@Override
-protected void actionButtonsEnabled(boolean inability) {
+    @Override
+    protected void actionButtonsEnabled(boolean inability) {
         super.actionButtonsEnabled(inability);
         if (!headsetPlugged) {
-        audioSwitchToggleButton.setEnabled(inability);
+            audioSwitchToggleButton.setEnabled(inability);
         }
         audioSwitchToggleButton.setActivated(inability);
-        }
+    }
 
-@Override
+    @Override
     int getFragmentLayout() {
-            return R.layout.fragment_audio_conversation;
-            }
+        return R.layout.fragment_audio_conversation;
+    }
 
-@Override
-public void onOpponentsListUpdated(ArrayList<QBUser> newUsers) {
+    @Override
+    public void onOpponentsListUpdated(ArrayList<QBUser> newUsers) {
         super.onOpponentsListUpdated(newUsers);
         firstOpponentNameTextView.setText(opponents.get(0).getFullName());
         otherOpponentsTextView.setText(getOtherOpponentsNames());
-        }
+    }
 
-@Override
-public void enableDynamicToggle(boolean plugged, boolean previousDeviceEarPiece) {
+    @Override
+    public void enableDynamicToggle(boolean plugged, boolean previousDeviceEarPiece) {
         headsetPlugged = plugged;
 
         if (isStarted) {
-        audioSwitchToggleButton.setEnabled(!plugged);
+            audioSwitchToggleButton.setEnabled(!plugged);
 
-        if (plugged) {
-        audioSwitchToggleButton.setChecked(true);
-        }else if(previousDeviceEarPiece){
-        audioSwitchToggleButton.setChecked(true);
-        } else {
-        audioSwitchToggleButton.setChecked(false);
+            if (plugged) {
+                audioSwitchToggleButton.setChecked(true);
+            } else if (previousDeviceEarPiece) {
+                audioSwitchToggleButton.setChecked(true);
+            } else {
+                audioSwitchToggleButton.setChecked(false);
+            }
         }
-        }
-        }
-        }
+    }
+}

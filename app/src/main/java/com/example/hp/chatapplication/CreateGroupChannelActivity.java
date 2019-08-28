@@ -1,12 +1,12 @@
 package com.example.hp.chatapplication;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.hp.chatapplication.Fragments.SelectUserFragment;
-import com.example.hp.chatapplication.Utils.PreferenceUtils;
 import com.sendbird.android.GroupChannel;
 import com.sendbird.android.GroupChannelParams;
 import com.sendbird.android.SendBirdException;
@@ -78,7 +77,7 @@ public class CreateGroupChannelActivity extends AppCompatActivity implements Sel
             public void onClick(View v) {
                 if (mCurrentState == STATE_SELECT_USERS) {
 //                if (mCurrentState == STATE_SELECT_DISTINCT) {
-                  //  mIsDistinct = PreferenceUtils.getGroupChannelDistinct();
+                    //  mIsDistinct = PreferenceUtils.getGroupChannelDistinct();
                     createGroupChannel(mSelectedIds, false);
                 }
             }
@@ -138,7 +137,7 @@ public class CreateGroupChannelActivity extends AppCompatActivity implements Sel
             mNextButton.setVisibility(View.GONE);
 //            mCreateButton.setVisibility(View.GONE);
 //            mNextButton.setVisibility(View.VISIBLE);
-        } else if (state == STATE_SELECT_DISTINCT){
+        } else if (state == STATE_SELECT_DISTINCT) {
             mCurrentState = STATE_SELECT_DISTINCT;
             mCreateButton.setVisibility(View.VISIBLE);
             mNextButton.setVisibility(View.GONE);
@@ -169,15 +168,15 @@ public class CreateGroupChannelActivity extends AppCompatActivity implements Sel
 
     /**
      * Creates a new Group Channel.
-     *
+     * <p>
      * Note that if you have not included empty channels in your GroupChannelListQuery,
      * the channel will not be shown in the user's channel list until at least one message
      * has been sent inside.
      *
-     * @param userIds   The users to be members of the new channel.
-     * @param distinct  Whether the channel is unique for the selected members.
-     *                  If you attempt to create another Distinct channel with the same members,
-     *                  the existing channel instance will be returned.
+     * @param userIds  The users to be members of the new channel.
+     * @param distinct Whether the channel is unique for the selected members.
+     *                 If you attempt to create another Distinct channel with the same members,
+     *                 the existing channel instance will be returned.
      */
     private void createGroupChannel(List<String> userIds, boolean distinct) {
        /* GroupChannel.createChannelWithUserIds(userIds, distinct, new GroupChannel.GroupChannelCreateHandler() {

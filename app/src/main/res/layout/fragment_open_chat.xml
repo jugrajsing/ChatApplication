@@ -8,157 +8,175 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-<RelativeLayout
-  android:id="@+id/actionar_layout"
-    android:background="@color/app_color_voilet"
-    android:layout_width="match_parent"
-    android:layout_height="60dp">
-    <ImageView
-        android:id="@+id/chat_backarrow"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_arrow_left_white_24_dp"/>
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/chat_personimg"
-        android:layout_width="40dp"
-        android:visibility="gone"
-        android:layout_height="40dp"
-        android:layout_toRightOf="@+id/chat_backarrow"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:src="@drawable/profile_img"
-        />
-    <LinearLayout
-        android:id="@+id/layout_name"
-        android:layout_toRightOf="@+id/chat_personimg"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/tv_chatperson_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@color/color_white"
-        android:text="Anna George"/>
-        <TextView
+
+    <RelativeLayout
+        android:id="@+id/actionar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/app_color_voilet">
+
+        <ImageView
+            android:id="@+id/chat_backarrow"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_arrow_left_white_24_dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chat_personimg"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/chat_backarrow"
+            android:src="@drawable/profile_img"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            android:visibility="gone"
-            android:textColor="@color/color_white"
-            android:text="Anna George"/>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/tv_onlinetime"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_marginLeft="17dp"
-        android:layout_marginTop="15dp"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/layout_name"
-        android:padding="2dp"
-        android:src="@drawable/green_dot"
-        android:visibility="invisible" />
-    <LinearLayout
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/iv_chatsearch"
-            android:layout_marginRight="10dp"
-            android:layout_gravity="end"
-            android:src="@drawable/search_white"/>
-
-        <ImageView
-            android:layout_gravity="right"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/iv_chatcall"
-            android:visibility="gone"
-            android:src="@drawable/call_white"/>
-        <ImageView
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:id="@+id/iv_chat_more"
-            android:layout_width="30dp"
-            android:visibility="gone"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_more_vert_black_24dp"/>
-    </LinearLayout>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            android:layout_toRightOf="@+id/chat_personimg"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_chatperson_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anna George"
+                android:textColor="@color/color_white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anna George"
+                android:textColor="@color/color_white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/tv_onlinetime"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/layout_name"
+            android:padding="2dp"
+            android:src="@drawable/green_dot"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/iv_chatsearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/search_white" />
+
+            <ImageView
+                android:id="@+id/iv_chatcall"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:src="@drawable/call_white"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_chat_more"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_more_vert_black_24dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+
     <FrameLayout
-        android:layout_below="@+id/actionar_layout"
         android:id="@+id/searchframe"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_below="@+id/actionar_layout"
+        android:visibility="gone">
+
         <EditText
-            android:hint="search messages"
             android:id="@+id/searchbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="search messages" />
 
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
         android:id="@+id/layout_open_chat_chatbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content">
+        android:orientation="vertical">
+
         <FrameLayout
-            android:layout_margin="5dp"
-            android:visibility="gone"
             android:id="@+id/attachment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:visibility="gone">
+
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp">
+
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_document"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_blue"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="10dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="10dp"
-                                android:paddingTop="10dp"
-                                android:src="@drawable/ic_file"
-                                android:background="@drawable/circle_blue"/>
+                                android:src="@drawable/ic_file" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Document"
                                 android:layout_gravity="center_horizontal"
+                                android:text="Document"
+                                android:textColor="@color/tab_black"
 
                                 />
                         </LinearLayout>
@@ -167,30 +185,33 @@
 
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_camera"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_orange"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="10dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="10dp"
-                                android:paddingTop="10dp"
-                                android:src="@drawable/ic_camera"
-                                android:background="@drawable/circle_orange"/>
+                                android:src="@drawable/ic_camera" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Camera"
                                 android:layout_gravity="center_horizontal"
+                                android:text="Camera"
+                                android:textColor="@color/tab_black"
 
                                 />
                         </LinearLayout>
@@ -199,60 +220,67 @@
 
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
-                            android:layout_marginTop="10dp"
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_gallery"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_purple"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="15dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="15dp"
-                                android:paddingTop="15dp"
-                                android:src="@drawable/ic_gallery"
-                                android:background="@drawable/circle_purple"/>
+                                android:src="@drawable/ic_gallery" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Gallery"
                                 android:layout_gravity="center_horizontal"
+                                android:text="Gallery"
+                                android:textColor="@color/tab_black"
 
                                 />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
+
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
-                            android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/ic_recorder"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_green"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="15dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="15dp"
-                                android:paddingTop="15dp"
-                                android:src="@drawable/ic_recorder"
-                                android:background="@drawable/circle_green"/>
+                                android:src="@drawable/ic_recorder" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Record"
                                 android:layout_gravity="center_horizontal"
+                                android:text="Record"
+                                android:textColor="@color/tab_black"
 
                                 />
                         </LinearLayout>
@@ -263,151 +291,166 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_audio"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_red"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="15dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="15dp"
-                                android:paddingTop="15dp"
-                                android:src="@drawable/ic_audio"
-                                android:background="@drawable/circle_red"/>
+                                android:src="@drawable/ic_audio" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Audio"
                                 android:layout_gravity="center_horizontal"
-                                />
+                                android:text="Audio"
+                                android:textColor="@color/tab_black" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_location"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_limegreen"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="15dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="15dp"
-                                android:paddingTop="15dp"
-                                android:src="@drawable/ic_location"
-                                android:background="@drawable/circle_limegreen"/>
+                                android:src="@drawable/ic_location" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Location"
                                 android:layout_gravity="center_horizontal"
-                                />
+                                android:text="Location"
+                                android:textColor="@color/tab_black" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
+
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_contact"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_skyblue"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="15dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="15dp"
-                                android:paddingTop="15dp"
-                                android:src="@drawable/ic_contact"
-                                android:background="@drawable/circle_skyblue"/>
+                                android:src="@drawable/ic_contact" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Contact"
                                 android:layout_gravity="center_horizontal"
-                                />
+                                android:text="Contact"
+                                android:textColor="@color/tab_black" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
+
                     <android.support.v7.widget.CardView
                         android:layout_width="100dp"
-                        android:layout_weight="1"
-                        android:layout_height="100dp">
+                        android:layout_height="100dp"
+                        android:layout_weight="1">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:orientation="vertical"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
                             <ImageView
                                 android:id="@+id/iv_schedule"
-                                android:layout_gravity="center"
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/schedule_circle"
                                 android:paddingLeft="15dp"
+                                android:paddingTop="15dp"
                                 android:paddingRight="15dp"
                                 android:paddingBottom="15dp"
-                                android:paddingTop="15dp"
-                                android:src="@drawable/ic_schedule"
-                                android:background="@drawable/schedule_circle"/>
+                                android:src="@drawable/ic_schedule" />
+
                             <TextView
-                                android:textColor="@color/tab_black"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Schedule"
                                 android:layout_gravity="center_horizontal"
-                                />
+                                android:text="Schedule"
+                                android:textColor="@color/tab_black" />
                         </LinearLayout>
 
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
+
         <FrameLayout
             android:id="@+id/recordcontainer"
             android:layout_width="wrap_content"
-            android:visibility="gone"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
             <br.com.safety.audio_recorder.AudioRecordButton
                 android:id="@+id/audio_record_button"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp">
-            </br.com.safety.audio_recorder.AudioRecordButton>
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"></br.com.safety.audio_recorder.AudioRecordButton>
 
         </FrameLayout>
+
         <View
-            android:layout_above="@id/layout_open_chat_chatbox"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:background="#DfDfDf"/>
+            android:layout_above="@id/layout_open_chat_chatbox"
+            android:background="#DfDfDf" />
+
         <LinearLayout
             android:id="@+id/textlayout"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:minHeight="48dp">
+            android:layout_alignParentBottom="true"
+            android:minHeight="48dp"
+            android:orientation="horizontal">
+
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/emoji_open_close_btn"
                 android:layout_width="40dp"
@@ -416,51 +459,49 @@
                 android:background="?selectableItemBackground"
                 android:padding="6dp"
                 android:src="@drawable/ic_sentiment_very_satisfied_black_24dp"
-                tools:ignore="ContentDescription"/>
+                tools:ignore="ContentDescription" />
 
             <ImageButton
                 android:id="@+id/button_open_channel_chat_upload"
-                android:src="@drawable/ic_add_black_24dp"
-                android:background="?attr/selectableItemBackground"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_gravity="bottom"
-                android:contentDescription="Upload file" />
+                android:background="?attr/selectableItemBackground"
+                android:contentDescription="Upload file"
+                android:src="@drawable/ic_add_black_24dp" />
 
             <com.kevalpatel2106.emoticongifkeyboard.widget.EmoticonEditText
                 android:id="@+id/edittext_chat_message"
-                android:hint="Type a message"
-                android:background="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:maxLines="6"/>
+                android:background="@android:color/transparent"
+                android:hint="Type a message"
+                android:maxLines="6" />
 
             <Button
                 android:id="@+id/button_open_channel_chat_send"
-                android:textSize="14dp"
-                android:textColor="@drawable/selector_btn_send"
-                android:background="@drawable/ic_send_black"
-                android:clickable="true"
                 android:layout_width="35dp"
                 android:layout_height="30dp"
-                android:gravity="center"
+                android:layout_gravity="center"
                 android:layout_marginRight="2dp"
-                android:layout_gravity="center" />
+                android:background="@drawable/ic_send_black"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@drawable/selector_btn_send"
+                android:textSize="14dp" />
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/keyboard_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
-
 
 
     <ScrollView
@@ -469,24 +510,23 @@
 
     <LinearLayout
         android:id="@+id/contentlayout"
-        android:layout_below="@+id/searchframe"
-        android:layout_above="@id/layout_open_chat_chatbox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/layout_open_chat_chatbox"
+        android:layout_below="@+id/searchframe"
         android:orientation="vertical">
 
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_open_channel_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false"
+            android:clipToPadding="false"
+            android:paddingBottom="4dp"
+            android:scrollbars="vertical">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_open_channel_chat"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="4dp"
-                android:clipToPadding="false"
-                android:clickable="false"
-                android:scrollbars="vertical">
-
-            </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
 
 
         <LinearLayout
@@ -499,10 +539,10 @@
 
             <TextView
                 android:id="@+id/text_open_chat_current_event"
-                android:text="Terry and Harry are typing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:text="Terry and Harry are typing" />
 
         </LinearLayout>
 

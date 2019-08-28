@@ -1,29 +1,32 @@
 package com.example.hp.chatapplication;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
-    Switch friends_alert = null,chat_alert=null,group_alert=null;
+    Switch friends_alert = null, chat_alert = null, group_alert = null;
     ImageView iv_back;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        iv_back=(ImageView)findViewById(R.id.iv_back);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(this);
 
         friends_alert = (Switch) findViewById(R.id.friends_alert);
         friends_alert.setOnCheckedChangeListener(this);
 
-        chat_alert= (Switch) findViewById(R.id.chat_alert);
+        chat_alert = (Switch) findViewById(R.id.chat_alert);
         chat_alert.setOnCheckedChangeListener(this);
 
-        group_alert= (Switch) findViewById(R.id.group_alert);
+        group_alert = (Switch) findViewById(R.id.group_alert);
         group_alert.setOnCheckedChangeListener(this);
     }
 
@@ -71,10 +74,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case  R.id.iv_back:
+            case R.id.iv_back:
                 finish();
                 break;
 

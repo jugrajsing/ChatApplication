@@ -8,6 +8,7 @@ public class SearchedUsersModel {
     String gender;
     String secret_id;
     String status;
+    String friend_id;
 
     public SearchedUsersModel(String name, String image, String mobile, String gender, String secret_id, String status, String friend_id) {
         this.name = name;
@@ -77,12 +78,6 @@ public class SearchedUsersModel {
     public void setFriend_id(String friend_id) {
         this.friend_id = friend_id;
     }
-
-    String friend_id;
-
-
-
-
 
 
 }

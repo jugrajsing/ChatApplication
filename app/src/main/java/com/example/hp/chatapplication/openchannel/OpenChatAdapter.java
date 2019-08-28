@@ -23,7 +23,6 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.User;
 import com.sendbird.android.UserMessage;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,23 +40,6 @@ class OpenChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<BaseMessage> mMessageList;
     private OnItemClickListener mItemClickListener;
     private OnItemLongClickListener mItemLongClickListener;
-
-    /**
-     * An interface to implement item click callbacks in the activity or fragment that
-     * uses this adapter.
-     */
-    interface OnItemClickListener {
-        void onUserMessageItemClick(UserMessage message);
-
-        void onFileMessageItemClick(FileMessage message);
-
-        void onAdminMessageItemClick(AdminMessage message);
-    }
-
-    interface OnItemLongClickListener {
-        void onBaseMessageLongClick(BaseMessage message, int position);
-    }
-
 
     OpenChatAdapter(Context context) {
         mMessageList = new ArrayList<>();
@@ -93,8 +75,8 @@ class OpenChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     void delete(long msgId) {
-        for(BaseMessage msg : mMessageList) {
-            if(msg.getMessageId() == msgId) {
+        for (BaseMessage msg : mMessageList) {
+            if (msg.getMessageId() == msgId) {
                 mMessageList.remove(msg);
                 notifyDataSetChanged();
                 break;
@@ -106,7 +88,7 @@ class OpenChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         BaseMessage baseMessage;
         for (int index = 0; index < mMessageList.size(); index++) {
             baseMessage = mMessageList.get(index);
-            if(message.getMessageId() == baseMessage.getMessageId()) {
+            if (message.getMessageId() == baseMessage.getMessageId()) {
                 mMessageList.remove(index);
                 mMessageList.add(index, message);
                 notifyDataSetChanged();
@@ -195,9 +177,25 @@ class OpenChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return mMessageList.size();
     }
 
+    /**
+     * An interface to implement item click callbacks in the activity or fragment that
+     * uses this adapter.
+     */
+    interface OnItemClickListener {
+        void onUserMessageItemClick(UserMessage message);
+
+        void onFileMessageItemClick(FileMessage message);
+
+        void onAdminMessageItemClick(AdminMessage message);
+    }
+
+    interface OnItemLongClickListener {
+        void onBaseMessageLongClick(BaseMessage message, int position);
+    }
+
     private class UserMessageHolder extends RecyclerView.ViewHolder {
         TextView nicknameText, messageText, editedText, timeText, dateText;
-        ImageView profileImage ,img_gif;
+        ImageView profileImage, img_gif;
 
         UserMessageHolder(View itemView) {
             super(itemView);
@@ -208,7 +206,7 @@ class OpenChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             timeText = (TextView) itemView.findViewById(R.id.text_open_chat_time);
             profileImage = (ImageView) itemView.findViewById(R.id.image_open_chat_profile);
             dateText = (TextView) itemView.findViewById(R.id.text_open_chat_date);
-            img_gif = (ImageView)itemView.findViewById(R.id.image_open_chat_file_thumbnail);
+            img_gif = (ImageView) itemView.findViewById(R.id.image_open_chat_file_thumbnail);
         }
 
         // Binds message details to ViewHolder item
@@ -235,13 +233,11 @@ class OpenChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             nicknameText.setText(message.getSender().getNickname());
 
-            if(message.getMessage().contains("giphy.com"))
-            {
+            if (message.getMessage().contains("giphy.com")) {
                 img_gif.setVisibility(View.VISIBLE);
                 Glide.with(context).load(message.getMessage()).into(img_gif);
                 messageText.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 img_gif.setVisibility(View.GONE);
                 messageText.setVisibility(View.VISIBLE);
                 messageText.setText(message.getMessage());

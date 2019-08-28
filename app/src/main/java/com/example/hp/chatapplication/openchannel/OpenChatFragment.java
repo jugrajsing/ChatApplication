@@ -3,40 +3,31 @@ package com.example.hp.chatapplication.openchannel;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.graphics.Bitmap;
-import android.os.Build;
-import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -47,15 +38,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hp.chatapplication.Adapter.FileListAdapter;
-import com.example.hp.chatapplication.Adapter.GroupChannelListFragment;
 import com.example.hp.chatapplication.AllContacts;
 import com.example.hp.chatapplication.Intefaces.OnBackPressedListener;
-import com.example.hp.chatapplication.Main2Activity;
 import com.example.hp.chatapplication.MapsActivity;
 import com.example.hp.chatapplication.MediaPlayerActivity;
 import com.example.hp.chatapplication.PhotoViewerActivity;
 import com.example.hp.chatapplication.R;
-import com.example.hp.chatapplication.UserNavgation;
 import com.example.hp.chatapplication.Utils.FileUtils;
 import com.example.hp.chatapplication.Utils.Main3Activity;
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
@@ -71,7 +59,6 @@ import com.kevalpatel2106.gifpack.giphy.GiphyGifProvider;
 import com.sendbird.android.AdminMessage;
 import com.sendbird.android.BaseChannel;
 import com.sendbird.android.BaseMessage;
-import com.sendbird.android.ConnectionManager;
 import com.sendbird.android.FileMessage;
 import com.sendbird.android.OpenChannel;
 import com.sendbird.android.PreviousMessageListQuery;
@@ -79,10 +66,7 @@ import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 import com.sendbird.android.UserMessage;
 
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -96,27 +80,29 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN;
-import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
 
 
 public class OpenChatFragment extends Fragment {
 
+    public static final int CAMERA_PIC_REQUEST = 100;
+    public static final int INTENT_REQUEST_CHOOSE_MEDIA = 301;
+    static final String EXTRA_CHANNEL_URL = "CHANNEL_URL";
     private static final String LOG_TAG = OpenChatFragment.class.getSimpleName();
-
     private static final int CHANNEL_LIST_LIMIT = 30;
     private static final String CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_OPEN_CHAT";
     private static final String CHANNEL_HANDLER_ID = "CHANNEL_HANDLER_OPEN_CHAT";
-
     private static final int STATE_NORMAL = 0;
     private static final int STATE_EDIT = 1;
-
     private static final int INTENT_REQUEST_CHOOSE_IMAGE = 300;
     private static final int PERMISSION_WRITE_EXTERNAL_STORAGE = 13;
-
-    static final String EXTRA_CHANNEL_URL = "CHANNEL_URL";
-
+    private final static int FILE_REQUEST_CODE = 1;
+    EmoticonGIFKeyboardFragment emoticonGIFKeyboardFragment;
+    FrameLayout attachment_container, keyboard_container;
+    EditText chatsearchbar;
+    AudioRecordButton audio_record_button;
+    FrameLayout recordcontainer, searchframe;
+    ImageView chat_backarrow, iv_chatsearch;
     private InputMethodManager mIMM;
-
     private RecyclerView mRecyclerView;
     private OpenChatAdapter mChatAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -125,29 +111,20 @@ public class OpenChatFragment extends Fragment {
     private Button mMessageSendButton;
     private ImageButton mUploadFileButton;
     private View mCurrentEventLayout;
-    private TextView mCurrentEventText,tv_chatperson_name;
-    private ImageView emoj,iv_chat_more;
-    EmoticonGIFKeyboardFragment emoticonGIFKeyboardFragment;
+    private TextView mCurrentEventText, tv_chatperson_name;
+    private ImageView emoj, iv_chat_more;
     private OpenChannel mChannel;
     private String mChannelUrl;
     private PreviousMessageListQuery mPrevMessageListQuery;
-    FrameLayout attachment_container,keyboard_container;
-    EditText chatsearchbar;
-
     private int mCurrentState = STATE_NORMAL;
     private BaseMessage mEditingMessage = null;
-    private ImageView iv_document,iv_camera,iv_gallery,iv_record,iv_audio,iv_location,iv_contact,iv_schedule;
-    AudioRecordButton audio_record_button;
-    FrameLayout recordcontainer,searchframe;
+    private ImageView iv_document, iv_camera, iv_gallery, iv_record, iv_audio, iv_location, iv_contact, iv_schedule;
     private AudioRecordButton mAudioRecordButton;
     private AudioRecording audioRecording;
-    public static final int CAMERA_PIC_REQUEST = 100;
-    public static final int INTENT_REQUEST_CHOOSE_MEDIA = 301;
-    private final static int FILE_REQUEST_CODE = 1;
     private FileListAdapter fileListAdapter;
     private ArrayList<MediaFile> mediaFiles = new ArrayList<>();
-    ImageView chat_backarrow,iv_chatsearch;
     private List<BaseMessage> mMessageList;
+
     /**
      * To create an instance of this fragment, a Channel URL should be passed.
      */
@@ -165,26 +142,23 @@ public class OpenChatFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIMM = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        ((Main3Activity)getActivity()).setOnBackPressedListener(new OnBackPressedListener() {
+        ((Main3Activity) getActivity()).setOnBackPressedListener(new OnBackPressedListener() {
             @Override
             public void doBack() {
                 try {
-                    if( attachment_container.getVisibility() == View.VISIBLE) {
+                    if (attachment_container.getVisibility() == View.VISIBLE) {
                         attachment_container.setVisibility(View.GONE);
-                    }
-                    else  if(emoticonGIFKeyboardFragment.isAdded()) {
-                        if(emoticonGIFKeyboardFragment.isOpen()) {
+                    } else if (emoticonGIFKeyboardFragment.isAdded()) {
+                        if (emoticonGIFKeyboardFragment.isOpen()) {
                             emoticonGIFKeyboardFragment.close();
-                        }
-                        else {
+                        } else {
                             getActivity().finish();
                         }
-                    }
-                    else {
+                    } else {
                         getActivity().finish();
                     }
+                } catch (Exception e) {
                 }
-                catch(Exception e){}
 
             }
         });
@@ -203,7 +177,7 @@ public class OpenChatFragment extends Fragment {
         attachment_container = rootView.findViewById(R.id.attachment_container);
         keyboard_container = rootView.findViewById(R.id.keyboard_container);
         mRootLayout = rootView.findViewById(R.id.layout_open_chat_root);
-       // ImageView chat_backarrow = rootView.findViewById(R.id.chat_backarrow);
+        // ImageView chat_backarrow = rootView.findViewById(R.id.chat_backarrow);
 
         iv_document = (ImageView) rootView.findViewById(R.id.iv_document);
         iv_camera = (ImageView) rootView.findViewById(R.id.iv_camera);
@@ -218,16 +192,16 @@ public class OpenChatFragment extends Fragment {
         recordcontainer = (FrameLayout) rootView.findViewById(R.id.recordcontainer);
         searchframe = (FrameLayout) rootView.findViewById(R.id.searchframe);
         audio_record_button = (AudioRecordButton) rootView.findViewById(R.id.audio_record_button);
-        chatsearchbar=(EditText)rootView.findViewById(R.id.searchbar);
+        chatsearchbar = (EditText) rootView.findViewById(R.id.searchbar);
 
 
-iv_chatsearch.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        searchframe.setVisibility(View.VISIBLE);
-    }
-});
-       // sendUserMessage(chatsearchbar.getText().toString());
+        iv_chatsearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchframe.setVisibility(View.VISIBLE);
+            }
+        });
+        // sendUserMessage(chatsearchbar.getText().toString());
         chatsearchbar.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 // you can call or do what you want with your EditText here
@@ -261,7 +235,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         chat_backarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((Main3Activity)getActivity()).finish();
+                ((Main3Activity) getActivity()).finish();
             }
         });
 
@@ -313,7 +287,6 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         });
 
 
-
         iv_document.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -345,7 +318,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         iv_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent contactintent=new Intent(getContext(),AllContacts.class);
+                Intent contactintent = new Intent(getContext(), AllContacts.class);
                 startActivity(contactintent);
             }
         });
@@ -353,7 +326,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         iv_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent locationintent=new Intent(getContext(),MapsActivity.class);
+                Intent locationintent = new Intent(getContext(), MapsActivity.class);
                 startActivity(locationintent);
             }
         });
@@ -414,17 +387,14 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         });*/
 
 
-
-
-
         chat_backarrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //getFragmentManager().popBackStack();
-               // ft.replace(R.id.fragment_container, newFragment, tag);\
+                // ft.replace(R.id.fragment_container, newFragment, tag);\
 
-               // getFragmentManager().popBackStack(mRootLayout);
-               // ((Main3Activity) getActivity()).setOnBackPressedListener(null);
+                // getFragmentManager().popBackStack(mRootLayout);
+                // ((Main3Activity) getActivity()).setOnBackPressedListener(null);
                 getActivity().finish();
                /* Fragment fragment=new OpenChannelListFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container_group_channel,fragment).addToBackStack(null).commit();
@@ -439,8 +409,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         mCurrentEventText = (TextView) rootView.findViewById(R.id.text_open_chat_current_event);
         tv_chatperson_name = (TextView) rootView.findViewById(R.id.tv_chatperson_name);
         iv_chat_more = (ImageView) rootView.findViewById(R.id.iv_chat_more);
-      //((Main3Activity) getActivity()).setActionBarTitle(mChannel.getName());
-
+        //((Main3Activity) getActivity()).setActionBarTitle(mChannel.getName());
 
 
         setUpChatAdapter();
@@ -455,14 +424,11 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
                     emoticonGIFKeyboardFragment.close();
+                } catch (Exception e) {
                 }
-                catch(Exception e){}
 
             }
         });
-
-
-
 
 
         mMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -477,8 +443,8 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String   s1 =   s.toString().trim();
-                if (s1.length() > 0 && !s1.equals(""))  {
+                String s1 = s.toString().trim();
+                if (s1.length() > 0 && !s1.equals("")) {
                     mMessageSendButton.setEnabled(true);
                 } else {
                     mMessageSendButton.setEnabled(false);
@@ -488,7 +454,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
 
 
         mUploadFileButton = (ImageButton) rootView.findViewById(R.id.button_open_channel_chat_upload);
-       mUploadFileButton.setOnClickListener(new View.OnClickListener() {
+        mUploadFileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 attachment_container.setVisibility(View.VISIBLE);
@@ -585,8 +551,6 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
         });
 
 
-
-
         mMessageSendButton.setEnabled(false);
         mMessageSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -631,10 +595,10 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void emoticonSelected(Emoticon emoticon) {
                         //Do something with new emoticon.
-                   //     Log.d(TAG, "emoticonSelected: " + emoticon.getUnicode());
-                     //   editText.append(emoticon.getUnicode(),
-                       //         editText.getSelectionStart(),
-                         //       editText.getSelectionEnd());
+                        //     Log.d(TAG, "emoticonSelected: " + emoticon.getUnicode());
+                        //   editText.append(emoticon.getUnicode(),
+                        //         editText.getSelectionStart(),
+                        //       editText.getSelectionEnd());
                         mMessageEditText.append(emoticon.getUnicode());
 
                     }
@@ -658,15 +622,15 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onGifSelected(@NonNull Gif gif) {
                         //Do something with the selected GIF.
-                           Log.d("GUF", "onGifSelected: " + gif.getGifUrl());
-                       sendUserMessage(gif.getGifUrl());
+                        Log.d("GUF", "onGifSelected: " + gif.getGifUrl());
+                        sendUserMessage(gif.getGifUrl());
 
 
                     }
                 });
-        emoticonGIFKeyboardFragment =  EmoticonGIFKeyboardFragment
+        emoticonGIFKeyboardFragment = EmoticonGIFKeyboardFragment
                 .getNewInstance(rootView.findViewById(R.id.keyboard_container), emoticonConfig, gifConfig);
-                emoj  = (ImageView)rootView.findViewById(R.id.emoji_open_close_btn);
+        emoj = (ImageView) rootView.findViewById(R.id.emoji_open_close_btn);
         emoj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -674,9 +638,9 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
               /*  getActivity().getWindow().setSoftInputMode(
                         SOFT_INPUT_ADJUST_PAN);*/
                 keyboard_container.setVisibility(View.VISIBLE);
-                    attachment_container.setVisibility(View.GONE);
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                attachment_container.setVisibility(View.GONE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
 //Adding the keyboard fragment to keyboard_container.
                 getFragmentManager()
@@ -686,9 +650,6 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
                 emoticonGIFKeyboardFragment.open();
             }
         });
-
-
-
 
 
         return rootView;
@@ -774,8 +735,8 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
     public void onResume() {
         super.onResume();
 
-     //   refresh();
-     //   refreshFirst();
+        //   refresh();
+        //   refreshFirst();
        /* ConnectionManager.addConnectionManagementHandler(CONNECTION_HANDLER_ID, new ConnectionManager.ConnectionManagementHandler() {
             @Override
             public void onConnected(boolean reconnect) {
@@ -815,10 +776,9 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
     }
 
 
-
     @Override
     public void onPause() {
-       // ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
+        // ConnectionManager.removeConnectionManagementHandler(CONNECTION_HANDLER_ID);
         SendBird.removeChannelHandler(CHANNEL_HANDLER_ID);
         super.onPause();
     }
@@ -840,7 +800,6 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
 
         super.onDestroyView();
     }
-
 
 
     private void setUpChatAdapter() {
@@ -869,7 +828,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
     }
 
     private void showMessageOptionsDialog(final BaseMessage message, final int position) {
-        String[] options = new String[] { "Edit message", "Delete message" };
+        String[] options = new String[]{"Edit message", "Delete message"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -902,7 +861,7 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
 
                 mUploadFileButton.setVisibility(View.GONE);
                 mMessageSendButton.setText("SAVE");
-                String messageString = ((UserMessage)editingMessage).getMessage();
+                String messageString = ((UserMessage) editingMessage).getMessage();
                 if (messageString == null) {
                     messageString = "";
                 }
@@ -1102,12 +1061,12 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
 
                         mChannel = openChannel;
 
-                       if (getActivity() != null) {
+                        if (getActivity() != null) {
                             // Set action bar title to name of channel
-                           // ((Main3Activity) getActivity()).setActionBarTitle(mChannel.getName());
+                            // ((Main3Activity) getActivity()).setActionBarTitle(mChannel.getName());
                             ((Main3Activity) getActivity()).setActionBarTitle(mChannel.getName());
-                           //Toast.makeText(getContext(), ""+mChannel.getName(), Toast.LENGTH_SHORT).show();
-                           tv_chatperson_name.setText(mChannel.getName());
+                            //Toast.makeText(getContext(), ""+mChannel.getName(), Toast.LENGTH_SHORT).show();
+                            tv_chatperson_name.setText(mChannel.getName());
 
 
                         }
@@ -1263,7 +1222,6 @@ iv_chatsearch.setOnClickListener(new View.OnClickListener() {
             }
         });
     }
-
 
 
 }

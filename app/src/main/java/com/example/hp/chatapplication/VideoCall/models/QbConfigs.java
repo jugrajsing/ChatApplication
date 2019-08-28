@@ -4,32 +4,25 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class QbConfigs implements Serializable{
-
-    public QbConfigs() {
-    }
+public class QbConfigs implements Serializable {
 
     @SerializedName("app_id")
     private String appId;
-
     @SerializedName("auth_key")
     private String authKey;
-
     @SerializedName("auth_secret")
     private String authSecret;
-
     @SerializedName("account_key")
     private String accountKey;
-
     @SerializedName("api_domain")
     private String apiDomain;
-
     @SerializedName("chat_domain")
     private String chatDomain;
-
     @SerializedName("gcm_sender_id")
     private String gcmSenderId;
 
+    public QbConfigs() {
+    }
 
     public String getAppId() {
         return appId;

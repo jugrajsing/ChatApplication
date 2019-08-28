@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.example.hp.chatapplication.Adapter.SelectableUserListAdapter;
 import com.example.hp.chatapplication.R;
@@ -21,7 +19,6 @@ import com.sendbird.android.SendBirdException;
 import com.sendbird.android.User;
 import com.sendbird.android.UserListQuery;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.facebook.accountkit.internal.AccountKitController.getApplicationContext;
@@ -29,25 +26,18 @@ import static com.facebook.accountkit.internal.AccountKitController.getApplicati
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SelectUserFragment extends Fragment{
+public class SelectUserFragment extends Fragment {
 
-    private LinearLayoutManager mLayoutManager;
-    private RecyclerView mRecyclerView;
     public SelectableUserListAdapter mListAdapter;
-
     public UserListQuery mUserListQuery;
     public UsersSelectedListener mListener;
     SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 :- for private mode
     SharedPreferences.Editor editor = pref.edit();
-   // ArrayList<Integer> selectedIds;
+    private LinearLayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
+    // ArrayList<Integer> selectedIds;
 
-
-    // To pass selected user IDs to the parent Activity.
-    public interface UsersSelectedListener {
-        void onUserSelected(boolean selected, String userId);
-    }
-
-   public static SelectUserFragment newInstance() {
+    public static SelectUserFragment newInstance() {
         SelectUserFragment fragment = new SelectUserFragment();
 
         return fragment;
@@ -67,13 +57,13 @@ public class SelectUserFragment extends Fragment{
             public void OnItemChecked(User user, boolean checked) {
                 if (checked) {
                     mListener.onUserSelected(true, user.getUserId());
-                 //   Toast.makeText(getContext(), ""+user.getUserId(), Toast.LENGTH_SHORT).show();
-                   // selectedIds=new ArrayList<>();
-                   // for (int i=0;i<)
-                  //  selectedIds.add(user.getUserId())
+                    //   Toast.makeText(getContext(), ""+user.getUserId(), Toast.LENGTH_SHORT).show();
+                    // selectedIds=new ArrayList<>();
+                    // for (int i=0;i<)
+                    //  selectedIds.add(user.getUserId())
 
 
-                 //   editor.putString("opponents_key",user.getUserId());
+                    //   editor.putString("opponents_key",user.getUserId());
 
                 } else {
                     mListener.onUserSelected(false, user.getUserId());
@@ -89,7 +79,7 @@ public class SelectUserFragment extends Fragment{
 
         loadInitialUserList(15);
 
-       // ((CreateGroupChannelActivity) getActivity()).setState(CreateGroupChannelActivity.STATE_SELECT_USERS);
+        // ((CreateGroupChannelActivity) getActivity()).setState(CreateGroupChannelActivity.STATE_SELECT_USERS);
 
         return rootView;
     }
@@ -146,5 +136,10 @@ public class SelectUserFragment extends Fragment{
                 }
             }
         });
+    }
+
+    // To pass selected user IDs to the parent Activity.
+    public interface UsersSelectedListener {
+        void onUserSelected(boolean selected, String userId);
     }
 }

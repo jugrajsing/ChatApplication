@@ -18,11 +18,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.hp.chatapplication.CreateGroupChannelActivity;
-import com.example.hp.chatapplication.Fragments.GroupChatFragment;
 import com.example.hp.chatapplication.Main2Activity;
 import com.example.hp.chatapplication.R;
-import com.example.hp.chatapplication.SharedPrefManager;
-import com.example.hp.chatapplication.UserNavgation;
 import com.example.hp.chatapplication.VideoCall.utils.SharedPrefsHelper;
 import com.sendbird.android.BaseChannel;
 import com.sendbird.android.BaseMessage;
@@ -31,7 +28,6 @@ import com.sendbird.android.GroupChannelListQuery;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -44,14 +40,13 @@ public class GroupChannelListFragment extends Fragment {
     private static final int CHANNEL_LIST_LIMIT = 15;
     private static final String CONNECTION_HANDLER_ID = "CONNECTION_HANDLER_GROUP_CHANNEL_LIST";
     private static final String CHANNEL_HANDLER_ID = "CHANNEL_HANDLER_GROUP_CHANNEL_LIST";
-
+    SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private GroupChannelListAdapter mChannelListAdapter;
     private FloatingActionButton mCreateChannelFab;
     private GroupChannelListQuery mChannelListQuery;
     private SwipeRefreshLayout mSwipeRefresh;
-    SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
 
     public static GroupChannelListFragment newInstance() {
         GroupChannelListFragment fragment = new GroupChannelListFragment();
@@ -103,7 +98,6 @@ public class GroupChannelListFragment extends Fragment {
     @Override
     public void onResume() {
         Log.d("LIFECYCLE", "GroupChannelListFragment onResume()");
-
 
 
         SendBird.addChannelHandler(CHANNEL_HANDLER_ID, new SendBird.ChannelHandler() {
@@ -226,8 +220,9 @@ public class GroupChannelListFragment extends Fragment {
 
     /**
      * Turns push notifications on or off for a selected channel.
-     * @param channel   The channel for which push preferences should be changed.
-     * @param on    Whether to set push notifications on or off.
+     *
+     * @param channel The channel for which push preferences should be changed.
+     * @param on      Whether to set push notifications on or off.
      */
     private void setChannelPushPreferences(final GroupChannel channel, final boolean on) {
         // Change push preferences.
@@ -281,11 +276,6 @@ public class GroupChannelListFragment extends Fragment {
         startActivity(intent);
 
 
-
-
-
-
-
     }
 
     private void refresh() {
@@ -295,6 +285,7 @@ public class GroupChannelListFragment extends Fragment {
     /**
      * Creates a new query to get the list of the user's Group Channels,
      * then replaces the existing dataset.
+     *
      * @param numChannels The number of channels to load.
      */
     private void refreshChannelList(int numChannels) {

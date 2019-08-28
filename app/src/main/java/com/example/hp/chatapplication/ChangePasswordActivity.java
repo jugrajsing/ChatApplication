@@ -1,7 +1,7 @@
 package com.example.hp.chatapplication;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -20,33 +21,33 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.hp.chatapplication.ModelClasses.User;
 import com.example.hp.chatapplication.Utils.BaseUrl_ConstantClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
-    EditText current_password,new_password,confirm_password;
+    private final static String CHANGE_PASSWORD_URL = BaseUrl_ConstantClass.BASE_URL;
+    EditText current_password, new_password, confirm_password;
     Button update_password_btn;
-    String old_pass,new_pass,cNew_pass;
-    String user_id=SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id().toString();
-    private final static  String CHANGE_PASSWORD_URL= BaseUrl_ConstantClass.BASE_URL;
-    ImageView hide_password,hide_new_password,hide_password_confirm;
+    String old_pass, new_pass, cNew_pass;
+    String user_id = SharedPrefManager.getInstance(ChangePasswordActivity.this).getUser().getUser_id().toString();
+    ImageView hide_password, hide_new_password, hide_password_confirm;
     private Boolean isClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-        current_password=(EditText) findViewById(R.id.current_password);
-        new_password=(EditText)findViewById(R.id.new_password);
-        confirm_password=(EditText)findViewById(R.id.confirm_password);
+        current_password = (EditText) findViewById(R.id.current_password);
+        new_password = (EditText) findViewById(R.id.new_password);
+        confirm_password = (EditText) findViewById(R.id.confirm_password);
 
-        update_password_btn=(Button) findViewById(R.id.update_password);
+        update_password_btn = (Button) findViewById(R.id.update_password);
         update_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,8 +63,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 if (isClicked) {
                     confirm_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-                } else
-                {
+                } else {
                     confirm_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
 
@@ -78,8 +78,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 if (isClicked) {
                     new_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-                } else
-                {
+                } else {
                     new_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
 
@@ -95,8 +94,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 if (isClicked) {
                     current_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
 
-                } else
-                {
+                } else {
                     current_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
 
@@ -108,27 +106,24 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private void updatePassword() {
 
-        old_pass=current_password.getText().toString();
-        new_pass=new_password.getText().toString();
-        cNew_pass=confirm_password.getText().toString();
+        old_pass = current_password.getText().toString();
+        new_pass = new_password.getText().toString();
+        cNew_pass = confirm_password.getText().toString();
 
 
-        if (TextUtils.isEmpty(old_pass))
-        {
+        if (TextUtils.isEmpty(old_pass)) {
             current_password.setError("User Id Can't Empty ");
             current_password.requestFocus();
             return;
         }
 
-        if (TextUtils.isEmpty(new_pass))
-        {
+        if (TextUtils.isEmpty(new_pass)) {
             new_password.setError("User Id Can't Empty ");
             new_password.requestFocus();
             return;
         }
 
-        if (!new_pass.equals(cNew_pass))
-        {
+        if (!new_pass.equals(cNew_pass)) {
             Toast.makeText(ChangePasswordActivity.this, "Confirm Password Not Matches ", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -138,23 +133,19 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return;
         }
 
-        StringRequest changePassStringRequest=new StringRequest(Request.Method.POST, CHANGE_PASSWORD_URL,
+        StringRequest changePassStringRequest = new StringRequest(Request.Method.POST, CHANGE_PASSWORD_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         try {
-                            JSONObject jsonObject=new JSONObject(response);
-                            String status=jsonObject.getString("success");
-                            String message=jsonObject.getString("msg");
-                            if (status.equals("true"))
+                            JSONObject jsonObject = new JSONObject(response);
+                            String status = jsonObject.getString("success");
+                            String message = jsonObject.getString("msg");
+                            if (status.equals("true")) {
+                                Toast.makeText(ChangePasswordActivity.this, "Message:" + message, Toast.LENGTH_SHORT).show();
 
-                            {
-                                Toast.makeText(ChangePasswordActivity.this, "Message:"+message, Toast.LENGTH_SHORT).show();
-
-                            }
-                            else
-                            {
+                            } else {
                                 Toast.makeText(ChangePasswordActivity.this, "User Not Exists",
                                         Toast.LENGTH_SHORT).show();
                             }
@@ -167,30 +158,30 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(ChangePasswordActivity.this, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(ChangePasswordActivity.this, ""+getString(R.string.error_server),
+                            Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(ChangePasswordActivity.this, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
                         }
                     }
                 }
-        ){
+        ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> changePasswordParams=new HashMap<>();
+                Map<String, String> changePasswordParams = new HashMap<>();
 
-                changePasswordParams.put("action","change_password");
-                changePasswordParams.put("userid",user_id);
-                changePasswordParams.put("oldpassword",old_pass);
-                changePasswordParams.put("newpassword",cNew_pass);
+                changePasswordParams.put("action", "change_password");
+                changePasswordParams.put("userid", user_id);
+                changePasswordParams.put("oldpassword", old_pass);
+                changePasswordParams.put("newpassword", cNew_pass);
 
                 return changePasswordParams;
             }

@@ -8,13 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.hp.chatapplication.R;
-import com.example.hp.chatapplication.VideoCall.utils.ResourceUtils;
 
 
-public class PreviewFragment extends Fragment{
+public class PreviewFragment extends Fragment {
 
     public static final String PREVIEW_IMAGE = "preview_image";
 

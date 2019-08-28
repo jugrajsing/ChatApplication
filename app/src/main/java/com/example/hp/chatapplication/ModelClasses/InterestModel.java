@@ -1,7 +1,5 @@
 package com.example.hp.chatapplication.ModelClasses;
 
-import java.util.ArrayList;
-
 public class InterestModel {
     String interest;
 

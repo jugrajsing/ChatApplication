@@ -27,16 +27,16 @@ public class BirthdayAdapter extends RecyclerView.Adapter<BirthdayAdapter.Birthd
     @NonNull
     @Override
     public BirthdayAdapter.BirthdayHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.birthdayitem , parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.birthdayitem, parent, false);
         return new BirthdayHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BirthdayAdapter.BirthdayHolder holder, int position) {
-        BirthdayModel birthdayModel=birthdaylist.get(position);
+        BirthdayModel birthdayModel = birthdaylist.get(position);
         holder.tv_date_of_birth.setText(birthdayModel.getDob());
         holder.tv_name.setText(birthdayModel.getName());
-        Glide.with(mcontext).load(birthdayModel.getImg()).into( holder.user_img);
+        Glide.with(mcontext).load(birthdayModel.getImg()).into(holder.user_img);
     }
 
     @Override
@@ -45,14 +45,15 @@ public class BirthdayAdapter extends RecyclerView.Adapter<BirthdayAdapter.Birthd
     }
 
     public class BirthdayHolder extends RecyclerView.ViewHolder {
-        TextView tv_date_of_birth,tv_name;
+        TextView tv_date_of_birth, tv_name;
         ImageView user_img;
+
         public BirthdayHolder(View itemView) {
             super(itemView);
 
-            tv_date_of_birth=itemView.findViewById(R.id.tv_date_of_birth);
-            tv_name=itemView.findViewById(R.id.tv_name);
-            user_img=itemView.findViewById(R.id.profile_bimg);
+            tv_date_of_birth = itemView.findViewById(R.id.tv_date_of_birth);
+            tv_name = itemView.findViewById(R.id.tv_name);
+            user_img = itemView.findViewById(R.id.profile_bimg);
 
         }
     }

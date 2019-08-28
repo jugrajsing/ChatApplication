@@ -14,7 +14,7 @@ public class User {
 
     String connected;
 
-    public User(String user_id, String user_name, String user_email, String user_mobile_no, String user_password, String user_secret_id, String user_image, String resident ,String connected) {
+    public User(String user_id, String user_name, String user_email, String user_mobile_no, String user_password, String user_secret_id, String user_image, String resident, String connected) {
         this.user_id = user_id;
         this.user_name = user_name;
         this.user_email = user_email;
@@ -102,7 +102,6 @@ public class User {
     public void setUser_image(String user_image) {
         this.user_image = user_image;
     }
-
 
 
 }

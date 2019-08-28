@@ -22,35 +22,33 @@
 
                 <Button
                     android:id="@+id/button_edit"
-                    android:text="Edit"
-                    android:textColor="@drawable/selector_btn_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:background="?attr/selectableItemBackground"
-                    android:layout_gravity="right"/>
+                    android:text="Edit"
+                    android:textColor="@drawable/selector_btn_menu" />
 
                 <Button
                     android:id="@+id/button_unblock"
-                    android:text="Unblock"
-                    android:textColor="@drawable/selector_btn_menu"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:background="?attr/selectableItemBackground"
-                    android:layout_gravity="right"/>
+                    android:text="Unblock"
+                    android:textColor="@drawable/selector_btn_menu"
+                    android:visibility="gone" />
 
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/recycler_select_user"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbars="vertical">
-        </android.support.v7.widget.RecyclerView>
+            android:scrollbars="vertical"></android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

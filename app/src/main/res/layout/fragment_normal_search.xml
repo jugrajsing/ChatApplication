@@ -8,34 +8,31 @@
     tools:context=".Fragments.NormalSearchFragment">
 
 
+    <LinearLayout
+        android:id="@+id/linear_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_searched_contacts"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-        <LinearLayout
-            android:id="@+id/linear_search_list"
-            android:visibility="visible"
-            android:orientation="vertical"
-            android:background="@drawable/shape_searched_contacts"
-            android:layout_margin="5dp"
+
+        <EditText
+            android:id="@+id/et_search_friends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_user_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        </android.support.v7.widget.RecyclerView>
 
-
-            <EditText
-                android:id="@+id/et_search_friends"
-                android:hint="Search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_user_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
-
+    </LinearLayout>
 
 
 </FrameLayout>

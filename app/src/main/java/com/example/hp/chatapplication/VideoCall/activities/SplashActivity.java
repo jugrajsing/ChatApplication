@@ -1,10 +1,9 @@
 package com.example.hp.chatapplication.VideoCall.activities;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.VideoCall.App;
@@ -28,7 +27,6 @@ public class SplashActivity extends BaseActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
-
 
 
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
@@ -63,7 +61,7 @@ public class SplashActivity extends BaseActivity {
         finish();
     }
 
-    protected boolean sampleConfigIsCorrect(){
+    protected boolean sampleConfigIsCorrect() {
         return App.getInstance().getQbConfigs() != null;
     }
 
@@ -71,8 +69,8 @@ public class SplashActivity extends BaseActivity {
         mainThreadHandler.postDelayed(this::proceedToTheNextActivity, SPLASH_DELAY);
     }
 
-    protected boolean checkConfigsWithSnackebarError(){
-        if (!sampleConfigIsCorrect()){
+    protected boolean checkConfigsWithSnackebarError() {
+        if (!sampleConfigIsCorrect()) {
             showSnackbarErrorParsingConfigs();
             return false;
         }
@@ -80,7 +78,7 @@ public class SplashActivity extends BaseActivity {
         return true;
     }
 
-    protected void showSnackbarErrorParsingConfigs(){
+    protected void showSnackbarErrorParsingConfigs() {
         ErrorUtils.showSnackbar(findViewById(R.id.layout_root), R.string.error_parsing_configs, R.string.dlg_ok, null);
     }
 }

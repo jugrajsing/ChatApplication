@@ -24,17 +24,13 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.hp.chatapplication.ForgotPasswordActivity;
-import com.example.hp.chatapplication.LoginRegistrationActivity;
 import com.example.hp.chatapplication.ModelClasses.User;
 import com.example.hp.chatapplication.MySingleTon;
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.SharedPrefManager;
 import com.example.hp.chatapplication.UserNavgation;
 import com.example.hp.chatapplication.Utils.BaseUrl_ConstantClass;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,15 +44,16 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
 
     private Context context;
-    private    String device_id1 ;
+    private String device_id1;
     ;
     // Constructor
 
-    public FingerprintHandler(Context mContext , String device_id) {
+    public FingerprintHandler(Context mContext, String device_id) {
         context = mContext;
         device_id1 = device_id;
     }
-    public FingerprintHandler(Context mContext ) {
+
+    public FingerprintHandler(Context mContext) {
         context = mContext;
 
     }
@@ -98,15 +95,15 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     }
 
-    public void update(String e, Boolean success){
-        TextView textView = (TextView) ((Activity)context).findViewById(R.id.errorText);
+    public void update(String e, Boolean success) {
+        TextView textView = (TextView) ((Activity) context).findViewById(R.id.errorText);
         textView.setText(e);
-        if(success){
+        if (success) {
             textView.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
     }
 
-    public void signInWithFingerPrintApi(final String device_id, final Context context){
+    public void signInWithFingerPrintApi(final String device_id, final Context context) {
 
 
         //  device_id1 = device_id;
@@ -114,9 +111,8 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     }
 
-    private void login()
-    {
-        final String LOGIN_URL= BaseUrl_ConstantClass.BASE_URL;
+    private void login() {
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -127,18 +123,17 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
                             String status = jsonObject.getString("success");
                             if (status.equals("true")) {
 
-                                JSONObject details= jsonObject.getJSONObject("user_details");
-                                String id=details.getString("id");
-                                String secrate_id=details.getString("secrate_id");
-                                String mobileno=details.getString("mobileno");
-                                String email=details.getString("email");
-                                User user=new User(id,"User Name",email,mobileno," ",secrate_id,"","" ,"true");
+                                JSONObject details = jsonObject.getJSONObject("user_details");
+                                String id = details.getString("id");
+                                String secrate_id = details.getString("secrate_id");
+                                String mobileno = details.getString("mobileno");
+                                String email = details.getString("email");
+                                User user = new User(id, "User Name", email, mobileno, " ", secrate_id, "", "", "true");
                                 SharedPrefManager.getInstance(context).userLogin(user);
                                 Intent i = new Intent(context, UserNavgation.class); //Replace HomeActivity with the name of your activity
                                 context.startActivity(i);
 
-                            }
-                            else {
+                            } else {
 
 
                                 Toast.makeText(context, "unable to validate fingerprint", Toast.LENGTH_SHORT).show();
@@ -158,26 +153,27 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(context, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(context, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(context, ""+getString(R.string.error_server),
+                            Toast.makeText(context, "" + getString(R.string.error_server),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(context, ""+getString(R.string.error_network_timeout),
+                            Toast.makeText(context, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
                         } else if (error instanceof ParseError) {
                             //TODO
-                        }                           }
+                        }
+                    }
                 }
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "finger_login");
-                logParams.put("device_id",device_id1);
+                logParams.put("device_id", device_id1);
                 return logParams;
             }
         };

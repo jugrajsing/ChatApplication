@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/muteunmute"
-        android:title="Mute / Unmute Notification"/>
+        android:title="Mute / Unmute Notification" />
     <item
         android:id="@+id/followunfollow"
-        android:title="Follow / Unfollow"/>
+        android:title="Follow / Unfollow" />
     <item
         android:id="@+id/unfriend"
-        android:title="Unfriend"/>
+        android:title="Unfriend" />
     <item
         android:id="@+id/block"
-        android:title="Unfriend"/>
+        android:title="Unfriend" />
 
     <item
         android:id="@+id/deletechat"
-        android:title="Delete Chat"/>
+        android:title="Delete Chat" />
 
     <item
         android:id="@+id/emailchat"
-        android:title="Email Chat"/>
+        android:title="Email Chat" />
     <item
         android:id="@+id/report"
-        android:title="Report"/>
+        android:title="Report" />
 </menu>

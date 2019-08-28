@@ -5,7 +5,6 @@ import android.content.res.AssetManager;
 
 import com.example.hp.chatapplication.VideoCall.App;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,10 +18,6 @@ public class ConfigParser {
         context = App.getInstance().getApplicationContext();
     }
 
-    public String getConfigsAsJsonString(String fileName) throws IOException {
-        return getJsonAsString(fileName, context);
-    }
-
     public static String getJsonAsString(String filename, Context context) throws IOException {
         AssetManager manager = context.getAssets();
         StringBuilder buf = new StringBuilder();
@@ -30,12 +25,16 @@ public class ConfigParser {
         BufferedReader in = new BufferedReader(new InputStreamReader(json, "UTF-8"));
         String str;
 
-        while ((str=in.readLine()) != null) {
+        while ((str = in.readLine()) != null) {
             buf.append(str);
         }
 
         in.close();
 
         return buf.toString();
+    }
+
+    public String getConfigsAsJsonString(String fileName) throws IOException {
+        return getJsonAsString(fileName, context);
     }
 }

@@ -1,7 +1,6 @@
 package com.example.hp.chatapplication.VideoCall.fragments;
 
 import com.example.hp.chatapplication.VideoCall.activities.CallActivity;
-
 import com.quickblox.videochat.webrtc.callbacks.QBRTCSessionEventsCallback;
 import com.quickblox.videochat.webrtc.callbacks.QBRTCSessionStateCallback;
 
@@ -13,15 +12,19 @@ import org.webrtc.CameraVideoCapturer;
 public interface ConversationFragmentCallbackListener {
 
     void addTCClientConnectionCallback(QBRTCSessionStateCallback clientConnectionCallbacks);
+
     void removeRTCClientConnectionCallback(QBRTCSessionStateCallback clientConnectionCallbacks);
 
     void addRTCSessionEventsCallback(QBRTCSessionEventsCallback eventsCallback);
+
     void removeRTCSessionEventsCallback(QBRTCSessionEventsCallback eventsCallback);
 
     void addCurrentCallStateCallback(CallActivity.CurrentCallStateCallback currentCallStateCallback);
+
     void removeCurrentCallStateCallback(CallActivity.CurrentCallStateCallback currentCallStateCallback);
 
     void addOnChangeDynamicToggle(CallActivity.OnChangeDynamicToggle onChangeDynamicCallback);
+
     void removeOnChangeDynamicToggle(CallActivity.OnChangeDynamicToggle onChangeDynamicCallback);
 
     void onSetAudioEnabled(boolean isAudioEnabled);

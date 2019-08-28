@@ -5,6 +5,15 @@ public class FriendListModel {
     String image;
     String gender;
     String secret_id;
+    String user_id;
+
+    public FriendListModel(String name, String image, String gender, String secret_id, String user_id) {
+        this.name = name;
+        this.image = image;
+        this.gender = gender;
+        this.secret_id = secret_id;
+        this.user_id = user_id;
+    }
 
     public String getUser_id() {
         return user_id;
@@ -13,9 +22,6 @@ public class FriendListModel {
     public void setUser_id(String user_id) {
         this.user_id = user_id;
     }
-
-    String user_id;
-
 
     public String getName() {
         return name;
@@ -27,14 +33,6 @@ public class FriendListModel {
 
     public String getImage() {
         return image;
-    }
-
-    public FriendListModel(String name, String image, String gender, String secret_id ,  String user_id) {
-        this.name = name;
-        this.image = image;
-        this.gender = gender;
-        this.secret_id = secret_id;
-        this.user_id = user_id;
     }
 
     public void setImage(String image) {
@@ -56,10 +54,6 @@ public class FriendListModel {
     public void setSecret_id(String secret_id) {
         this.secret_id = secret_id;
     }
-
-
-
-
 
 
 }

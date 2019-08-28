@@ -7,7 +7,6 @@ import com.quickblox.messages.model.QBEnvironment;
 import com.quickblox.messages.model.QBEvent;
 import com.quickblox.messages.model.QBNotificationType;
 
-
 import java.util.ArrayList;
 
 /**

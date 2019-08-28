@@ -51,6 +51,12 @@ public class CallService extends Service {
         start(context, qbUser, null);
     }
 
+    public static void logout(Context context) {
+        Intent intent = new Intent(context, CallService.class);
+        intent.putExtra(Consts.EXTRA_COMMAND_TO_SERVICE, Consts.COMMAND_LOGOUT);
+        context.startService(intent);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -73,7 +79,7 @@ public class CallService extends Service {
             currentCommand = intent.getIntExtra(Consts.EXTRA_COMMAND_TO_SERVICE, Consts.COMMAND_NOT_FOUND);
             pendingIntent = intent.getParcelableExtra(Consts.EXTRA_PENDING_INTENT);
             currentUser = (QBUser) intent.getSerializableExtra(Consts.EXTRA_QB_USER);
-            }
+        }
     }
 
     private void startSuitableActions() {
@@ -173,12 +179,6 @@ public class CallService extends Service {
                         : "Error sending result to activity");
             }
         }
-    }
-
-    public static void logout(Context context) {
-        Intent intent = new Intent(context, CallService.class);
-        intent.putExtra(Consts.EXTRA_COMMAND_TO_SERVICE, Consts.COMMAND_LOGOUT);
-        context.startService(intent);
     }
 
     private void logout() {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,58 +9,57 @@
     <LinearLayout
         android:id="@+id/linear_layout_search"
 
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
 
-            android:layout_marginTop="5dp"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
 
             <LinearLayout
 
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
 
                 <ImageView
-                    android:backgroundTint="@color/tab_black"
-                    android:background="@mipmap/ic_work_for"
                     android:layout_width="20dp"
-                    android:layout_height="20dp" />
+                    android:layout_height="20dp"
+                    android:background="@mipmap/ic_work_for"
+                    android:backgroundTint="@color/tab_black" />
 
 
                 <TextView
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Company"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
+                    android:text="Company"
                     android:textColor="@color/tab_black" />
 
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
 
                 <EditText
                     android:id="@+id/et_company_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="Company name"
                     android:background="@null"
+                    android:hint="Company name"
                     android:textColor="@color/tab_black" />
 
 
             </LinearLayout>
-
 
 
         </RelativeLayout>
@@ -75,31 +73,31 @@
 
         <RelativeLayout
 
-            android:layout_marginTop="5dp"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
 
             <LinearLayout
 
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
 
                 <ImageView
-                    android:backgroundTint="@color/tab_black"
-                    android:background="@mipmap/ic_interest"
                     android:layout_width="20dp"
-                    android:layout_height="20dp" />
+                    android:layout_height="20dp"
+                    android:background="@mipmap/ic_interest"
+                    android:backgroundTint="@color/tab_black" />
 
 
                 <TextView
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="Interest"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
+                    android:text="Interest"
                     android:textColor="@color/tab_black" />
 
 
@@ -107,15 +105,15 @@
 
 
             <LinearLayout
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true">
 
                 <EditText
                     android:id="@+id/et_interests"
-                    android:background="@null"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@null"
                     android:hint="Interest"
                     android:textColor="@color/tab_black" />
 
@@ -133,28 +131,27 @@
 
 
         <Button
-            android:layout_marginTop="5dp"
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/search_button_shape"
             android:text="Search"
-            android:id="@+id/search"
-            android:textColor="@color/color_white"
-            android:layout_width="match_parent"
-            android:layout_height="40dp" />
+            android:textColor="@color/color_white" />
 
 
         <android.support.v7.widget.RecyclerView
 
-            android:layout_below="@+id/linear_layout_search"
             android:id="@+id/rv_advance_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linear_layout_search">
 
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
-
 
 
 </FrameLayout>

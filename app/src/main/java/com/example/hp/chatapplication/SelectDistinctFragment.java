@@ -14,14 +14,10 @@ import android.widget.CompoundButton;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SelectDistinctFragment extends Fragment{
+public class SelectDistinctFragment extends Fragment {
 
     private CheckBox mCheckBox;
     private DistinctSelectedListener mListener;
-
-    interface DistinctSelectedListener {
-        void onDistinctSelected(boolean distinct);
-    }
 
     static SelectDistinctFragment newInstance() {
         return new SelectDistinctFragment();
@@ -46,6 +42,10 @@ public class SelectDistinctFragment extends Fragment{
         });
 
         return rootView;
+    }
+
+    interface DistinctSelectedListener {
+        void onDistinctSelected(boolean distinct);
     }
 }
 
