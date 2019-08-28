@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    tools:context=".PostImage_CropActivity">
+
+
+    <com.theartofdev.edmodo.cropper.CropImageView
+        android:id="@+id/CropImage_View"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cropFixAspectRatio="true"
+        android:layout_weight="1"
+
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <Button
+            android:layout_weight="1"
+            android:textSize="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_white"
+            android:text="Choose or Capture Image"
+            android:background="@drawable/signin_shape"
+            android:onClick="onLoadImageClick"
+
+            />
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SAVE"
+            android:textSize="10dp"
+            android:background="@drawable/signin_shape"
+            android:textColor="@color/color_white"
+            android:onClick="onCropImageClick"
+
+            />
+
+
+    </LinearLayout>
+
+
+
+
+    <ImageView
+        android:id="@+id/croped_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+
+
+
+
+</LinearLayout>

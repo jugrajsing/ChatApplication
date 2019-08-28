@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.AdvanceSearchFragment">
+
+    <LinearLayout
+        android:id="@+id/linear_layout_search"
+
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+
+            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:backgroundTint="@color/tab_black"
+                    android:background="@mipmap/ic_work_for"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Company"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/tab_black" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Company name"
+                    android:background="@null"
+                    android:textColor="@color/tab_black" />
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+
+            android:background="@color/app_color_pink" />
+
+        <RelativeLayout
+
+            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:backgroundTint="@color/tab_black"
+                    android:background="@mipmap/ic_interest"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+
+
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Interest"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/tab_black" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/et_interests"
+                    android:background="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Interest"
+                    android:textColor="@color/tab_black" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:background="@color/app_color_pink" />
+
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/search_button_shape"
+            android:text="Search"
+            android:id="@+id/search"
+            android:textColor="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+
+        <android.support.v7.widget.RecyclerView
+
+            android:layout_below="@+id/linear_layout_search"
+            android:id="@+id/rv_advance_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+
+</FrameLayout>

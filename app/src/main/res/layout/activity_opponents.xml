@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+style="@style/MatchParent"
+android:orientation="vertical"
+tools:context=".VideoCall.activities.OpponentsActivity">
+
+<TextView
+    style="@style/MatchWidth"
+    android:layout_marginLeft="@dimen/padding_start"
+    android:paddingTop="@dimen/padding_actionbar"
+    android:text="@string/text_select_user_to_call"
+    tools:ignore="RtlHardcoded" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/call"
+    android:text="call"/>
+
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/call1"
+    android:text="video"/>
+<ListView
+    android:id="@+id/list_opponents"
+    style="@style/MatchWidth"
+    android:divider="@android:color/transparent"
+    android:paddingTop="@dimen/padding_top" />
+
+</LinearLayout>

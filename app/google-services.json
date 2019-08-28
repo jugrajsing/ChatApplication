@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "920512835480",
+    "firebase_url": "https://buzz-25830.firebaseio.com",
+    "project_id": "buzz-25830",
+    "storage_bucket": "buzz-25830.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920512835480:android:2981342f6c692782",
+        "android_client_info": {
+          "package_name": "com.example.hp.chatapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920512835480-fdfggsquasm0d1s5gvstdmq2q034na15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCufdsCq4ImNzgNPga9hGQsPVV2odDMbSM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

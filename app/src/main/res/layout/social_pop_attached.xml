@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingBottom="10dp"
+    android:orientation="vertical"
+    android:background="@color/tab_col"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/poplinear">
+    <ImageView
+        android:src="@drawable/ic_cancel_black_24dp"
+        android:layout_width="30dp"
+        android:layout_gravity="end"
+        android:layout_height="30dp"
+        android:id="@+id/cancel_img"/>
+
+
+    <LinearLayout
+        android:paddingRight="50dp"
+        android:paddingLeft="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <ImageView
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/iv_image"
+                android:src="@drawable/camera"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+            <TextView
+                android:text="image"
+                android:textColor="@color/tab_black"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_camera"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_gallery"
+                android:src="@drawable/gallery"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
+            <TextView
+                android:text="Gallery"
+                android:textColor="@color/tab_black"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_gallery"/>
+
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</LinearLayout>

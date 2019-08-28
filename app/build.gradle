@@ -1,0 +1,121 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.example.hp.chatapplication"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+}
+ext {
+    lintAbortOnError = false
+
+    // QuickBlox SDK version
+    qbSdkVersion = '3.7.0'
+
+    testRunnerVersion = "0.4.1"
+
+    // Dependency versions
+    playServicesVersion = '11.4.2'
+    supportLibVersion = '26.1.0'
+    supportV4Version = supportLibVersion
+    appcompatV7Version = supportLibVersion
+    recyclerviewV7Version = supportLibVersion
+    supportAnnotationsVersion = supportLibVersion
+    designVersion = supportLibVersion
+    cardViewVersion = supportLibVersion
+
+    uilVersion = '1.9.0'
+    glideVersion = '3.6.1'
+    pullToRefreshVersion = '3.2.3'
+    stickyListHeaders = '2.7.0'
+    robotoTextViewVersion = '4.0.0'
+    stickersVersion = '0.7.3'
+    crashlyticsVersion = '2.8.0'
+    fabricToolsVersion = '1.25.1'
+    swipyVersion = '1.2.3'
+
+
+}
+
+
+
+dependencies {
+    implementation project(':emoticongifkeyboard')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'org.jsoup:jsoup:1.11.2'
+    implementation 'ch.acra:acra:4.8.5'
+    implementation 'com.android.volley:volley:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'de.hdodenhof:circleimageview:1.2.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.facebook.android:account-kit-sdk:4.+'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.github.lguipeng:BubbleView:1.0.1'
+    implementation "com.quickblox:quickblox-android-sdk-core:3.3.0"
+    implementation "com.quickblox:quickblox-android-sdk-chat:3.3.0"
+    /* implementation 'com.quickblox:chat-message-adapter:4.8.0'*/
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.sendbird.sdk:sendbird-android-sdk:3.0.80'
+    implementation 'com.dinuscxj:circleprogressbar:1.1.1'
+    implementation 'com.github.stfalcon:multiimageview:0.1'
+    implementation 'com.kevalpatel2106:gifpack-giphy:1.1'
+    implementation 'com.kevalpatel2106:emoticonpack-android7:1.1'
+    implementation 'com.kevalpatel2106:emoticonpack-android8:1.1'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.android.gms:play-services-location:9.0.2'
+
+    implementation "com.quickblox:quickblox-android-sdk-videochat-webrtc:$qbSdkVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    implementation "com.navercorp.pulltorefresh:library:$pullToRefreshVersion@aar"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    api "com.github.johnkil.android-robototextview:robototextview:$robotoTextViewVersion"
+    api("com.quickblox:quickblox-android-sdk-messages:$qbSdkVersion")
+
+    //   api "com.android.support:design:$designVersion"
+    // implementation 'com.droidninja:filepicker:1.0.0'
+    //implementation 'com.github.jaiselrahman:FilePicker:1.1.1'
+    //   implementation 'com.droidninja:filepicker:2.2.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation project(path: ':filepicker')
+    implementation project(path: ':audio-recorder')
+}
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.android.application'
+apply from: '../gradle/config.gradle'
+apply from: '../gradle/deps.gradle'
