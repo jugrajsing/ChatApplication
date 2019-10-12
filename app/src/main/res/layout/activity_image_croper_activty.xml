@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@color/color_accent"
     android:orientation="vertical"
     tools:context=".ImageCroperActivty">
 
@@ -30,6 +30,8 @@
             android:background="@drawable/signin_shape"
             android:onClick="onLoadImageClick"
             android:text="Choose or Capture Image"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
             android:textColor="@color/color_white"
             android:textSize="10dp"
 
@@ -41,6 +43,8 @@
             android:layout_weight="1"
             android:background="@drawable/signin_shape"
             android:onClick="onCropImageClick"
+
+            android:layout_marginRight="@dimen/_10sdp"
             android:text="SAVE"
             android:textColor="@color/color_white"
             android:textSize="10dp"

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hp.chatapplication.CreateGroupChannelActivity;
@@ -47,6 +48,7 @@ public class GroupChannelListFragment extends Fragment {
     private FloatingActionButton mCreateChannelFab;
     private GroupChannelListQuery mChannelListQuery;
     private SwipeRefreshLayout mSwipeRefresh;
+    private ImageView noData;
 
     public static GroupChannelListFragment newInstance() {
         GroupChannelListFragment fragment = new GroupChannelListFragment();
@@ -68,6 +70,7 @@ public class GroupChannelListFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_group_channel_list);
         mCreateChannelFab = (FloatingActionButton) rootView.findViewById(R.id.fab_group_channel_list);
+        noData = rootView.findViewById(R.id.noData);
         mSwipeRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_layout_group_channel_list);
 
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -323,6 +326,7 @@ public class GroupChannelListFragment extends Fragment {
      * Loads the next channels from the current query instance.
      */
     private void loadNextChannelList() {
+
         mChannelListQuery.next(new GroupChannelListQuery.GroupChannelListQueryResultHandler() {
             @Override
             public void onResult(List<GroupChannel> list, SendBirdException e) {

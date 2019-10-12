@@ -45,6 +45,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
 
     private Context context;
     private String device_id1;
+    private String message;
     ;
     // Constructor
 
@@ -136,7 +137,7 @@ public class FingerprintHandler extends FingerprintManager.AuthenticationCallbac
                             } else {
 
 
-                                Toast.makeText(context, "unable to validate fingerprint", Toast.LENGTH_SHORT).show();
+                                FingerprintHandler.this.update(""+jsonObject.getString("message"), true);
                             }
 
 

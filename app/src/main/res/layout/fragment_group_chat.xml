@@ -37,6 +37,7 @@
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/chat_personimg"
             android:orientation="vertical">
@@ -44,8 +45,10 @@
             <TextView
                 android:id="@+id/tv_chatperson_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:singleLine="true"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
                 android:text=""
                 android:textColor="@color/color_white"
                 android:textSize="18sp" />
@@ -54,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:visibility="gone"
                 android:textColor="@color/color_white"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -85,14 +89,15 @@
 
             <ImageView
                 android:id="@+id/iv_chatcall"
-                android:layout_width="40dp"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/call_white" />
 
             <ImageView
                 android:id="@+id/iv_chat_more"
-                android:layout_width="40dp"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_more_vert_black_24dp" />
         </LinearLayout>

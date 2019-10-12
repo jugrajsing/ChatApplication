@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/splashlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@drawable/background"
-    android:gravity="center_vertical"
     android:orientation="vertical"
     tools:context="com.example.hp.chatapplication.SplashScreen">
 
     <ImageView
+        android:id="@+id/imagess"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:scaleType="fitCenter"
         android:src="@drawable/app_buzz_logo" />
@@ -21,6 +22,9 @@
         android:id="@+id/spalshtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/imagess"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:fontFamily="serif"
@@ -30,4 +34,19 @@
         android:textSize="18dp"
         android:textStyle="bold" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="bottom|center"
+            android:text="Build Version: 1.2"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+</RelativeLayout>

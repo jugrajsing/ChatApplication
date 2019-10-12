@@ -62,9 +62,10 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
     EditText et_anniversary, et_user_name, et_work_for, et_resident;
     ImageView date_anniversary;
     List<String> gameList = new ArrayList<>();
+    List<String> list = new ArrayList<>();
     Spinner spinner_interest_one, spinner_interest_two, spinner_interest_three, spinner_interest_four, spinner_interest_five, spinner_interest_six;
     ArrayAdapter<String> adapter_interest;
-    String var1 = "", var2 = "", var3 = "", var4 = "", var5 = "", var6 = "", var7 = "";
+    String var1 = "", var2 = "", var3 = "", var4 = "", var5 = "", var8 = "", var6 = "", var7 = "";
     ArrayList<String> arrayList_spinner_interest = new ArrayList<>();
     TextView date_of_birth;
     String gender1 = "Male";
@@ -91,6 +92,7 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
     String secret_id;
 
     String sec;
+    private ArrayAdapter<String> adapter1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,7 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
 
         secret_id = SharedPrefManager.getInstance(CompleteYourProfile.this).getUser().getUser_secret_id().toString();
 
+        secret_id = "A";
         radioF = (RadioButton) findViewById(R.id.radioF);
         radioM = (RadioButton) findViewById(R.id.radioM);
 
@@ -108,13 +111,13 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
         liner_security_code_hide = (LinearLayout) findViewById(R.id.liner_security_code_hide);
 
         check = getIntent().getStringExtra("CHECK");
-        if (check.equals("0")) {
-            liner_security_code_hide.setVisibility(View.GONE);
-            sec = getIntent().getStringExtra("SECURITY_CODE");
-
-        } else {
-            liner_security_code_hide.setVisibility(View.VISIBLE);
-        }
+//        if (check.equals("0")) {
+//            liner_security_code_hide.setVisibility(View.GONE);
+//            sec = getIntent().getStringExtra("SECURITY_CODE");
+//
+//        } else {
+//            liner_security_code_hide.setVisibility(View.VISIBLE);
+//        }
 
 
         Integer[] testArray = new Integer[1000];
@@ -125,6 +128,32 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
             String formated = String.format("%03d", i);//here all list print one by one with loop i have to pass in spinner
             aListNumbers.add(formated);
         }
+        list.add(" A ");
+        list.add(" B ");
+        list.add(" C ");
+        list.add(" D ");
+        list.add(" E ");
+        list.add(" F ");
+        list.add(" G ");
+        list.add(" H ");
+        list.add(" I ");
+        list.add(" J ");
+        list.add(" K ");
+        list.add(" L ");
+        list.add(" M ");
+        list.add(" N ");
+        list.add(" O ");
+        list.add(" P ");
+        list.add(" Q ");
+        list.add(" R ");
+        list.add(" S ");
+        list.add(" T ");
+        list.add(" U ");
+        list.add(" V ");
+        list.add(" W ");
+        list.add(" X ");
+        list.add(" Y ");
+        list.add(" Z ");
 
 
         number_spinner = (Spinner) findViewById(R.id.number_spinner);
@@ -256,10 +285,13 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
         });
 
         alphabetical_letters = (Spinner) findViewById(R.id.alphabets_spinner);
+        alphabetical_letters.setPrompt("A");
         alphabetical_letters.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 alphabeticalletters = (String) parent.getItemAtPosition(position);
+                var8 = (String) parent.getItemAtPosition(position);
+
                 // Toast.makeText(CompleteYourProfile.this, ""+alphabeticalletters, Toast.LENGTH_SHORT).show();
             }
 
@@ -267,37 +299,8 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
 
             }
         });
-        List<String> list = new ArrayList<String>();
-        list.add("A");
-        list.add("B");
-        list.add("C");
-        list.add("D");
-        list.add("E");
-        list.add("F");
-        list.add("G");
-        list.add("H");
-        list.add("I");
-        list.add("J");
-        list.add("K");
-        list.add("L");
-        list.add("M");
-        list.add("N");
-        list.add("O");
-        list.add("P");
-        list.add("Q");
-        list.add("R");
-        list.add("S");
-        list.add("T");
-        list.add("U");
-        list.add("V");
-        list.add("W");
-        list.add("X");
-        list.add("Y");
-        list.add("Z");
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        alphabetical_letters.setAdapter(adapter1);
+
         getAllInterests();
 
         genderFun();
@@ -445,6 +448,9 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
         adapter_interest.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, aListNumbers);
 
+        adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        alphabetical_letters.setAdapter(adapter1);
 
         spinner_interest_one.setAdapter(adapter_interest);
         spinner_interest_two.setAdapter(adapter_interest);
@@ -647,9 +653,17 @@ public class CompleteYourProfile extends AppCompatActivity implements View.OnCli
                                 String security_code = user_details.optString("security_code");
                                 //        JSONArray security_code1=user_details.getJSONArray("instrests");
                                 et_user_name.setText(name);
-                                date_of_birth.setText(dob);
-                                et_work_for.setText(workfor);
-                                et_resident.setText(resident);
+                                if (dob.equalsIgnoreCase("null")) {
+                                    date_of_birth.setText("Date of birth");
+                                } else
+                                    date_of_birth.setText(dob);
+                                if (workfor.contains("No")) {
+                                    et_work_for.setHint("Fill work detail");
+                                } else
+                                    et_work_for.setText(workfor);
+                                if (resident.contains("No"))
+                                    et_resident.setHint("Fill Residential detail");
+                                else et_resident.setText(resident);
 
                                 if (gender.equals("Male")) {
                                     radioM.setChecked(true);

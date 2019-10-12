@@ -41,6 +41,7 @@ public class OptVerificationsCustom extends AppCompatActivity {
     ProgressBar otp_progress;
     private String OTP;
     private EditText et_OTP;
+    private String otp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,7 @@ public class OptVerificationsCustom extends AppCompatActivity {
                 get_entered_otp = et_OTP.getText().toString();
                 et_OTP.setText("");
                 et_OTP.setError(null);
-                validateYourOTP();
+                resendOTP();
 
             }
         });
@@ -74,16 +75,93 @@ public class OptVerificationsCustom extends AppCompatActivity {
             }
         });
 
+
+
        /* et_OTP=(TextView) findViewById(R.id.et_OTP);
         OTP = getIntent().getStringExtra("OTP");
         et_OTP.setText(email_user_saved);*/
     }
 
+
+    private void resendOTP() {
+        final String user_id = SharedPrefManager.getInstance(OptVerificationsCustom.this).getUser().getUser_id().toString();
+        final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Connecting...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        progressDialog.dismiss();
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            String status = jsonObject.getString("success");
+                            String message = jsonObject.getString("message");
+                            if (status.equals("true")) {
+
+                                otp = jsonObject.getString("otp");
+                                // Toast.makeText(AccountVarificationViaMobile.this, "Your Otp is:" + message + otp, Toast.LENGTH_SHORT).show();
+                            } else {
+                                //  Toast.makeText(AccountVarificationViaMobile.this, "Please enter your valid Secret Id or Passkey", Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+
+                        progressDialog.dismiss();
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            Toast.makeText(OptVerificationsCustom.this, "" + getResources().getString(R.string.error_network_timeout),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(OptVerificationsCustom.this, "" + getResources().getString(R.string.error_server),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(OptVerificationsCustom.this, "" + getResources().getString(R.string.error_network_timeout),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            //TODO
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> logParams = new HashMap<>();
+                logParams.put("action", "send_otp");
+                logParams.put("userid", user_id);
+                logParams.put("actiontype", "mobile");
+
+
+                return logParams;
+            }
+        };
+
+        MySingleTon.getInstance(OptVerificationsCustom.this).addToRequestQue(stringRequestLogIn);
+        progressDialog.dismiss();
+    }
+
+
     private void validateYourOTP() {
 
         final String user_id = SharedPrefManager.getInstance(OptVerificationsCustom.this).getUser().getUser_id().toString();
         final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
-
         if (TextUtils.isEmpty(get_entered_otp)) {
             et_OTP.setError("OTP can't  be empty ");
             et_OTP.requestFocus();

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -47,6 +48,7 @@ public class FriendRequestFragment extends Fragment {
     FriendRequestAdapter friendRequestAdapter;
     RecyclerView rv_friend_request;
     String frnid_id;
+    private ImageView noData;
 
     public FriendRequestFragment() {
 
@@ -60,6 +62,7 @@ public class FriendRequestFragment extends Fragment {
         loadAllFriends();
 
         rv_friend_request = (RecyclerView) view.findViewById(R.id.rv_friend_request);
+        noData = view.findViewById(R.id.noData);
         rv_friend_request.setHasFixedSize(true);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -83,6 +86,7 @@ public class FriendRequestFragment extends Fragment {
                         try {
                             jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            if(jsonArray.length()>0){
                             for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
@@ -115,6 +119,8 @@ public class FriendRequestFragment extends Fragment {
                                     }
                                 });
                                 rv_friend_request.setAdapter(friendRequestAdapter);
+                            }}else {
+                                noData.setVisibility(View.VISIBLE);
                             }
 
                         } catch (JSONException e) {
@@ -130,6 +136,9 @@ public class FriendRequestFragment extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
@@ -194,7 +203,9 @@ public class FriendRequestFragment extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);  } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_server),
@@ -258,7 +269,9 @@ public class FriendRequestFragment extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);} else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_server),

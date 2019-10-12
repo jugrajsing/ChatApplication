@@ -24,13 +24,20 @@
             android:layout_height="wrap_content"
             android:hint="Search" />
 
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/no_dat"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:id="@+id/noData"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_user_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
 

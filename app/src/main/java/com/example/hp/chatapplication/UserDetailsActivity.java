@@ -53,6 +53,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +69,8 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class UserDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String MY_PREFS_NAME = "resident";
-    final android.icu.util.Calendar c = android.icu.util.Calendar.getInstance();
-    final int mMonth = c.get(android.icu.util.Calendar.MONTH);
+    final Calendar c = Calendar.getInstance();
+    final int mMonth = c.get(Calendar.MONTH);
     Button closePopupBtn;
     PopupWindow popupWindow;
     ImageView settings_image_view, pop_up_close;
@@ -518,6 +519,7 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(UserDetailsActivity.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
@@ -641,6 +643,5 @@ public class UserDetailsActivity extends AppCompatActivity implements View.OnCli
         alertadd.show();
 
     }
-
 
 }

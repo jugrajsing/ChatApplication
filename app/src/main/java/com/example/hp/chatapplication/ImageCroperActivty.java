@@ -66,9 +66,9 @@ public class ImageCroperActivty extends Activity {
         intent_data = getIntent().getStringExtra("DATA");
 
         if (intent_data.equals("One")) {
-            startActivityForResult(getPickImageChooserIntent(), 200);
+            startActivityForResult(captureIntent(), 200);
         } else if (intent_data.equals("Two")) {
-            startActivityForResult(getPickImageChooserIntent(), 200);
+            startActivityForResult(gallaryIntent(), 300);
         }
 
     }
@@ -132,6 +132,25 @@ public class ImageCroperActivty extends Activity {
      * The source can be camera's  (ACTION_IMAGE_CAPTURE) or gallery's (ACTION_GET_CONTENT).<br/>
      * All possible sources are added to the  intent chooser.
      */
+
+    private Intent captureIntent() {
+        Uri outputFileUri = getCaptureImageOutputUri();
+        List<Intent> allIntents = new ArrayList<>();
+        PackageManager packageManager = getPackageManager();
+        Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            if (outputFileUri != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            }
+            allIntents.add(intent);
+        }
+        return captureIntent;
+    }
+
     public Intent getPickImageChooserIntent() {
 
         // Determine Uri of camera image to  save.
@@ -178,6 +197,24 @@ public class ImageCroperActivty extends Activity {
         // Add all other intents
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(new Parcelable[allIntents.size()]));
         return chooserIntent;
+    }
+
+
+    private Intent gallaryIntent() {
+        List<Intent> allIntents = new ArrayList<>();
+        PackageManager packageManager = getPackageManager();
+
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+
+        List<ResolveInfo> listGallery = packageManager.queryIntentActivities(galleryIntent, 0);
+        for (ResolveInfo res : listGallery) {
+            Intent intent = new Intent(galleryIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(res.activityInfo.packageName);
+            allIntents.add(intent);
+        }
+        return galleryIntent;
     }
 
     /**

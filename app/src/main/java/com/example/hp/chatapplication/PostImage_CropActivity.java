@@ -258,6 +258,7 @@ public class PostImage_CropActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
+
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(PostImage_CropActivity.this, "" + getString(R.string.error_network_timeout),
                             Toast.LENGTH_LONG).show();

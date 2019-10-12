@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Buzz</string>
+    <string name="app_name">Buzzapp</string>
     <string name="signInText"> to  meet up with family, friends ...</string>
     <string name="dummyinstructions">The Android Emulator installs and starts your apps faster than a real device and allows you to prototype and test your app on various Android device configurations: phones, tablets, Android Wear, and Android TV devices. You can also simulate a variety of hardware features such as GPS location, network latency, motion sensors, and multi-touch input.</string>
 
@@ -326,6 +326,7 @@
     <string name="error_parsing_configs">Parsing sample\'s configs error</string>
     <string name="error_network_timeout">It seems your internet is slow</string>
     <string name="error_server">sorry for inconvenience, Server is not working</string>
+    <string name="a">A</string>
     <!-- Chat String -->
 
 </resources>

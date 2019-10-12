@@ -80,6 +80,13 @@
         app:tabTextAppearance="@style/MyCustomTextAppearance">
 
     </android.support.design.widget.TabLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/no_dat"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:id="@+id/noData"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

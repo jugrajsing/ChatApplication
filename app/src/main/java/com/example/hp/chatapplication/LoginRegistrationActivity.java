@@ -68,7 +68,9 @@ import com.sendbird.android.SendBirdException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 
@@ -132,7 +134,13 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
                 "+232", "+65", "+1721", "+421", "+386", "+677", "+252", "+27", "+82", "+211", "+34", "+94", "+249",
                 "+597", "+47", "+268", "+46", "+41", "+963", "+886", "+992", "+255", "+66", "+228", "+690", "+676", "+1868", "+216", "+90", "+993", "+1649", "+688", "+1340", "+256",
                 "+380", "+971", "+93", "+1", "+598", "+998", "+678", "+379", "+58", "+84", "+967", "+260", "+263"};
-        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(LoginRegistrationActivity.this, R.layout.spinner_text, years);
+
+
+        String[] value = new HashSet<String>(Arrays.asList(years)).toArray(new String[0]);
+        Arrays.sort(value);
+
+
+        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(LoginRegistrationActivity.this, R.layout.spinner_text, value);
         langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
         spinner.setAdapter(langAdapter);
         // arrCode = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.country_code)));
@@ -914,10 +922,10 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
                                     SharedPrefManager.getInstance(LoginRegistrationActivity.this).userLogin(currentUser);
                                     startSignUpNewUser(createUserWithEnteredData());
                                     // Toast.makeText(LoginRegistrationActivity.this, "You Have Registered Successfully", Toast.LENGTH_SHORT).show();
-                                    alertDialogSuccess();
+                                    startActivity(new Intent(LoginRegistrationActivity.this, OptVerificationsCustom.class));
                                 } else {
-                                    alertDialog();
-                                    // Toast.makeText(LoginRegistrationActivity.this, ""+message, Toast.LENGTH_SHORT).show();
+                                    alertDialog(message);
+                                    // Toast.mfakeText(LoginRegistrationActivity.this, ""+message, Toast.LENGTH_SHORT).show();
                                 }
 
                             } catch (JSONException e) {
@@ -970,10 +978,10 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
         }
     }
 
-    private void alertDialog() {
+    private void alertDialog(String message) {
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Invalid email or password");
+        alertDialogBuilder.setMessage(message);
         alertDialogBuilder.setTitle("Error");
         alertDialogBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
             @Override
@@ -1020,6 +1028,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(LoginRegistrationActivity.this, AccountVarificationViaMobile.class));
+
                 alertDialog.dismiss();
             }
         });

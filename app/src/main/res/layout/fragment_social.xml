@@ -57,7 +57,7 @@
                         android:id="@+id/title_content_layout"
                         android:layout_width="230dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/commentboxeditext"
                         android:orientation="horizontal">
 
@@ -221,8 +221,15 @@
             android:background="@drawable/commentboxeditext">
 
         </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/no_dat"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:id="@+id/noData"/>
 
-    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progress_social"

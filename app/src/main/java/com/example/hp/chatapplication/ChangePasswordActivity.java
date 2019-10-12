@@ -112,81 +112,79 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
 
         if (TextUtils.isEmpty(old_pass)) {
-            current_password.setError("User Id Can't Empty ");
+            current_password.setError("Current Passkey can't be Empty ");
             current_password.requestFocus();
             return;
-        }
-
-        if (TextUtils.isEmpty(new_pass)) {
-            new_password.setError("User Id Can't Empty ");
+        } else if (TextUtils.isEmpty(new_pass)) {
+            new_password.setError("New Passkey can't be Empty ");
             new_password.requestFocus();
             return;
-        }
-
-        if (!new_pass.equals(cNew_pass)) {
-            Toast.makeText(ChangePasswordActivity.this, "Confirm Password Not Matches ", Toast.LENGTH_SHORT).show();
+        } else if (!new_pass.equals(cNew_pass)) {
+            Toast.makeText(ChangePasswordActivity.this, "Confirm Passkey doesn't Matches ", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!old_pass.equals(old_pass)) {
-            Toast.makeText(ChangePasswordActivity.this, "Please Enter Valid Password", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!old_pass.equals(old_pass)) {
+//            Toast.makeText(ChangePasswordActivity.this, "Please Enter Valid Password", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+        else {
 
-        StringRequest changePassStringRequest = new StringRequest(Request.Method.POST, CHANGE_PASSWORD_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+            StringRequest changePassStringRequest = new StringRequest(Request.Method.POST, CHANGE_PASSWORD_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String status = jsonObject.getString("success");
-                            String message = jsonObject.getString("msg");
-                            if (status.equals("true")) {
-                                Toast.makeText(ChangePasswordActivity.this, "Message:" + message, Toast.LENGTH_SHORT).show();
+                            try {
+                                JSONObject jsonObject = new JSONObject(response);
+                                String status = jsonObject.getString("success");
+                                String message = jsonObject.getString("msg");
+                                if (status.equals("true")) {
+                                    Toast.makeText(ChangePasswordActivity.this, "Message:" + message, Toast.LENGTH_SHORT).show();
 
-                            } else {
-                                Toast.makeText(ChangePasswordActivity.this, "User Not Exists",
-                                        Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ChangePasswordActivity.this, "User Not Exists",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                                Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_network_timeout),
+                                        Toast.LENGTH_LONG).show();
+                            } else if (error instanceof AuthFailureError) {
+                                //TODO
+                            } else if (error instanceof ServerError) {
+                                Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_server),
+                                        Toast.LENGTH_LONG).show();
+                            } else if (error instanceof NetworkError) {
+                                Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_network_timeout),
+                                        Toast.LENGTH_LONG).show();
+                            } else if (error instanceof ParseError) {
+                                //TODO
+                            }
                         }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_network_timeout),
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
-                            //TODO
-                        } else if (error instanceof ServerError) {
-                            Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_server),
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(ChangePasswordActivity.this, "" + getString(R.string.error_network_timeout),
-                                    Toast.LENGTH_LONG).show();
-                        } else if (error instanceof ParseError) {
-                            //TODO
-                        }
-                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> changePasswordParams = new HashMap<>();
+
+                    changePasswordParams.put("action", "change_password");
+                    changePasswordParams.put("userid", user_id);
+                    changePasswordParams.put("oldpassword", old_pass);
+                    changePasswordParams.put("newpassword", cNew_pass);
+
+                    return changePasswordParams;
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> changePasswordParams = new HashMap<>();
+            };
 
-                changePasswordParams.put("action", "change_password");
-                changePasswordParams.put("userid", user_id);
-                changePasswordParams.put("oldpassword", old_pass);
-                changePasswordParams.put("newpassword", cNew_pass);
-
-                return changePasswordParams;
-            }
-        };
-
-        MySingleTon.getInstance(ChangePasswordActivity.this).addToRequestQue(changePassStringRequest);
+            MySingleTon.getInstance(ChangePasswordActivity.this).addToRequestQue(changePassStringRequest);
+        }
     }
 }

@@ -6,21 +6,29 @@ android {
         applicationId "com.example.hp.chatapplication"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
+        versionCode 2
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 
-    }
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
         }
+
     }
+//    buildTypes {
+//        release {
+//            minifyEnabled true
+//            shrinkResources true
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            //  proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
+//    }
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
@@ -97,6 +105,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation 'com.google.android.gms:play-services-location:9.0.2'
+    implementation 'com.intuit.sdp:sdp-android:1.0.4'
+
 
     implementation "com.quickblox:quickblox-android-sdk-videochat-webrtc:$qbSdkVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"

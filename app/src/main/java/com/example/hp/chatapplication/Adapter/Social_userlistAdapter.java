@@ -41,8 +41,8 @@ public class Social_userlistAdapter extends RecyclerView.Adapter<Social_userlist
         // Glide.with(mcontext).load(social_user_name.getImage_user_list_profile()).into(holder.image_user_list_profile);
         //
         //  holder.text_user_list_nickname.setText(social_user_name.getText_user_list_nickname());
-        if (userlist.get(position).getImage_user_list_profile().equals(null)) {
-            Glide.with(mcontext).load(R.drawable.user_default_image).into(holder.image_user_list_profile);
+        if (userlist.get(position).getImage_user_list_profile().equals("No")) {
+            Glide.with(mcontext).load(R.drawable.profile_img).into(holder.image_user_list_profile);
 
         } else {
             Glide.with(mcontext).load(userlist.get(position).getImage_user_list_profile()).into(holder.image_user_list_profile);

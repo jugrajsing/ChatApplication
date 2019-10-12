@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,7 +45,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     Button button_secret_id, button_passkey, reset_password;
     RelativeLayout relative_layout_mobile_or_email, relative_layout_passkey;
     Spinner alphabets_spinner_forgorpassword;
-    EditText numeric_code_forgot, et_buzz_id;
+    EditText numeric_code_forgot, passkey_ed, et_buzz_id;
     String security_code = "A";
     String alphabeticalletters;
     int length;
@@ -65,6 +66,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_forgot_password);
 
         question_mark_hint = (ImageView) findViewById(R.id.question_mark_hint);
+        passkey_ed = findViewById(R.id.passkey);
         question_mark_hint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,7 +104,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         reset_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buzz_id = et_buzz_id.getText().toString();
+                buzz_id = et_buzz_id.getText().toString().trim();
+                String value = passkey_ed.getText().toString().trim();
               /*  numeric_CODE= numeric_code_forgot.getText().toString();
                 length = numeric_code_forgot.getText().length();*/
 /*
@@ -118,11 +121,17 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                     numeric_code_forgot.requestFocus();
                 }
 */
-                if (type.equals("Secret ID")) {
-                    forgotPasswodApiBuzzid(type);
-                } else {
-                    forgotPasswodApiPasskey();
 
+
+                if (type.equalsIgnoreCase("Secret ID")) {
+                    forgotPasswodApiPasskey();
+                } else {
+
+                    if ((!Patterns.EMAIL_ADDRESS.matcher(value).matches()) && ((!Patterns.PHONE.matcher(value).matches()) && (value.length() < 10))) {
+
+                        passkey_ed.setError("Please enter valid email/number");
+                    } else
+                        forgotPasswodApiBuzzid(value);
                 }
 
 
@@ -192,6 +201,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
 
         String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
         if (sessionId.equals("secret")) {
+            type = "Secret Id";
             relative_layout_passkey.setVisibility(View.VISIBLE);
             relative_layout_mobile_or_email.setVisibility(View.GONE);
             // startActivity(new Intent(this,RegistrationActivity.class));
@@ -201,6 +211,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
             button_passkey.setTextColor((Color.parseColor("#FFFFFF")));
 
         } else {
+            type = "passkey";
+
             relative_layout_passkey.setVisibility(View.GONE);
             relative_layout_mobile_or_email.setVisibility(View.VISIBLE);
             button_secret_id.setBackgroundDrawable(ContextCompat.getDrawable(ForgotPasswordActivity.this, R.drawable.signin_button_voilet));
@@ -216,10 +228,10 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         int id = v.getId();
 
         switch (id) {
-            case R.id.button_secret_id: {
+            case R.id.button_secret_id:
                 relative_layout_passkey.setVisibility(View.VISIBLE);
                 relative_layout_mobile_or_email.setVisibility(View.GONE);
-                // startActivity(new Intent(this,RegistrationActivity.class));
+                // startActivity(new Intent(this,Registratiobutton_passkeynActivity.class));
                 button_secret_id.setBackgroundDrawable(ContextCompat.getDrawable(ForgotPasswordActivity.this, R.drawable.signin_button));
                 button_passkey.setBackgroundDrawable(ContextCompat.getDrawable(ForgotPasswordActivity.this, R.drawable.signin_button_voilet));
                 button_secret_id.setTextColor((Color.parseColor("#000000")));
@@ -228,8 +240,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                 type = "Secret Id";
                 break;
 
-            }
-            case R.id.button_passkey: {
+
+            case R.id.button_passkey:
                 relative_layout_passkey.setVisibility(View.GONE);
                 relative_layout_mobile_or_email.setVisibility(View.VISIBLE);
                 button_secret_id.setBackgroundDrawable(ContextCompat.getDrawable(ForgotPasswordActivity.this, R.drawable.signin_button_voilet));
@@ -238,9 +250,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                 button_passkey.setTextColor((Color.parseColor("#000000")));
 
                 type = "passkey";
-            }
 
-            break;
+
+                break;
         }
 
     }
@@ -260,7 +272,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void forgotPasswodApiBuzzid(final String forgotPasswodApi) {
+    private void forgotPasswodApiBuzzid(String value) {
         final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
         pd = new ProgressDialog(this);
         pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -280,9 +292,11 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                             String message = jsonObject.getString("message");
                             if (status.equals("false")) {
 
-                                Toast.makeText(ForgotPasswordActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                                emailedSuccessDialog(message);
 
                             } else {
+                                emailedSuccessDialog(message);
+
                                 //Toast.makeText(LoginActivity.this, "Please Enter Valid User Id or Password", Toast.LENGTH_SHORT).show();
                             }
 
@@ -322,7 +336,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                 sec = security_code + var7;
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "forgot_password");
-                logParams.put("email", buzz_id);
+                logParams.put("email", value);
                 logParams.put("securitycode", sec);
                 logParams.put("rtype", type);
                 return logParams;
@@ -363,6 +377,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
                                     // finish();
 
                                 } else {
+                                    emailedSuccessDialog(message);
                                     //Toast.makeText(LoginActivity.this, "Please Enter Valid User Id or Password", Toast.LENGTH_SHORT).show();
                                 }
 

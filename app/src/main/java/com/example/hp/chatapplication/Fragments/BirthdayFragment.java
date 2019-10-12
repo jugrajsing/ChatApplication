@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,6 +45,8 @@ public class BirthdayFragment extends Fragment {
     String userId;
     ProgressBar birthday_progress;
 
+    ImageView noData;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class BirthdayFragment extends Fragment {
         userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
         birthday_Recycler = (RecyclerView) view.findViewById(R.id.birthday_Recycler);
         birthday_progress = (ProgressBar) view.findViewById(R.id.birthday_progress);
+        noData = view.findViewById(R.id.noData);
         loadBirthdays();
         birthday_Recycler.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -74,19 +78,24 @@ public class BirthdayFragment extends Fragment {
                             jsonObject = new JSONObject(response);
                             birthday_progress.setVisibility(View.INVISIBLE);
                             JSONArray jsonArray = jsonObject.getJSONArray("search_result");
-                            for (int i = 0; i <= jsonArray.length(); i++) {
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i <= jsonArray.length(); i++) {
 
-                                JSONObject user_details = jsonArray.getJSONObject(i);
-                                String name = user_details.optString("name");
-                                String date_of_birth = user_details.optString("dob");
-                                String user_image = user_details.optString("user_img");
+                                    JSONObject user_details = jsonArray.getJSONObject(i);
+                                    String name = user_details.optString("name");
+                                    String date_of_birth = user_details.optString("dob");
+                                    String user_image = user_details.optString("user_img");
 
-                                BirthdayModel birthdayModel = new BirthdayModel(name, date_of_birth, user_image);
-                                //adding the hero to searchedlIst
-                                birthdayModelArrayList.add(birthdayModel);
+                                    BirthdayModel birthdayModel = new BirthdayModel(name, date_of_birth, user_image);
+                                    //adding the hero to searchedlIst
+                                    birthdayModelArrayList.add(birthdayModel);
 
-                                birthdayAdapter = new BirthdayAdapter(getActivity(), birthdayModelArrayList);
-                                birthday_Recycler.setAdapter(birthdayAdapter);
+                                    birthdayAdapter = new BirthdayAdapter(getActivity(), birthdayModelArrayList);
+                                    birthday_Recycler.setAdapter(birthdayAdapter);
+                                }
+
+                            } else {
+                                noData.setVisibility(View.VISIBLE);
                             }
 
 
@@ -103,7 +112,9 @@ public class BirthdayFragment extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE); } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_server),

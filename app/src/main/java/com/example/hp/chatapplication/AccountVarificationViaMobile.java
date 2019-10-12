@@ -132,6 +132,7 @@ public class AccountVarificationViaMobile extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
+
                         progressDialog.dismiss();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(AccountVarificationViaMobile.this, "" + getResources().getString(R.string.error_network_timeout),

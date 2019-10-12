@@ -76,11 +76,12 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
         FirebaseApp.initializeApp(this);
         sharedPrefsHelper = SharedPrefsHelper.getInstance();
         connectsendBirds();
-        Fragment fragment = new ChatFragment();
+        Fragment fragment = new SocialFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
         setContentView(R.layout.activity_user_navgation);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+
 
         search_button_chat = (ImageButton) findViewById(R.id.search_button_chat);
         search_button_chat.setOnClickListener(new View.OnClickListener() {
@@ -152,6 +153,8 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
         user_imageView_nav.setOnClickListener(this);
         includetabs();
         loadImage();
+        TabLayout.Tab tab = tabLayout.getTabAt(2);
+        tab.select();
     }
 
     private void connectsendBirds() {
@@ -347,16 +350,19 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
 
     private void includetabs() {
         tabLayout.addTab(tabLayout.newTab().setText("Chat"));
+         tabLayout.addTab(tabLayout.newTab().setText("Call"));
+        tabLayout.addTab(tabLayout.newTab().setText("Social"));
         tabLayout.setTabTextColors(ContextCompat.getColorStateList(this, R.color.tab_black));
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.color_white));
-        tabLayout.addTab(tabLayout.newTab().setText("Call"));
-        tabLayout.addTab(tabLayout.newTab().setText("Social"));
         tabLayout.addTab(tabLayout.newTab().setText("Event"));
         tabLayout.addTab(tabLayout.newTab().setText("Timer"));
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
+
+
                 if (tabLayout.getSelectedTabPosition() == 0) {
                     //  Toast.makeText(MainActivity.this, "Tab " + tabLayout.getSelectedTabPosition(), Toast.LENGTH_LONG).show();
                     Fragment fragment = new ChatFragment();

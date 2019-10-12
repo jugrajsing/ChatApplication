@@ -44,7 +44,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 import com.example.hp.chatapplication.Adapter.PostListAdapter;
 import com.example.hp.chatapplication.Adapter.Social_userlistAdapter;
 import com.example.hp.chatapplication.ImageCroperActivty;
@@ -67,6 +66,7 @@ import com.kevalpatel2106.emoticongifkeyboard.gifs.GifSelectListener;
 import com.kevalpatel2106.emoticonpack.android8.Android8EmoticonProvider;
 import com.kevalpatel2106.gifpack.giphy.GiphyGifProvider;
 import com.sendbird.android.SendBird;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -117,7 +117,7 @@ public class SocialFragment extends Fragment {
     private Button statusSend;
     private RecyclerView postRecycler, userlist_recycler;
     private RelativeLayout mRootLayout;
-    private ImageView post_emoji_open_close_btn;
+    private ImageView post_emoji_open_close_btn, noData;
     private ImageButton mUploadFileButton;
     /*ImageView iv_import;
      */
@@ -201,6 +201,7 @@ public class SocialFragment extends Fragment {
         loadImage();
         loadUserlist();
         post_keyboardcontainer = (FrameLayout) view.findViewById(R.id.postkeyboard_container);
+        noData = view.findViewById(R.id.noData);
         profile_img = (CircleImageView) view.findViewById(R.id.profile_img);
         mUploadFileButton = (ImageButton) view.findViewById(R.id.button_group_chat_upload);
 
@@ -520,6 +521,9 @@ public class SocialFragment extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                         } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
@@ -804,9 +808,10 @@ public class SocialFragment extends Fragment {
                             if (status.equals("true")) {
                                 // Toast.makeText(UserNavgation.this, ""+message, Toast.LENGTH_SHORT).show();
                                 if (user_image != null) {
-                                    Glide.with(getActivity()).load(user_image).into(profile_img);
+//                                    Glide.with(getActivity()).load(user_image).into(profile_img);
+                                    Picasso.get().load(user_image).placeholder(R.drawable.profile_img).into(profile_img);
                                 } else {
-                                    profile_img.setBackgroundResource(R.drawable.app_buzz_logo);
+                                    profile_img.setBackgroundResource(R.drawable.profile_img);
 
                                 }
 

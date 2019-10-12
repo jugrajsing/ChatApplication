@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -49,6 +50,7 @@ public class FriendsListFragments extends Fragment {
     ArrayList<FriendListModel> friendListModelArrayList;
     FriendListAdapter friendListAdapter;
     RecyclerView rv_friendList;
+    private ImageView noData;
 
     public FriendsListFragments() {
 
@@ -61,6 +63,7 @@ public class FriendsListFragments extends Fragment {
         loadAllFriends();
 
         rv_friendList = (RecyclerView) view.findViewById(R.id.rv_friendList);
+        noData = view.findViewById(R.id.noData);
         rv_friendList.setHasFixedSize(true);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -84,6 +87,7 @@ public class FriendsListFragments extends Fragment {
                         try {
                             jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("search_result");
+                            if(jsonArray.length()>0){
                             for (int i = 0; i <= jsonArray.length(); i++) {
 
                                 JSONObject user_details = jsonArray.getJSONObject(i);
@@ -116,7 +120,8 @@ public class FriendsListFragments extends Fragment {
                             }
 
 
-                        } catch (JSONException e) {
+                        }else noData.setVisibility(View.VISIBLE);}
+                        catch (JSONException e) {
                             e.printStackTrace();
                         }
 
@@ -129,7 +134,9 @@ public class FriendsListFragments extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE); } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_server),

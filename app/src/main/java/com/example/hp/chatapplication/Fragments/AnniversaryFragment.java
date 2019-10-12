@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class AnniversaryFragment extends Fragment {
     AnniversaryAdapter anniversaryAdapter;
     String userId;
     ProgressBar anniversary_progress;
+    private ImageView noData;
 
     public AnniversaryFragment() {
         // Required empty public constructor
@@ -53,6 +55,7 @@ public class AnniversaryFragment extends Fragment {
         userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
         anniversary_Recycler = (RecyclerView) view.findViewById(R.id.anniversary_Recycler);
         anniversary_progress = (ProgressBar) view.findViewById(R.id.anniversary_progress);
+        noData = view.findViewById(R.id.noData);
         loadAnniverSary();
         anniversary_Recycler.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -73,20 +76,24 @@ public class AnniversaryFragment extends Fragment {
                             jsonObject = new JSONObject(response);
                             anniversary_progress.setVisibility(View.INVISIBLE);
                             JSONArray jsonArray = jsonObject.getJSONArray("search_result");
-                            for (int i = 0; i <= jsonArray.length(); i++) {
+                            if(jsonArray.length()>0) {
+                                for (int i = 0; i <= jsonArray.length(); i++) {
 
-                                JSONObject user_details = jsonArray.getJSONObject(i);
-                                String name = user_details.optString("name");
-                                String anniversary = user_details.optString("anniversary");
-                                String user_image = user_details.optString("user_img");
+                                    JSONObject user_details = jsonArray.getJSONObject(i);
+                                    String name = user_details.optString("name");
+                                    String anniversary = user_details.optString("anniversary");
+                                    String user_image = user_details.optString("user_img");
 
-                                AnniversaryModel anniversaryModel = new AnniversaryModel(name, anniversary, user_image);
-                                //adding the hero to searchedlIst
-                                anniversaryModelArrayList.add(anniversaryModel);
-                                anniversaryAdapter = new AnniversaryAdapter(getActivity(), anniversaryModelArrayList);
-                                anniversary_Recycler.setAdapter(anniversaryAdapter);
+                                    AnniversaryModel anniversaryModel = new AnniversaryModel(name, anniversary, user_image);
+                                    //adding the hero to searchedlIst
+                                    anniversaryModelArrayList.add(anniversaryModel);
+                                    anniversaryAdapter = new AnniversaryAdapter(getActivity(), anniversaryModelArrayList);
+                                    anniversary_Recycler.setAdapter(anniversaryAdapter);
+                                }
+
+                            }else {
+                                noData.setVisibility(View.VISIBLE);
                             }
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -101,7 +108,9 @@ public class AnniversaryFragment extends Fragment {
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
-                        } else if (error instanceof AuthFailureError) {
+                            noData.setVisibility(View.VISIBLE);
+                            noData.setImageResource(R.drawable.no_internet_);
+                            noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);      } else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_server),

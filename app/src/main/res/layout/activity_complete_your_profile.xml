@@ -17,8 +17,9 @@
             android:orientation="vertical">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="35dp"
                 android:background="@drawable/app_buzz_logo"
@@ -52,6 +53,7 @@
                                 xmlns:tools="http://schemas.android.com/tools"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
                                 tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
@@ -106,6 +108,7 @@
                                 xmlns:tools="http://schemas.android.com/tools"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
                                 tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
@@ -231,6 +234,7 @@
 
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
+                            android:layout_marginBottom="5dp"
                             android:layout_below="@+id/relative_sex"
                             android:layout_centerHorizontal="true"
                             android:background="@color/light_pink_col" />
@@ -242,6 +246,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:layout_marginBottom="5dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -413,6 +418,7 @@
                             android:orientation="horizontal">
 
                             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_marginBottom="5dp"
                                 xmlns:tools="http://schemas.android.com/tools"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -472,6 +478,7 @@
                                 xmlns:tools="http://schemas.android.com/tools"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="5dp"
                                 tools:context="com.android_examples.com.edittextunderlinecolorchange.MainActivity">
 
 
@@ -512,6 +519,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
                                     android:layout_below="@+id/et_resident"
+                                    android:layout_marginBottom="5dp"
                                     android:layout_centerHorizontal="true"
                                     android:layout_marginTop="12dp"
                                     android:background="@color/light_pink_col" />
@@ -720,10 +728,10 @@
 
                                     <Spinner
                                         android:id="@+id/alphabets_spinner"
-                                        android:layout_width="50dp"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp"
-                                        android:hint="Manufacturers"
+                                        android:layout_centerVertical="true"
                                         android:textAlignment="center"
 
 

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.hp.chatapplication.R;
 import com.example.hp.chatapplication.Utils.Main3Activity;
@@ -39,6 +40,7 @@ public class OpenChannelListFragment extends Fragment {
     private FloatingActionButton mCreateChannelFab;
 
     private OpenChannelListQuery mChannelListQuery;
+    ImageView noData;
 
     public static OpenChannelListFragment newInstance() {
         OpenChannelListFragment fragment = new OpenChannelListFragment();
@@ -49,6 +51,7 @@ public class OpenChannelListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_open_channel_list, container, false);
+        noData = rootView.findViewById(R.id.noData);
 
         setRetainInstance(true);
         setHasOptionsMenu(true);
@@ -192,6 +195,8 @@ public class OpenChannelListFragment extends Fragment {
             mChannelListQuery.next(new OpenChannelListQuery.OpenChannelListQueryResultHandler() {
                 @Override
                 public void onResult(List<OpenChannel> list, SendBirdException e) {
+                    if(list.size()>0){
+                        noData.setVisibility(View.GONE);
                     if (e != null) {
                         e.printStackTrace();
                         return;
@@ -200,7 +205,9 @@ public class OpenChannelListFragment extends Fragment {
                     for (OpenChannel channel : list) {
                         mChannelListAdapter.addLast(channel);
                     }
-                }
+                }else {
+                        noData.setVisibility(View.VISIBLE);
+                    }}
             });
         }
     }
