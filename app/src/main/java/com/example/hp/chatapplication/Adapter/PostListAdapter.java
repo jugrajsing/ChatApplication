@@ -88,9 +88,15 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
         });
 
         if (postListModel.getYou_liked().contains("Yes")) {
-            holder.iv_like.setImageResource(R.mipmap.ic_heart_red);
+            holder.iv_like.setImageResource(R.drawable.fav_img);
         } else {
-            holder.iv_like.setImageResource(R.mipmap.ic_heart_white);
+            holder.iv_like.setImageResource(R.drawable.unfav_img);
+
+        }
+        if (postListModel.getYou_unliked().contains("No")) {
+            holder.iv_deslike.setImageResource(R.drawable.ic_deslike);
+        } else {
+            holder.iv_deslike.setImageResource(R.drawable.fav_img);
 
         }
 
@@ -103,8 +109,14 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
 
         }
 */
+        if (friendListModelArrayList.get(position).getPost_profileimg().equals("No") || friendListModelArrayList.get(position).getPost_profileimg().equals("")) {
+            Glide.with(context).load(R.drawable.profile_img).into(holder.profile_img);
 
-        Glide.with(context).load(postListModel.getPost_profileimg()).into(holder.profile_img);
+        } else {
+            Glide.with(context).load(postListModel.getPost_profileimg()).into(holder.profile_img);
+
+        }
+//        Glide.with(context).load(postListModel.getPost_profileimg()).into(holder.profile_img);
        /* holder.videoView.setVideoURI(Uri.parse("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"));
         holder.videoView.start();*/
 
@@ -137,13 +149,20 @@ public class PostListAdapter extends RecyclerView.Adapter<PostListAdapter.ViewHo
             iv_like = (ImageView) itemView.findViewById(R.id.iv_likes);
             iv_deslike = (ImageView) itemView.findViewById(R.id.iv_deslike);
             iv_more = (ImageView) itemView.findViewById(R.id.iv_more);
-            videoView = (VideoView) itemView.findViewById(R.id.videoView);
+//            videoView = (VideoView) itemView.findViewById(R.id.videoView);
 
 
             iv_like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     likeInterface.likePost(itemView, getAdapterPosition());
+                }
+            });
+
+            iv_deslike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    likeInterface.unlikePost(itemView, getAdapterPosition());
                 }
             });
         }

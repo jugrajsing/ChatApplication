@@ -64,7 +64,7 @@ public class NormalSearchFragment extends Fragment {
         user_id = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
         linear_search_list = (LinearLayout) view.findViewById(R.id.linear_search_list);
         et_search_friends = (EditText) view.findViewById(R.id.et_search_friends);
-        noData = view.findViewById(R.id.noData);
+//        noData = view.findViewById(R.id.noData);
         loadSearchedDetails(et_search_friends.getText().toString());
         et_search_friends.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {

@@ -2,6 +2,7 @@ package com.example.hp.chatapplication.Fragments;
 
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -84,6 +85,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 
 /**
@@ -201,7 +203,7 @@ public class SocialFragment extends Fragment {
         loadImage();
         loadUserlist();
         post_keyboardcontainer = (FrameLayout) view.findViewById(R.id.postkeyboard_container);
-        noData = view.findViewById(R.id.noData);
+//        noData = view.findViewById(R.id.noData);
         profile_img = (CircleImageView) view.findViewById(R.id.profile_img);
         mUploadFileButton = (ImageButton) view.findViewById(R.id.button_group_chat_upload);
 
@@ -262,7 +264,7 @@ public class SocialFragment extends Fragment {
         //  Social_userlistAdapter social_userlistAdapter=new Social_userlistAdapter(social_user_namw,getActivity());
         //  userlist_recycler.setAdapter(social_userlistAdapter);
 
-
+//hideSoftKeyboard();
         postRecycler.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         postRecycler.setLayoutManager(layoutManager);
@@ -401,7 +403,7 @@ public class SocialFragment extends Fragment {
                         SOFT_INPUT_ADJUST_PAN);*/
 
 
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
 //Adding the keyboard fragment to keyboard_container.
@@ -469,6 +471,11 @@ public class SocialFragment extends Fragment {
     }
 
     private void loadUserlist() {
+
+        ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading....");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         final String LOGIN_URL = BaseUrl_ConstantClass.BASE_URL;
         // searchedUsersModelArrayList=new ArrayList<>();
         StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, LOGIN_URL,
@@ -476,6 +483,8 @@ public class SocialFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         JSONObject jsonObject = null;
+
+                        progressDialog.dismiss();
                         try {
                             jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("search_result");
@@ -517,6 +526,7 @@ public class SocialFragment extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
@@ -653,6 +663,7 @@ public class SocialFragment extends Fragment {
                                 String posted_date = user_details.optString("posted_date");
                                 String post_profileimg = user_details.optString("user_img");
                                 String you_liked = user_details.optString("you_liked");
+                                String you_unliked = user_details.optString("you_unliked");
                                 // getting user list
                                 //  List<Social_user_name> userlist=new ArrayList<>();
                                 //  Social_user_name social_user_name = new Social_user_name(postedby, post_profileimg);
@@ -677,7 +688,7 @@ public class SocialFragment extends Fragment {
                                 long millis = date.getTime();
                                 String result = DateUtils.getRelativeTimeSpanString(millis, System.currentTimeMillis(), 0).toString();
 
-                                PostListModel postListModel = new PostListModel(post_id, post_title, content, postedby, postedby_name, post_likes, result, post_profileimg, you_liked);
+                                PostListModel postListModel = new PostListModel(post_id, post_title, content, postedby, postedby_name, post_likes,you_unliked, result, post_profileimg, you_liked);
                                 //adding the hero to searchedlIst
                                 postListModelArrayList.add(postListModel);
 
@@ -686,6 +697,10 @@ public class SocialFragment extends Fragment {
                                     public void likePost(View view, int position) {
                                         PostListModel postListModel = postListModelArrayList.get(position);
                                         likeFragments(postListModel.getPost_id());
+                                    } @Override
+                                    public void unlikePost(View view, int position) {
+                                        PostListModel postListModel = postListModelArrayList.get(position);
+                                        dislikeFragments(postListModel.getPost_id());
                                     }
                                 });
                                 postRecycler.setAdapter(postListAdapter);
@@ -776,6 +791,60 @@ public class SocialFragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> logParams = new HashMap<>();
                 logParams.put("action", "likepost");
+                logParams.put("post_id", postId);
+                logParams.put("userid", userId);
+
+
+                return logParams;
+            }
+        };
+
+        MySingleTon.getInstance(getActivity()).addToRequestQue(stringRequestLogIn);
+
+    }
+    private void dislikeFragments(final String postId) {
+        final String POST_URL = BaseUrl_ConstantClass.BASE_URL + "?";
+
+        StringRequest stringRequestLogIn = new StringRequest(Request.Method.POST, POST_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            loadPost();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof AuthFailureError) {
+                            //TODO
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_server),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(getActivity(), "" + getString(R.string.error_network_timeout),
+                                    Toast.LENGTH_LONG).show();
+                        } else if (error instanceof ParseError) {
+                            //TODO
+                        }
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> logParams = new HashMap<>();
+                logParams.put("action", "dislikepost");
                 logParams.put("post_id", postId);
                 logParams.put("userid", userId);
 
@@ -956,6 +1025,12 @@ public class SocialFragment extends Fragment {
 //
     }
 
+    public void hideSoftKeyboard() {
+        if (getActivity().getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
+    }
    /* private void openImageOnPopUp() {
 
         final android.app.AlertDialog.Builder alertadd = new android.app.AlertDialog.Builder(getContext());

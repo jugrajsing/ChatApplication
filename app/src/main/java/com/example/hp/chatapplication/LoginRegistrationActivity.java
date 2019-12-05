@@ -26,7 +26,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -64,6 +63,8 @@ import com.quickblox.core.helper.Utils;
 import com.quickblox.users.model.QBUser;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
+import com.ybs.countrypicker.CountryPicker;
+import com.ybs.countrypicker.CountryPickerListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,16 +97,16 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
     String message;
     ImageView iv_view_passkey;
     PopupWindow popupWindow;
-    ImageView country_code_popup_iv;
+    ImageView countryIcon, country_code_popup_iv;
     RelativeLayout relativeLayout_login;
     ImageView hide_password;
     LinearLayout ll_secret_id, ll_Passkey;
     Button button_SignUp_regiter;
     TelephonyManager telephonyManager;
     View view;
-    TextView Sign_in_SignUp_text;
+    TextView countryDialCode, Sign_in_SignUp_text;
     String user_id;
-
+    CountryPicker picker;
     SharedPreferences settings;
     String code12 = "+44";
     String country_code;
@@ -114,6 +115,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
     SharedPrefsHelper sharedPrefsHelper = SharedPrefsHelper.getInstance();
     private Boolean isClicked = false;
     private QBUser userForSave;
+    private String user_countryDialCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,13 +138,16 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
                 "+380", "+971", "+93", "+1", "+598", "+998", "+678", "+379", "+58", "+84", "+967", "+260", "+263"};
 
 
+
+//
+
         String[] value = new HashSet<String>(Arrays.asList(years)).toArray(new String[0]);
-        Arrays.sort(value);
+//        Arrays.sort(value);
 
 
-        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(LoginRegistrationActivity.this, R.layout.spinner_text, value);
-        langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-        spinner.setAdapter(langAdapter);
+//        ArrayAdapter<CharSequence> langAdapter = new ArrayAdapter<CharSequence>(LoginRegistrationActivity.this, R.layout.spinner_text, value);
+//        langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+//        spinner.setAdapter(langAdapter);
         // arrCode = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.country_code)));
 
         sessionManager = new SessionManager(getApplicationContext());
@@ -181,7 +186,19 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
         hideSoftKeyboard();
 
         Sign_in_SignUp_text = (TextView) findViewById(R.id.Sign_in_SignUp_text);
-
+        countryIcon = findViewById(R.id.countryIcon);
+        countryDialCode = findViewById(R.id.countryDialCode);
+        this.picker = CountryPicker.newInstance("Select Country");
+        this.picker.setListener(new CountryPickerListener() {
+            public void onSelectCountry(String param1String1, String param1String2, String param1String3, int param1Int) {
+                countryIcon.getLayoutParams().height = 50;
+                countryIcon.getLayoutParams().width = 50;
+                LoginRegistrationActivity.this.countryDialCode.setText(param1String3);
+                user_countryDialCode = LoginRegistrationActivity.this.countryDialCode.getText().toString().trim();
+                LoginRegistrationActivity.this.countryIcon.setImageResource(param1Int);
+                LoginRegistrationActivity.this.picker.dismiss();
+            }
+        });
         button_SignUp_regiter = (Button) findViewById(R.id.button_SignUp_regiter);
         button_SignUp_regiter.setOnClickListener(this);
 
@@ -963,7 +980,6 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
                     //  String mobile1 = code12 + user_mobile;
                     Map<String, String> params = new HashMap<>();
                     params.put("action", "register");
-                    params.put("user_name", "UserName");
                     params.put("secrate_id", user_secret_ID);
                     params.put("email", user_email);
                     params.put("mobile", user_mobile);
@@ -1079,5 +1095,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements View
         this.moveTaskToBack(true);
     }
 
-
+    public void openPicker(View paramView) {
+        this.picker.show(getSupportFragmentManager(), "COUNTRY_PICKER");
+    }
 }

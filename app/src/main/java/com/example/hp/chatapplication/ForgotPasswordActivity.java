@@ -66,7 +66,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_forgot_password);
 
         question_mark_hint = (ImageView) findViewById(R.id.question_mark_hint);
-        passkey_ed = findViewById(R.id.passkey);
+        passkey_ed = findViewById(R.id.pass_key);
         question_mark_hint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

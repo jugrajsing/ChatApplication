@@ -51,7 +51,7 @@ public class OpenChannelListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_open_channel_list, container, false);
-        noData = rootView.findViewById(R.id.noData);
+//        noData = rootView.findViewById(R.id.noData);
 
         setRetainInstance(true);
         setHasOptionsMenu(true);

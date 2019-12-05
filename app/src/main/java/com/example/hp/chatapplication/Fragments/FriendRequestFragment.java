@@ -62,7 +62,7 @@ public class FriendRequestFragment extends Fragment {
         loadAllFriends();
 
         rv_friend_request = (RecyclerView) view.findViewById(R.id.rv_friend_request);
-        noData = view.findViewById(R.id.noData);
+//        noData = view.findViewById(R.id.noData);
         rv_friend_request.setHasFixedSize(true);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

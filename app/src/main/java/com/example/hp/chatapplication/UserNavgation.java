@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -45,13 +44,10 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.sendbird.android.SendBird;
 import com.sendbird.android.SendBirdException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -62,6 +58,7 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
     ImageButton search_button_chat;
     TextView user_name_id_nav, user_email_nav, user_resident;
     private SharedPrefsHelper sharedPrefsHelper;
+    private TabLayout.Tab tab;
 
 
     @Override
@@ -83,19 +80,19 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
 
-        search_button_chat = (ImageButton) findViewById(R.id.search_button_chat);
-        search_button_chat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(UserNavgation.this, "search", Toast.LENGTH_SHORT).show();
-                Fragment fragment = new SearchFragments();
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
-
-            }
-        });
+//        search_button_chat = (ImageButton) findViewById(R.id.search_button_chat);
+//        search_button_chat.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(UserNavgation.this, "search", Toast.LENGTH_SHORT).show();
+//                Fragment fragment = new SearchFragments();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+//
+//            }
+//        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         //    toolbar.setVisibility(View.INVISIBLE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -153,7 +150,7 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
         user_imageView_nav.setOnClickListener(this);
         includetabs();
         loadImage();
-        TabLayout.Tab tab = tabLayout.getTabAt(2);
+        tab = tabLayout.getTabAt(2);
         tab.select();
     }
 
@@ -262,6 +259,9 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_navgation, menu);
+        MenuItem item = menu.findItem(R.id.action_settings);
+        item.setVisible(false);
+
         return true;
     }
 
@@ -271,6 +271,7 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -292,11 +293,15 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
             startActivity(intent);
             // Handle the camera action
         } else if (id == R.id.nav_dashboard) {
-            Fragment fragment = new ChatFragment();
+            tab = tabLayout.getTabAt(2);
+            tab.select();
+            Fragment fragment = new SocialFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
 
         } else if (id == R.id.nav_posts) {
+            tab = tabLayout.getTabAt(2);
+            tab.select();
             Fragment fragment = new SocialFragment();
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
@@ -423,7 +428,7 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
                             if (status.equals("true")) {
                                 // Toast.makeText(UserNavgation.this, ""+message, Toast.LENGTH_SHORT).show();
                                 if (user_image != null) {
-                                    Glide.with(UserNavgation.this).load(user_image).into(user_imageView_nav);
+                                    Glide.with(getApplicationContext()).load(user_image).into(user_imageView_nav);
                                 } else {
                                     user_imageView_nav.setBackgroundResource(R.drawable.app_buzz_logo);
 
@@ -530,7 +535,7 @@ public class UserNavgation extends AppCompatActivity implements NavigationView.O
 
         } else {
             super.onBackPressed();
-            //this.moveTaskToBack(true);
+            //
             //getFragmentManager().popBackStack();
             //onBackPressedListener.doBack();
         }

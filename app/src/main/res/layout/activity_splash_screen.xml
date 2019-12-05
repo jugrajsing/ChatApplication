@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
             android:gravity="bottom|center"
-            android:text="Build Version: 1.2"
+            android:text="13 october 2019"
             android:textColor="@color/white"
             android:textSize="12sp" />
     </RelativeLayout>

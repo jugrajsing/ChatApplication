@@ -35,7 +35,7 @@ public class PreviewFragment extends Fragment {
         Glide.with(this)
                 .load(getArguments().getInt(PREVIEW_IMAGE))
 
-                .into((ImageView) view.findViewById(R.id.image_preview));
+                .into((ImageView) view.findViewById(R.id.image_view_profile));
         return view;
     }
 }

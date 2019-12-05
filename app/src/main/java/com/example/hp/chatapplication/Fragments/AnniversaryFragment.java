@@ -55,7 +55,7 @@ public class AnniversaryFragment extends Fragment {
         userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
         anniversary_Recycler = (RecyclerView) view.findViewById(R.id.anniversary_Recycler);
         anniversary_progress = (ProgressBar) view.findViewById(R.id.anniversary_progress);
-        noData = view.findViewById(R.id.noData);
+//        noData = view.findViewById(R.id.noData);
         loadAnniverSary();
         anniversary_Recycler.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

@@ -55,7 +55,7 @@ public class BirthdayFragment extends Fragment {
         userId = SharedPrefManager.getInstance(getActivity()).getUser().getUser_id().toString();
         birthday_Recycler = (RecyclerView) view.findViewById(R.id.birthday_Recycler);
         birthday_progress = (ProgressBar) view.findViewById(R.id.birthday_progress);
-        noData = view.findViewById(R.id.noData);
+//        noData = view.findViewById(R.id.noData);
         loadBirthdays();
         birthday_Recycler.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);

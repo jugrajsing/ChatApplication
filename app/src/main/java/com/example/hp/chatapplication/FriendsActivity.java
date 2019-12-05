@@ -48,7 +48,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         iv_back_to_friends = (ImageView) findViewById(R.id.iv_back_to_friends);
-        noData = (ImageView) findViewById(R.id.noData);
+//        noData = (ImageView) findViewById(R.id.noData);
         iv_back_to_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,11 +112,11 @@ public class FriendsActivity extends AppCompatActivity {
                             String status = jsonObject.getString("success");
                             String message = jsonObject.getString("message");
                             if (status.equals("true")) {
-                                noData.setVisibility(View.GONE);
+//                                noData.setVisibility(View.GONE);
 
                                 Toast.makeText(FriendsActivity.this, "Success" + message, Toast.LENGTH_SHORT).show();
                             } else {
-                                noData.setVisibility(View.VISIBLE);
+//                                noData.setVisibility(View.VISIBLE);
                                 Toast.makeText(FriendsActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                             }
 
@@ -132,12 +132,12 @@ public class FriendsActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        noData.setVisibility(View.VISIBLE);
+//                        noData.setVisibility(View.VISIBLE);
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                             Toast.makeText(FriendsActivity.this, "" + getString(R.string.error_network_timeout),
                                     Toast.LENGTH_LONG).show();
-                            noData.setImageResource(R.drawable.no_internet_);
-                        noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);} else if (error instanceof AuthFailureError) {
+//                            noData.setImageResource(R.drawable.no_internet_);
+//                        noData.setScaleType(ImageView.ScaleType.CENTER_INSIDE);} else if (error instanceof AuthFailureError) {
                             //TODO
                         } else if (error instanceof ServerError) {
                             Toast.makeText(FriendsActivity.this, "" + getString(R.string.error_server),
